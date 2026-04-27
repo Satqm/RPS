@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R.P.S. School - Practical Lesson Planner</title>
+    <style>
+        :root {
+            --bg: #f8faf8;
+            --surface: #ffffff;
+            --surface2: #f0f4f0;
+            --text: #1a1a1a;
+            --text2: #444;
+            --text3: #666;
+            --border: #d4e0d4;
+            --green1: #1a6b3c;
+            --green2: #2e8b4e;
+            --green3: #4caf50;
+            --green4: #e8f5e9;
+            --green5: #c8e6c9;
+            --amber: #f59e0b;
+            --amber-bg: #fff8e1;
+            --red: #e53935;
+            --red-bg: #ffebee;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            --shadow2: 0 4px 16px rgba(0, 0, 0, 0.1);
+            --radius: 10px;
+            --radius2: 6px;
+            --transition: 0.2s ease;
+            --sidebar-w: 220px;
+            --header-h: 60px;
+            --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        .dark-mode {
+            --bg: #1a1d1a;
+            --surface: #232623;
+            --surface2: #2a2e2a;
+            --text: #e0e0e0;
+            --text2: #bbb;
+            --text3: #999;
+            --border: #3a3f3a;
+            --green4: #1e3a28;
+            --green5: #254d32;
+            --amber-bg: #2e2818;
+            --red-bg: #2e1a1a;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow2: 0 4px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+            transition: background var(--transition), color var(--transition);
+        }
+
+        .sidebar {
+            width: var(--sidebar-w);
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+            transition: all var(--transition);
+        }
+        .sidebar-logo {
+            padding: 16px 18px;
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+        }
+        .sidebar-logo .school-name {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--green1);
+            letter-spacing: 0.3px;
+        }
+        .sidebar-logo .subtitle {
+            font-size: 0.7rem;
+            color: var(--text3);
+            margin-top: 2px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .sidebar-nav {
+            flex: 1;
+            padding: 10px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .sidebar-nav button {
+            all: unset;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 18px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--text2);
+            border-left: 3px solid transparent;
+            transition: all var(--transition);
+            font-weight: 500;
+        }
+        .sidebar-nav button:hover {
+            background: var(--green4);
+            color: var(--green1);
+        }
+        .sidebar-nav button.active {
+            background: var(--green4);
+            color: var(--green1);
+            border-left-color: var(--green2);
+            font-weight: 600;
+        }
+        .sidebar-nav button .icon {
+            width: 20px;
+            text-align: center;
+            font-size: 1rem;
+        }
+        .sidebar-footer {
+            padding: 12px 18px;
+            border-top: 1px solid var(--border);
+            font-size: 0.72rem;
+            color: var(--text3);
+            text-align: center;
+        }
+
+        .main {
+            margin-left: var(--sidebar-w);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            transition: margin var(--transition);
+        }
+        .header {
+            height: var(--header-h);
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: var(--shadow);
+            transition: all var(--transition);
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .header-left h1 {
+            font-size: 1.2rem;
+            color: var(--green1);
+            font-weight: 700;
+        }
+        .header-left .badge {
+            font-size: 0.7rem;
+            background: var(--green4);
+            color: var(--green1);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            letter-spacing: 0.4px;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 0.85rem;
+            color: var(--text2);
+        }
+        .header-right .teacher-tag {
+            background: var(--surface2);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            border: 1px solid var(--border);
+            font-size: 0.8rem;
+        }
+        .header-right .date-display {
+            font-weight: 500;
+            color: var(--text3);
+            font-size: 0.8rem;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px 24px;
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .view {
+            display: none;
+        }
+        .view.active {
+            display: block;
+            animation: fadeIn 0.25s ease;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-title .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green3);
+            display: inline-block;
+        }
+
+        .period-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 14px;
+        }
+        .period-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: var(--shadow);
+            transition: all var(--transition);
+            position: relative;
+            cursor: default;
+        }
+        .period-card:hover {
+            box-shadow: var(--shadow2);
+            border-color: var(--green5);
+        }
+        .period-card.completed {
+            border-left: 4px solid var(--green3);
+            background: var(--green4);
+        }
+        .period-card.skipped {
+            border-left: 4px solid var(--amber);
+            background: var(--amber-bg);
+            opacity: 0.75;
+        }
+        .period-card .period-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            background: var(--green1);
+            color: #fff;
+            padding: 3px 10px;
+            border-radius: 14px;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .period-card .class-info {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text);
+            margin: 4px 0;
+        }
+        .period-card .subject-info {
+            font-size: 0.85rem;
+            color: var(--text2);
+            font-weight: 500;
+        }
+        .period-card .status-badge {
+            display: inline-block;
+            font-size: 0.68rem;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            margin-top: 6px;
+        }
+        .status-not-started {
+            background: #e0e0e0;
+            color: #555;
+        }
+        .status-completed {
+            background: #c8e6c9;
+            color: #1b5e20;
+        }
+        .status-skipped {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .period-card .notes-preview {
+            font-size: 0.7rem;
+            color: var(--text3);
+            margin-top: 4px;
+            font-style: italic;
+        }
+        .period-card .card-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            all: unset;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 12px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            transition: all var(--transition);
+            border: 1px solid transparent;
+        }
+        .btn-sm {
+            padding: 4px 10px;
+            font-size: 0.7rem;
+            border-radius: 12px;
+        }
+        .btn-primary {
+            background: var(--green2);
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background: var(--green1);
+        }
+        .btn-outline {
+            border: 1px solid var(--border);
+            color: var(--text2);
+            background: var(--surface);
+        }
+        .btn-outline:hover {
+            background: var(--surface2);
+            border-color: var(--green5);
+        }
+        .btn-warn {
+            background: var(--amber);
+            color: #fff;
+        }
+        .btn-warn:hover {
+            background: #d97706;
+        }
+        .btn-danger {
+            background: var(--red);
+            color: #fff;
+        }
+        .btn-danger:hover {
+            background: #c62828;
+        }
+        .btn-success {
+            background: var(--green3);
+            color: #fff;
+        }
+        .btn-success:hover {
+            background: #388e3c;
+        }
+
+        .action-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+            align-items: center;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.2s ease;
+        }
+        .modal-overlay.hidden {
+            display: none;
+        }
+        .modal {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 24px;
+            width: 90%;
+            max-width: 480px;
+            box-shadow: var(--shadow2);
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        .modal h3 {
+            margin-bottom: 16px;
+            color: var(--green1);
+            font-size: 1rem;
+        }
+        .modal label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-bottom: 4px;
+            color: var(--text2);
+            margin-top: 10px;
+        }
+        .modal select,
+        .modal input,
+        .modal textarea {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius2);
+            font-family: var(--font);
+            font-size: 0.85rem;
+            background: var(--surface);
+            color: var(--text);
+            transition: all var(--transition);
+        }
+        .modal select:focus,
+        .modal input:focus,
+        .modal textarea:focus {
+            outline: none;
+            border-color: var(--green3);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+        .modal textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+        .modal .btn-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+            justify-content: flex-end;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            max-width: 700px;
+        }
+        .calendar-grid .day-header {
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.75rem;
+            color: var(--text3);
+            padding: 8px 0;
+        }
+        .calendar-grid .day-cell {
+            aspect-ratio: 1;
+            border-radius: var(--radius2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all var(--transition);
+            border: 1px solid transparent;
+            position: relative;
+        }
+        .day-cell:hover {
+            border-color: var(--green3);
+            background: var(--green4);
+        }
+        .day-cell.today-ring {
+            border: 2px solid var(--green2);
+        }
+        .day-cell.completed-day {
+            background: #c8e6c9;
+            color: #1b5e20;
+        }
+        .day-cell.partial-day {
+            background: #fff9c4;
+            color: #5d4e00;
+        }
+        .day-cell.empty-day {
+            background: var(--surface2);
+            color: var(--text3);
+        }
+        .day-cell.other-month {
+            opacity: 0.35;
+            pointer-events: none;
+        }
+        .calendar-nav {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .calendar-nav .month-label {
+            font-weight: 700;
+            font-size: 1rem;
+            min-width: 160px;
+            text-align: center;
+            color: var(--text);
+        }
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 14px;
+        }
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: var(--shadow);
+        }
+        .stat-card h4 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text3);
+            margin-bottom: 8px;
+        }
+        .stat-card .big-num {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--green1);
+        }
+        .progress-bar-wrap {
+            background: var(--surface2);
+            border-radius: 10px;
+            height: 8px;
+            margin-top: 6px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--green3);
+            border-radius: 10px;
+            transition: width 0.4s ease;
+        }
+        .coverage-list {
+            list-style: none;
+            font-size: 0.8rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .coverage-list li {
+            padding: 4px 0;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+        .check {
+            color: var(--green3);
+            font-weight: 700;
+        }
+        .cross {
+            color: var(--red);
+            font-weight: 700;
+        }
+
+        .settings-form {
+            max-width: 500px;
+        }
+        .settings-form label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+            color: var(--text2);
+            margin-top: 12px;
+        }
+        .settings-form input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius2);
+            font-size: 0.9rem;
+            background: var(--surface);
+            color: var(--text);
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 26px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: #ccc;
+            border-radius: 26px;
+            transition: var(--transition);
+        }
+        .toggle-slider::before {
+            content: '';
+            position: absolute;
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: #fff;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+        input:checked+.toggle-slider {
+            background: var(--green3);
+        }
+        input:checked+.toggle-slider::before {
+            transform: translateX(22px);
+        }
+
+        .search-box {
+            padding: 8px 14px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            width: 200px;
+            background: var(--surface);
+            color: var(--text);
+            transition: all var(--transition);
+        }
+        .search-box:focus {
+            outline: none;
+            border-color: var(--green3);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.08);
+        }
+
+        @media print {
+            .sidebar,
+            .header,
+            .action-bar,
+            .card-actions,
+            .btn,
+            .modal-overlay,
+            .sidebar-nav button,
+            .search-box {
+                display: none !important;
+            }
+            .main {
+                margin-left: 0 !important;
+            }
+            .content {
+                padding: 0 !important;
+                max-width: 100% !important;
+            }
+            .period-card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+            body {
+                background: #fff;
+                color: #000;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 60px;
+            }
+            .sidebar-logo .school-name,
+            .sidebar-logo .subtitle,
+            .sidebar-nav button span:not(.icon),
+            .sidebar-footer {
+                display: none;
+            }
+            .sidebar-nav button {
+                justify-content: center;
+                padding: 11px 8px;
+            }
+            .main {
+                margin-left: 60px;
+            }
+            .period-grid {
+                grid-template-columns: 1fr;
+            }
+            .header {
+                padding: 0 12px;
+            }
+            .header-left h1 {
+                font-size: 1rem;
+            }
+            .content {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <div class="school-name">🏫 R.P.S. School</div>
+            <div class="subtitle">Practical Lesson Planner</div>
+        </div>
+        <nav class="sidebar-nav">
+            <button data-view="today" class="active"><span class="icon">📋</span><span>Today</span></button>
+            <button data-view="calendar"><span class="icon">📅</span><span>Calendar</span></button>
+            <button data-view="analytics"><span class="icon">📊</span><span>Analytics</span></button>
+            <button data-view="settings"><span class="icon">⚙️</span><span>Settings</span></button>
+        </nav>
+        <div class="sidebar-footer">Bihar Sharif (Nalanda)<br>Session 2026–2027</div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+        <header class="header">
+            <div class="header-left">
+                <h1>📘 Practical Lesson Planner</h1>
+                <span class="badge">2026–2027</span>
+            </div>
+            <div class="header-right">
+                <span class="date-display" id="headerDate"></span>
+                <span class="teacher-tag">👨‍🏫 Mr. Mithilesh</span>
+            </div>
+        </header>
+
+        <div class="content">
+            <!-- TODAY VIEW -->
+            <div class="view active" id="view-today">
+                <div class="section-title"><span class="dot"></span>Today's Schedule – <span id="todayDateLabel"></span></div>
+                <div class="action-bar">
+                    <button class="btn btn-primary" id="btnSmartSuggest">✨ Smart Suggestions</button>
+                    <button class="btn btn-outline" id="btnAutoFill">⚡ Auto-Fill Day</button>
+                    <button class="btn btn-outline" id="btnPrint" onclick="window.print()">🖨️ Print</button>
+                    <input type="text" class="search-box" id="searchClass" placeholder="🔍 Search class...">
+                </div>
+                <div class="period-grid" id="periodGrid"></div>
+            </div>
+
+            <!-- CALENDAR VIEW -->
+            <div class="view" id="view-calendar">
+                <div class="section-title"><span class="dot"></span>Monthly Calendar</div>
+                <div class="calendar-nav">
+                    <button class="btn btn-outline btn-sm" id="calPrev">◀</button>
+                    <span class="month-label" id="calMonthLabel"></span>
+                    <button class="btn btn-outline btn-sm" id="calNext">▶</button>
+                    <button class="btn btn-outline btn-sm" id="calGoToday">Today</button>
+                </div>
+                <div class="calendar-grid" id="calendarGrid"></div>
+                <p style="margin-top:12px;font-size:0.75rem;color:var(--text3);">
+                    🟢 Completed &nbsp; 🟡 Partial &nbsp; ⚪ Empty &nbsp; — Click a date to view/edit
+                </p>
+            </div>
+
+            <!-- ANALYTICS VIEW -->
+            <div class="view" id="view-analytics">
+                <div class="section-title"><span class="dot"></span>Analytics Dashboard</div>
+                <div class="analytics-grid" id="analyticsGrid"></div>
+                <div style="margin-top:16px;">
+                    <h4 style="margin-bottom:8px;color:var(--text2);">📋 Pending Work</h4>
+                    <div id="pendingWorkList" style="font-size:0.85rem;"></div>
+                </div>
+            </div>
+
+            <!-- SETTINGS VIEW -->
+            <div class="view" id="view-settings">
+                <div class="section-title"><span class="dot"></span>Settings</div>
+                <div class="settings-form">
+                    <label>Teacher Name</label>
+                    <input type="text" id="settingTeacherName" value="Mr. Mithilesh">
+                    <label style="margin-top:16px;">Dark Mode</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="toggleDarkMode">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
+                        <button class="btn btn-primary" id="btnSaveSettings">💾 Save Settings</button>
+                        <button class="btn btn-warn" id="btnExportData">📤 Export Data</button>
+                        <button class="btn btn-outline" id="btnImportData">📥 Import Data</button>
+                        <input type="file" id="importFileInput" accept=".json" style="display:none;">
+                        <button class="btn btn-danger" id="btnResetData">🗑️ Reset All Data</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EDIT MODAL -->
+    <div class="modal-overlay hidden" id="editModalOverlay">
+        <div class="modal" id="editModal">
+            <h3>✏️ Edit Period</h3>
+            <input type="hidden" id="editPeriodIndex">
+            <label>Class</label>
+            <select id="editClass"></select>
+            <label>Section</label>
+            <select id="editSection"></select>
+            <label>Subject</label>
+            <select id="editSubject"></select>
+            <label>Status</label>
+            <select id="editStatus">
+                <option value="not-started">Not Started</option>
+                <option value="completed">Completed</option>
+                <option value="skipped">Skipped</option>
+            </select>
+            <label>Notes</label>
+            <textarea id="editNotes" placeholder="Add notes..."></textarea>
+            <div class="btn-row">
+                <button class="btn btn-outline" id="btnCancelEdit">Cancel</button>
+                <button class="btn btn-primary" id="btnSaveEdit">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // ============ CONSTANTS ============
+            const DB_NAME = 'RPS_Planner_DB';
+            const DB_VERSION = 1;
+            const CLASSES = ['VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+            const SECTIONS_MAP = {
+                'VI': ['A', 'B', 'C'],
+                'VII': ['A', 'B', 'C'],
+                'VIII': ['A', 'B', 'C', 'D'],
+                'IX': ['A', 'B', 'C', 'D', 'E'],
+                'X': ['A', 'B', 'C', 'D', 'E'],
+                'XI': ['A', 'B', 'C'],
+                'XII': ['A', 'B', 'C']
+            };
+            const SUBJECTS = ['Physics', 'Chemistry', 'Biology'];
+            const PERIODS = [1, 2, 3, 4, 5, 6];
+            const TODAY = new Date();
+            const dateStr = (d) => d.toISOString().split('T')[0];
+
+            let currentView = 'today';
+            let currentDate = dateStr(TODAY);
+            let calMonth = TODAY.getMonth();
+            let calYear = TODAY.getFullYear();
+            let db = null;
+            let darkMode = false;
+
+            // ============ INDEXED DB ============
+            function openDB() {
+                return new Promise((resolve, reject) => {
+                    const req = indexedDB.open(DB_NAME, DB_VERSION);
+                    req.onupgradeneeded = (e) => {
+                        const d = e.target.result;
+                        if (!d.objectStoreNames.contains('progress')) {
+                            d.createObjectStore('progress', { keyPath: 'id' });
+                        }
+                        if (!d.objectStoreNames.contains('schedule')) {
+                            const s = d.createObjectStore('schedule', { keyPath: 'id',
+                            autoIncrement: true });
+                            s.createIndex('date', 'date', { unique: false });
+                            s.createIndex('date_period', ['date', 'period'], { unique: true });
+                        }
+                        if (!d.objectStoreNames.contains('settings')) {
+                            d.createObjectStore('settings', { keyPath: 'key' });
+                        }
+                    };
+                    req.onsuccess = (e) => {
+                        db = e.target.result;
+                        resolve(db);
+                    };
+                    req.onerror = (e) => reject(e.target.error);
+                });
+            }
+
+            function dbPut(storeName, data) {
+                return new Promise((resolve, reject) => {
+                    const tx = db.transaction(storeName, 'readwrite');
+                    const store = tx.objectStore(storeName);
+                    store.put(data);
+                    tx.oncomplete = () => resolve();
+                    tx.onerror = (e) => reject(e.target.error);
+                });
+            }
+
+            function dbGetAll(storeName) {
+                return new Promise((resolve, reject) => {
+                    const tx = db.transaction(storeName, 'readonly');
+                    const store = tx.objectStore(storeName);
+                    const req = store.getAll();
+                    req.onsuccess = () => resolve(req.result);
+                    req.onerror = (e) => reject(e.target.error);
+                });
+            }
+
+            function dbGet(storeName, key) {
+                return new Promise((resolve, reject) => {
+                    const tx = db.transaction(storeName, 'readonly');
+                    const store = tx.objectStore(storeName);
+                    const req = store.get(key);
+                    req.onsuccess = () => resolve(req.result);
+                    req.onerror = (e) => reject(e.target.error);
+                });
+            }
+
+            function dbDelete(storeName, key) {
+                return new Promise((resolve, reject) => {
+                    const tx = db.transaction(storeName, 'readwrite');
+                    const store = tx.objectStore(storeName);
+                    store.delete(key);
+                    tx.oncomplete = () => resolve();
+                    tx.onerror = (e) => reject(e.target.error);
+                });
+            }
+
+            function dbClear(storeName) {
+                return new Promise((resolve, reject) => {
+                    const tx = db.transaction(storeName, 'readwrite');
+                    const store = tx.objectStore(storeName);
+                    store.clear();
+                    tx.oncomplete = () => resolve();
+                    tx.onerror = (e) => reject(e.target.error);
+                });
+            }
+
+            async function getScheduleForDate(date) {
+                const all = await dbGetAll('schedule');
+                const result = {};
+                PERIODS.forEach(p => { result[p] = null; });
+                all.filter(s => s.date === date).forEach(s => { result[s.period] = s; });
+                return result;
+            }
+
+            async function getAllProgress() {
+                return await dbGetAll('progress');
+            }
+
+            async function initProgressIfEmpty() {
+                const existing = await dbGetAll('progress');
+                if (existing.length === 0) {
+                    for (const cls of CLASSES) {
+                        for (const subj of SUBJECTS) {
+                            await dbPut('progress', {
+                                id: `${cls}_${subj}`,
+                                class: cls,
+                                subject: subj,
+                                currentSectionIndex: 0
+                            });
+                        }
+                    }
+                }
+            }
+
+            async function initSettingsIfEmpty() {
+                const s = await dbGet('settings', 'app');
+                if (!s) {
+                    await dbPut('settings', {
+                        key: 'app',
+                        teacherName: 'Mr. Mithilesh',
+                        darkMode: false
+                    });
+                } else {
+                    darkMode = s.darkMode || false;
+                    if (darkMode) document.body.classList.add('dark-mode');
+                    document.getElementById('settingTeacherName').value = s.teacherName || 'Mr. Mithilesh';
+                    document.getElementById('toggleDarkMode').checked = darkMode;
+                }
+            }
+
+            // ============ RECOMMENDATION ENGINE ============
+            async function getRecommendations(count = 6) {
+                const progress = await getAllProgress();
+                const sectionsMap = SECTIONS_MAP;
+                const candidates = [];
+
+                for (const p of progress) {
+                    const totalSections = (sectionsMap[p.class] || []).length;
+                    if (p.currentSectionIndex < totalSections) {
+                        const nextSection = sectionsMap[p.class][p.currentSectionIndex];
+                        candidates.push({
+                            class: p.class,
+                            section: nextSection,
+                            subject: p.subject,
+                            progressEntry: p,
+                            sectionsRemaining: totalSections - p.currentSectionIndex,
+                            inProgress: p.currentSectionIndex > 0,
+                            totalSections: totalSections,
+                            currentIndex: p.currentSectionIndex
+                        });
+                    }
+                }
+
+                // Sort: in-progress first, then by class order, then by subject
+                const classOrder = {};
+                CLASSES.forEach((c, i) => { classOrder[c] = i; });
+                const subjectOrder = {};
+                SUBJECTS.forEach((s, i) => { subjectOrder[s] = i; });
+
+                candidates.sort((a, b) => {
+                    if (a.inProgress && !b.inProgress) return -1;
+                    if (!a.inProgress && b.inProgress) return 1;
+                    if (a.class !== b.class) return classOrder[a.class] - classOrder[b.class];
+                    return subjectOrder[a.subject] - subjectOrder[b.subject];
+                });
+
+                return candidates.slice(0, count);
+            }
+
+            // ============ RENDER TODAY VIEW ============
+            async function renderToday(date) {
+                currentDate = date;
+                document.getElementById('todayDateLabel').textContent = formatDateNice(date);
+                document.getElementById('headerDate').textContent = formatDateNice(date);
+                const schedule = await getScheduleForDate(date);
+                const grid = document.getElementById('periodGrid');
+                const searchTerm = (document.getElementById('searchClass')?.value || '').trim().toUpperCase();
+
+                let html = '';
+                for (const p of PERIODS) {
+                    const entry = schedule[p];
+                    let cardClass = '';
+                    let statusBadge = '';
+                    let classInfo = '<em style="color:#999;">Empty</em>';
+                    let subjectInfo = '';
+                    let notesPreview = '';
+                    let periodBadgeClass = '';
+                    let statusClass = 'status-not-started';
+
+                    if (entry) {
+                        if (entry.status === 'completed') {
+                            cardClass = 'completed';
+                            statusBadge = '✅ Completed';
+                            statusClass = 'status-completed';
+                        } else if (entry.status === 'skipped') {
+                            cardClass = 'skipped';
+                            statusBadge = '⏭️ Skipped';
+                            statusClass = 'status-skipped';
+                        } else {
+                            statusBadge = '⏳ Not Started';
+                            statusClass = 'status-not-started';
+                        }
+                        classInfo = `<strong>${entry.class} - Section ${entry.section}</strong>`;
+                        subjectInfo = entry.subject;
+                        notesPreview = entry.notes ? `📝 ${entry.notes}` : '';
+                    }
+
+                    // Search filter
+                    if (searchTerm && entry && !entry.class.toUpperCase().includes(searchTerm) && !entry.section
+                        .toUpperCase().includes(searchTerm) && !entry.subject.toUpperCase().includes(searchTerm)) {
+                        // skip this card if search is active and doesn't match
+                    }
+
+                    html += `
+                <div class="period-card ${cardClass}" data-period="${p}">
+                  <span class="period-badge">Period ${p}</span>
+                  <div class="class-info">${classInfo}</div>
+                  ${subjectInfo ? `<div class="subject-info">📖 ${subjectInfo}</div>` : ''}
+                  ${statusBadge ? `<span class="status-badge ${statusClass}">${statusBadge}</span>` : ''}
+                  ${notesPreview ? `<div class="notes-preview">${notesPreview}</div>` : ''}
+                  <div class="card-actions">
+                    <button class="btn btn-outline btn-sm btn-edit-period" data-period="${p}">✏️ Edit</button>
+                    ${entry ? `<button class="btn btn-success btn-sm btn-mark-done" data-period="${p}">✅ Done</button>` : ''}
+                    ${entry ? `<button class="btn btn-warn btn-sm btn-mark-skip" data-period="${p}">⏭️ Skip</button>` : ''}
+                  </div>
+                </div>`;
+                }
+                grid.innerHTML = html || '<p style="color:var(--text3);">No periods match your search.</p>';
+
+                // Attach event listeners
+                grid.querySelectorAll('.btn-edit-period').forEach(btn => {
+                    btn.addEventListener('click', () => openEditModal(parseInt(btn.dataset.period)));
+                });
+                grid.querySelectorAll('.btn-mark-done').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        await quickUpdateStatus(parseInt(btn.dataset.period), 'completed');
+                        await renderToday(currentDate);
+                        updateCalendarBadge();
+                    });
+                });
+                grid.querySelectorAll('.btn-mark-skip').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        await quickUpdateStatus(parseInt(btn.dataset.period), 'skipped');
+                        await renderToday(currentDate);
+                        updateCalendarBadge();
+                    });
+                });
+            }
+
+            async function quickUpdateStatus(period, status) {
+                const schedule = await getScheduleForDate(currentDate);
+                const entry = schedule[period];
+                if (!entry) return;
+                entry.status = status;
+                await dbPut('schedule', entry);
+                if (status === 'completed') {
+                    await advanceProgress(entry.class, entry.subject);
+                }
+            }
+
+            async function advanceProgress(cls, subject) {
+                const key = `${cls}_${subject}`;
+                const prog = await dbGet('progress', key);
+                if (!prog) return;
+                const total = (SECTIONS_MAP[cls] || []).length;
+                if (prog.currentSectionIndex < total) {
+                    prog.currentSectionIndex++;
+                    await dbPut('progress', prog);
+                }
+            }
+
+            async function openEditModal(period) {
+                const schedule = await getScheduleForDate(currentDate);
+                const entry = schedule[period];
+                document.getElementById('editPeriodIndex').value = period;
+                populateClassDropdown(entry?.class || 'VI');
+                document.getElementById('editClass').value = entry?.class || 'VI';
+                updateSectionDropdown(entry?.class || 'VI', entry?.section || 'A');
+                document.getElementById('editSection').value = entry?.section || 'A';
+                document.getElementById('editSubject').value = entry?.subject || 'Physics';
+                document.getElementById('editStatus').value = entry?.status || 'not-started';
+                document.getElementById('editNotes').value = entry?.notes || '';
+                document.getElementById('editModalOverlay').classList.remove('hidden');
+            }
+
+            function populateClassDropdown(selected) {
+                const sel = document.getElementById('editClass');
+                sel.innerHTML = CLASSES.map(c => `<option value="${c}" ${c===selected?'selected':''}>${c}</option>`).join(
+                    '');
+                sel.onchange = () => {
+                    updateSectionDropdown(sel.value, null);
+                };
+            }
+
+            function updateSectionDropdown(cls, selectedSection) {
+                const sel = document.getElementById('editSection');
+                const sections = SECTIONS_MAP[cls] || ['A'];
+                sel.innerHTML = sections.map(s =>
+                    `<option value="${s}" ${s===selectedSection?'selected':''}>${s}</option>`
+                ).join('');
+            }
+
+            document.getElementById('editClass').addEventListener('change', function() {
+                updateSectionDropdown(this.value, null);
+            });
+
+            document.getElementById('btnCancelEdit').addEventListener('click', () => {
+                document.getElementById('editModalOverlay').classList.add('hidden');
+            });
+
+            document.getElementById('btnSaveEdit').addEventListener('click', async () => {
+                const period = parseInt(document.getElementById('editPeriodIndex').value);
+                const cls = document.getElementById('editClass').value;
+                const section = document.getElementById('editSection').value;
+                const subject = document.getElementById('editSubject').value;
+                const status = document.getElementById('editStatus').value;
+                const notes = document.getElementById('editNotes').value.trim();
+
+                const schedule = await getScheduleForDate(currentDate);
+                let entry = schedule[period];
+                const prevStatus = entry?.status;
+                const prevClass = entry?.class;
+                const prevSubject = entry?.subject;
+
+                if (entry) {
+                    entry.class = cls;
+                    entry.section = section;
+                    entry.subject = subject;
+                    entry.status = status;
+                    entry.notes = notes;
+                } else {
+                    entry = {
+                        date: currentDate,
+                        period: period,
+                        class: cls,
+                        section: section,
+                        subject: subject,
+                        status: status,
+                        notes: notes
+                    };
+                }
+                await dbPut('schedule', entry);
+
+                // Handle progress
+                if (status === 'completed') {
+                    await advanceProgress(cls, subject);
+                }
+                // If previously completed but now changed, we don't roll back (simplicity)
+
+                document.getElementById('editModalOverlay').classList.add('hidden');
+                await renderToday(currentDate);
+                updateCalendarBadge();
+            });
+
+            document.getElementById('editModalOverlay').addEventListener('click', function(e) {
+                if (e.target === this) this.classList.add('hidden');
+            });
+
+            // ============ SMART SUGGESTIONS & AUTO FILL ============
+            document.getElementById('btnSmartSuggest').addEventListener('click', async () => {
+                const recs = await getRecommendations(6);
+                // Clear current day schedule
+                const existing = await getScheduleForDate(currentDate);
+                for (const p of PERIODS) {
+                    if (existing[p]) await dbDelete('schedule', existing[p].id);
+                }
+                // Fill with recommendations
+                for (let i = 0; i < Math.min(recs.length, 6); i++) {
+                    const r = recs[i];
+                    await dbPut('schedule', {
+                        date: currentDate,
+                        period: PERIODS[i],
+                        class: r.class,
+                        section: r.section,
+                        subject: r.subject,
+                        status: 'not-started',
+                        notes: ''
+                    });
+                }
+                await renderToday(currentDate);
+                updateCalendarBadge();
+            });
+
+            document.getElementById('btnAutoFill').addEventListener('click', async () => {
+                const recs = await getRecommendations(6);
+                const existing = await getScheduleForDate(currentDate);
+                const filledPeriods = new Set();
+                for (const p of PERIODS) {
+                    if (existing[p]) filledPeriods.add(p);
+                }
+                const emptyPeriods = PERIODS.filter(p => !filledPeriods.has(p));
+                for (let i = 0; i < Math.min(recs.length, emptyPeriods.length); i++) {
+                    const r = recs[i];
+                    await dbPut('schedule', {
+                        date: currentDate,
+                        period: emptyPeriods[i],
+                        class: r.class,
+                        section: r.section,
+                        subject: r.subject,
+                        status: 'not-started',
+                        notes: ''
+                    });
+                }
+                await renderToday(currentDate);
+                updateCalendarBadge();
+            });
+
+            // Search
+            document.getElementById('searchClass').addEventListener('input', async () => {
+                await renderToday(currentDate);
+            });
+
+            // ============ CALENDAR VIEW ============
+            async function renderCalendar() {
+                document.getElementById('calMonthLabel').textContent =
+                    new Date(calYear, calMonth).toLocaleString('default', { month: 'long', year: 'numeric' });
+                const grid = document.getElementById('calendarGrid');
+                const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                let html = dayHeaders.map(d => `<div class="day-header">${d}</div>`).join('');
+
+                const firstDay = new Date(calYear, calMonth, 1).getDay();
+                const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+                const daysInPrevMonth = new Date(calYear, calMonth, 0).getDate();
+
+                const allSchedules = await dbGetAll('schedule');
+                const dateStatusMap = {};
+                for (const s of allSchedules) {
+                    if (!dateStatusMap[s.date]) dateStatusMap[s.date] = { total: 0, completed: 0 };
+                    dateStatusMap[s.date].total++;
+                    if (s.status === 'completed') dateStatusMap[s.date].completed++;
+                }
+
+                function getDayClass(d, m, y) {
+                    const ds = dateStr(new Date(y, m, d));
+                    const todayStr = dateStr(TODAY);
+                    let cls = 'day-cell';
+                    if (ds === todayStr) cls += ' today-ring';
+                    const info = dateStatusMap[ds];
+                    if (info && info.total > 0) {
+                        if (info.completed >= info.total) cls += ' completed-day';
+                        else if (info.completed > 0) cls += ' partial-day';
+                        else cls += ' empty-day';
+                    } else if (info && info.total === 0) {
+                        cls += ' empty-day';
+                    }
+                    return cls;
+                }
+
+                // Previous month trailing days
+                for (let i = firstDay - 1; i >= 0; i--) {
+                    const d = daysInPrevMonth - i;
+                    const m = calMonth === 0 ? 11 : calMonth - 1;
+                    const y = calMonth === 0 ? calYear - 1 : calYear;
+                    html +=
+                        `<div class="day-cell other-month" data-date="${dateStr(new Date(y,m,d))}">${d}</div>`;
+                }
+
+                // Current month
+                for (let d = 1; d <= daysInMonth; d++) {
+                    const cls = getDayClass(d, calMonth, calYear);
+                    const ds = dateStr(new Date(calYear, calMonth, d));
+                    html += `<div class="${cls}" data-date="${ds}">${d}</div>`;
+                }
+
+                // Next month leading days
+                const totalCells = firstDay + daysInMonth;
+                const remaining = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+                for (let d = 1; d <= remaining; d++) {
+                    const m = calMonth === 11 ? 0 : calMonth + 1;
+                    const y = calMonth === 11 ? calYear + 1 : calYear;
+                    html +=
+                        `<div class="day-cell other-month" data-date="${dateStr(new Date(y,m,d))}">${d}</div>`;
+                }
+
+                grid.innerHTML = html;
+
+                grid.querySelectorAll('.day-cell:not(.other-month)').forEach(cell => {
+                    cell.addEventListener('click', async () => {
+                        const ds = cell.dataset.date;
+                        if (ds) {
+                            currentDate = ds;
+                            await renderToday(ds);
+                            switchView('today');
+                            document.querySelectorAll('.sidebar-nav button').forEach(b => b
+                                .classList.remove('active'));
+                            document.querySelector('[data-view="today"]')?.classList.add(
+                            'active');
+                        }
+                    });
+                });
+            }
+
+            function updateCalendarBadge() {
+                if (currentView === 'calendar') renderCalendar();
+            }
+
+            document.getElementById('calPrev').addEventListener('click', () => {
+                calMonth--;
+                if (calMonth < 0) { calMonth = 11;
+                    calYear--; }
+                renderCalendar();
+            });
+            document.getElementById('calNext').addEventListener('click', () => {
+                calMonth++;
+                if (calMonth > 11) { calMonth = 0;
+                    calYear++; }
+                renderCalendar();
+            });
+            document.getElementById('calGoToday').addEventListener('click', () => {
+                calMonth = TODAY.getMonth();
+                calYear = TODAY.getFullYear();
+                renderCalendar();
+            });
+
+            // ============ ANALYTICS ============
+            async function renderAnalytics() {
+                const allSchedules = await dbGetAll('schedule');
+                const allProgress = await dbGetAll('progress');
+                const grid = document.getElementById('analyticsGrid');
+
+                // Total completed
+                const completedEntries = allSchedules.filter(s => s.status === 'completed');
+                const totalCompleted = completedEntries.length;
+
+                // Per class
+                const classCounts = {};
+                CLASSES.forEach(c => { classCounts[c] = { total: 0, completed: 0, skipped: 0 }; });
+                allSchedules.forEach(s => {
+                    if (classCounts[s.class]) {
+                        classCounts[s.class].total++;
+                        if (s.status === 'completed') classCounts[s.class].completed++;
+                        if (s.status === 'skipped') classCounts[s.class].skipped++;
+                    }
+                });
+
+                // Per subject
+                const subjectCounts = {};
+                SUBJECTS.forEach(s => { subjectCounts[s] = 0; });
+                completedEntries.forEach(s => { subjectCounts[s.subject] = (subjectCounts[s.subject] || 0) + 1; });
+
+                // Period utilization
+                const periodUsage = {};
+                PERIODS.forEach(p => { periodUsage[p] = 0; });
+                allSchedules.forEach(s => { periodUsage[s.period] = (periodUsage[s.period] || 0) + 1; });
+
+                // Section coverage
+                let coverageHTML = '<ul class="coverage-list">';
+                for (const cls of CLASSES) {
+                    const sections = SECTIONS_MAP[cls];
+                    coverageHTML += `<li><strong>${cls}:</strong> `;
+                    sections.forEach(sec => {
+                        const key = `${cls}_${sec}`;
+                        const hasCompleted = allSchedules.some(s => s.class === cls && s.section ===
+                            sec && s.status === 'completed');
+                        coverageHTML += hasCompleted ?
+                            `<span class="check">${sec}✔</span> ` :
+                            `<span class="cross">${sec}❌</span> `;
+                    });
+                    coverageHTML += '</li>';
+                }
+                coverageHTML += '</ul>';
+
+                // Monthly progress
+                const monthlyData = {};
+                allSchedules.forEach(s => {
+                    const m = s.date.substring(0, 7);
+                    if (!monthlyData[m]) monthlyData[m] = { total: 0, completed: 0 };
+                    monthlyData[m].total++;
+                    if (s.status === 'completed') monthlyData[m].completed++;
+                });
+                let monthlyHTML = '';
+                const sortedMonths = Object.keys(monthlyData).sort();
+                for (const m of sortedMonths) {
+                    const d = monthlyData[m];
+                    const pct = d.total > 0 ? Math.round((d.completed / d.total) * 100) : 0;
+                    monthlyHTML +=
+                        `<div style="margin:4px 0;"><strong>${m}</strong>: ${d.completed}/${d.total} (${pct}%)
+                    <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${pct}%;"></div></div></div>`;
+                }
+
+                // Pending work
+                let pendingHTML = '<ul class="coverage-list">';
+                for (const p of allProgress) {
+                    const total = (SECTIONS_MAP[p.class] || []).length;
+                    if (p.currentSectionIndex < total) {
+                        const nextSec = SECTIONS_MAP[p.class][p.currentSectionIndex];
+                        pendingHTML +=
+                            `<li>📌 <strong>${p.class} - ${p.subject}</strong>: Next → Section ${nextSec} (${p.currentSectionIndex}/${total} done)</li>`;
+                    }
+                }
+                pendingHTML += allProgress.every(p => p.currentSectionIndex >= (SECTIONS_MAP[p.class] || []).length) ?
+                    '<li>✅ All sections completed for all classes!</li>' : '';
+                pendingHTML += '</ul>';
+
+                grid.innerHTML = `
+              <div class="stat-card">
+                <h4>📊 Total Practicals Completed</h4>
+                <div class="big-num">${totalCompleted}</div>
+                <div style="font-size:0.8rem;color:var(--text3);">Across all classes & subjects</div>
+              </div>
+              <div class="stat-card">
+                <h4>📚 Completed by Subject</h4>
+                ${SUBJECTS.map(s => `<div style="margin:4px 0;"><strong>${s}:</strong> ${subjectCounts[s]||0}</div>`).join('')}
+              </div>
+              <div class="stat-card">
+                <h4>🏫 Completed by Class</h4>
+                ${CLASSES.map(c => `<div style="margin:4px 0;"><strong>${c}:</strong> ${classCounts[c].completed} done / ${classCounts[c].total} total</div>`).join('')}
+              </div>
+              <div class="stat-card">
+                <h4>🕐 Period Utilization</h4>
+                ${PERIODS.map(p => `<div style="margin:4px 0;"><strong>Period ${p}:</strong> ${periodUsage[p]||0} entries
+                  <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${Math.min(100,(periodUsage[p]||0)*10)}%;"></div></div>
+                </div>`).join('')}
+              </div>
+              <div class="stat-card">
+                <h4>📅 Monthly Progress</h4>
+                ${monthlyHTML || '<em style="color:var(--text3);">No data yet</em>'}
+              </div>
+              <div class="stat-card">
+                <h4>✅ Section Coverage</h4>
+                ${coverageHTML}
+              </div>
+            `;
+                document.getElementById('pendingWorkList').innerHTML = pendingHTML;
+            }
+
+            // ============ SETTINGS ============
+            document.getElementById('btnSaveSettings').addEventListener('click', async () => {
+                const teacherName = document.getElementById('settingTeacherName').value.trim() || 'Mr. Mithilesh';
+                const darkModeToggle = document.getElementById('toggleDarkMode').checked;
+                await dbPut('settings', { key: 'app', teacherName, darkMode: darkModeToggle });
+                document.querySelector('.teacher-tag').textContent = '👨‍🏫 ' + teacherName;
+                darkMode = darkModeToggle;
+                if (darkModeToggle) {
+                    document.body.classList.add('dark-mode');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                }
+                alert('✅ Settings saved!');
+            });
+
+            document.getElementById('toggleDarkMode').addEventListener('change', function() {
+                if (this.checked) {
+                    document.body.classList.add('dark-mode');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                }
+            });
+
+            document.getElementById('btnExportData').addEventListener('click', async () => {
+                const progress = await dbGetAll('progress');
+                const schedule = await dbGetAll('schedule');
+                const settings = await dbGetAll('settings');
+                const exportData = { progress, schedule, settings, exportedAt: new Date().toISOString() };
+                const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `RPS_Planner_Backup_${dateStr(TODAY)}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+
+            document.getElementById('btnImportData').addEventListener('click', () => {
+                document.getElementById('importFileInput').click();
+            });
+
+            document.getElementById('importFileInput').addEventListener('change', async function() {
+                const file = this.files[0];
+                if (!file) return;
+                try {
+                    const text = await file.text();
+                    const data = JSON.parse(text);
+                    if (!data.progress || !data.schedule || !data.settings) {
+                        throw new Error('Invalid backup file structure');
+                    }
+                    if (!confirm(
+                            '⚠️ This will replace all current data with the imported data. Are you sure?')) return;
+                    await dbClear('progress');
+                    await dbClear('schedule');
+                    await dbClear('settings');
+                    for (const p of data.progress) await dbPut('progress', p);
+                    for (const s of data.schedule) await dbPut('schedule', s);
+                    for (const st of data.settings) await dbPut('settings', st);
+                    alert('✅ Data imported successfully! Reloading...');
+                    location.reload();
+                } catch (err) {
+                    alert('❌ Import failed: ' + err.message);
+                }
+                this.value = '';
+            });
+
+            document.getElementById('btnResetData').addEventListener('click', async () => {
+                if (!confirm(
+                        '⚠️ This will permanently delete ALL data (progress, schedules, settings). This cannot be undone. Continue?'
+                        )) return;
+                if (!confirm('Are you absolutely sure? Type "yes" in the next prompt to confirm.')) return;
+                const confirmInput = prompt('Type "yes" to confirm reset:');
+                if (confirmInput !== 'yes') return;
+                await dbClear('progress');
+                await dbClear('schedule');
+                await dbClear('settings');
+                alert('✅ All data has been reset. Reloading...');
+                location.reload();
+            });
+
+            // ============ VIEW SWITCHING ============
+            function switchView(viewName) {
+                currentView = viewName;
+                document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+                document.getElementById('view-' + viewName).classList.add('active');
+                document.querySelectorAll('.sidebar-nav button').forEach(b => b.classList.remove('active'));
+                document.querySelector(`[data-view="${viewName}"]`)?.classList.add('active');
+                if (viewName === 'analytics') renderAnalytics();
+                if (viewName === 'calendar') renderCalendar();
+                if (viewName === 'today') renderToday(currentDate);
+            }
+
+            document.querySelectorAll('.sidebar-nav button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const view = btn.dataset.view;
+                    switchView(view);
+                });
+            });
+
+            // ============ KEYBOARD SHORTCUTS ============
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    document.getElementById('editModalOverlay').classList.add('hidden');
+                }
+                if (e.ctrlKey && e.key === 's') {
+                    e.preventDefault();
+                    if (currentView === 'today') renderToday(currentDate);
+                }
+            });
+
+            // ============ INITIALIZATION ============
+            function formatDateNice(dateStr) {
+                const d = new Date(dateStr + 'T00:00:00');
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                return d.toLocaleDateString('en-US', options);
+            }
+
+            async function init() {
+                await openDB();
+                await initProgressIfEmpty();
+                await initSettingsIfEmpty();
+                document.getElementById('headerDate').textContent = formatDateNice(currentDate);
+                document.getElementById('todayDateLabel').textContent = formatDateNice(currentDate);
+                document.getElementById('settingTeacherName').value =
+                    ((await dbGet('settings', 'app')) || {}).teacherName || 'Mr. Mithilesh';
+                document.getElementById('toggleDarkMode').checked = darkMode;
+                if (darkMode) document.body.classList.add('dark-mode');
+                await renderToday(currentDate);
+                // Pre-render calendar for badge updates
+                updateCalendarBadge();
+                console.log('✅ R.P.S. School Practical Lesson Planner initialized successfully!');
+                console.log('📅 Current date:', formatDateNice(currentDate));
+                console.log('👨‍🏫 Teacher: Mr. Mithilesh');
+                console.log('🏫 R.P.S. School, Bihar Sharif (Nalanda) - Session 2026–2027');
+            }
+
+            init().catch(err => {
+                console.error('Initialization error:', err);
+                alert('Failed to initialize the planner. Please check your browser supports IndexedDB.');
+            });
+
+            // Expose for debugging
+            window.plannerAPI = {
+                getRecommendations,
+                renderToday,
+                renderCalendar,
+                renderAnalytics,
+                getScheduleForDate,
+                getAllProgress,
+                db,
+                currentDate,
+                switchView,
+            };
+        })();
+    </script>
+</body>
+</html>
