@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>R.P.S. School | Practical Lesson Planner 2026–2027</title>
+  <style>
+    :root {
+      --green-900: #0d3b1e; --green-700: #1a6b3c; --green-500: #2e8b4e; --green-400: #4caf50;
+      --green-300: #81c784; --green-200: #a5d6a7; --green-100: #c8e6c9; --green-50: #e8f5e9;
+      --amber-500: #f59e0b; --amber-400: #fbbf24; --amber-100: #fef3c7;
+      --red-500: #ef4444; --red-100: #fee2e2;
+      --gray-800: #1f2937; --gray-600: #4b5563; --gray-500: #6b7280; --gray-300: #d1d5db;
+      --gray-200: #e5e7eb; --gray-100: #f3f4f6; --gray-50: #f9fafb; --white: #ffffff;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04); --shadow: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.06); --shadow-lg: 0 10px 25px rgba(0,0,0,0.08);
+      --radius-sm: 6px; --radius: 10px; --radius-lg: 14px; --radius-xl: 18px;
+      --transition: 0.2s ease; --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      --sidebar-w: 240px; --topbar-h: 64px;
+    }
+    .dark-mode {
+      --green-900: #e8f5e9; --green-700: #a5d6a7; --green-500: #66bb6a;
+      --green-400: #4caf50; --green-300: #388e3c; --green-200: #2e7d32;
+      --green-100: #1b5e20; --green-50: #1a3c24;
+      --amber-500: #f59e0b; --amber-400: #fbbf24; --amber-100: #2e2818;
+      --red-500: #ef4444; --red-100: #2e1a1a;
+      --gray-800: #f3f4f6; --gray-600: #d1d5db; --gray-500: #9ca3af;
+      --gray-300: #4b5563; --gray-200: #374151; --gray-100: #1f2937;
+      --gray-50: #181c1f; --white: #1a1d1a;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: var(--font); background: var(--gray-50); color: var(--gray-800);
+      display: flex; flex-direction: column; min-height:100vh;
+      transition: background var(--transition), color var(--transition);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .topbar {
+      height: var(--topbar-h); background: var(--white); border-bottom:1px solid var(--gray-200);
+      display:flex; align-items:center; justify-content:space-between; padding:0 20px;
+      position:sticky; top:0; z-index:200; box-shadow: var(--shadow-sm); gap:12px;
+    }
+    .topbar-brand { display:flex; align-items:center; gap:12px; }
+    .topbar-logo {
+      width:42px; height:42px; border-radius:var(--radius-sm);
+      background:linear-gradient(135deg, var(--green-700), var(--green-500));
+      display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:1.2rem;
+    }
+    .topbar-school-name { font-weight:700; font-size:1.05rem; color:var(--green-800); }
+    .topbar-school-sub { font-size:0.65rem; color:var(--gray-500); text-transform:uppercase; }
+    .topbar-right { display:flex; align-items:center; gap:10px; }
+    .topbar-badge { font-size:0.68rem; background:var(--green-50); color:var(--green-700); padding:5px 12px; border-radius:20px; border:1px solid var(--green-100); }
+    .topbar-teacher { font-size:0.78rem; color:var(--gray-600); font-weight:600; display:flex; align-items:center; gap:5px; }
+    .dot-live { width:7px; height:7px; background:var(--green-400); border-radius:50%; animation:pulse-dot 2s infinite; }
+    @keyframes pulse-dot { 0%,100%{ box-shadow:0 0 0 0 rgba(76,175,80,0.5); } 50%{ box-shadow:0 0 0 8px rgba(76,175,80,0); } }
+    .topbar-date { font-size:0.75rem; color:var(--gray-500); }
+    .hamburger { display:none; all:unset; cursor:pointer; width:36px; height:36px; border-radius:50%; background:var(--gray-100); align-items:center; justify-content:center; font-size:1.2rem; }
+    .hamburger:hover { background:var(--green-50); color:var(--green-700); }
+    .app-container { display:flex; flex:1; position:relative; overflow:hidden; }
+    .sidebar {
+      width:var(--sidebar-w); background:var(--white); border-right:1px solid var(--gray-200);
+      display:flex; flex-direction:column; position:fixed; top:var(--topbar-h); left:0; bottom:0;
+      z-index:150; box-shadow:var(--shadow); transition:transform 0.3s; overflow-y:auto;
+    }
+    .sidebar-header { padding:16px 18px 10px; border-bottom:1px solid var(--gray-100); text-align:center; }
+    .session-badge { font-size:0.65rem; font-weight:700; background:var(--green-50); color:var(--green-700); padding:4px 10px; border-radius:12px; }
+    .sidebar-nav { flex:1; padding:8px 0; display:flex; flex-direction:column; gap:1px; }
+    .sidebar-nav button {
+      all:unset; display:flex; align-items:center; gap:11px; padding:12px 18px; cursor:pointer;
+      font-size:0.88rem; color:var(--gray-600); border-left:3px solid transparent; transition:0.2s; font-weight:500;
+    }
+    .sidebar-nav button:hover { background:var(--green-50); color:var(--green-700); }
+    .sidebar-nav button.active { background:var(--green-50); color:var(--green-700); border-left-color:var(--green-500); font-weight:600; }
+    .nav-icon { width:22px; text-align:center; font-size:1.05rem; }
+    .sidebar-footer { padding:10px 16px; border-top:1px solid var(--gray-100); font-size:0.68rem; color:var(--gray-500); text-align:center; }
+    .sidebar-overlay { display:none; position:fixed; inset:0; top:var(--topbar-h); background:rgba(0,0,0,0.45); z-index:140; }
+    .sidebar-overlay.active { display:block; }
+    .main-area { margin-left:var(--sidebar-w); flex:1; display:flex; flex-direction:column; min-height:calc(100vh - var(--topbar-h)); transition:margin 0.3s; }
+    .content { flex:1; padding:24px 28px; max-width:1200px; width:100%; margin:0 auto; }
+    .print-header { display:none; text-align:center; margin-bottom:20px; border-bottom:2px solid #000; padding-bottom:10px; }
+    .view { display:none; animation:viewIn 0.3s ease; }
+    .view.active { display:block; }
+    @keyframes viewIn { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+    .section-heading { display:flex; align-items:center; gap:10px; margin-bottom:18px; flex-wrap:wrap; }
+    .section-heading h2 { font-size:1.25rem; font-weight:700; color:var(--gray-800); }
+    .accent-dot { width:9px; height:9px; border-radius:50%; background:var(--green-400); }
+    .date-chip { font-size:0.78rem; background:var(--gray-100); color:var(--gray-600); padding:6px 14px; border-radius:20px; }
+    .action-bar { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; align-items:center; }
+    .btn {
+      all:unset; display:inline-flex; align-items:center; gap:6px; padding:9px 16px; border-radius:20px;
+      cursor:pointer; font-size:0.8rem; font-weight:600; transition:0.2s; border:1px solid transparent; white-space:nowrap;
+    }
+    .btn:active { transform:scale(0.96); }
+    .btn-sm { padding:6px 11px; font-size:0.72rem; border-radius:14px; }
+    .btn-primary { background:var(--green-500); color:#fff; box-shadow:var(--shadow-sm); }
+    .btn-primary:hover { background:var(--green-700); box-shadow:var(--shadow-md); }
+    .btn-outline { border:1px solid var(--gray-300); color:var(--gray-600); background:var(--white); }
+    .btn-outline:hover { background:var(--gray-50); border-color:var(--green-300); color:var(--green-700); }
+    .btn-ghost { color:var(--gray-600); background:transparent; }
+    .btn-warn { background:var(--amber-500); color:#fff; }
+    .btn-warn:hover { background:#d97706; }
+    .btn-success { background:var(--green-400); color:#fff; }
+    .btn-success:hover { background:var(--green-500); }
+    .search-input { padding:9px 16px; border:1px solid var(--gray-300); border-radius:20px; font-size:0.82rem; background:var(--white); color:var(--gray-800); outline:none; min-width:180px; }
+    .search-input:focus { border-color:var(--green-400); box-shadow:0 0 0 3px rgba(76,175,80,0.08); }
+    .period-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(310px,1fr)); gap:14px; }
+    .period-card {
+      background:var(--white); border:1px solid var(--gray-200); border-radius:var(--radius-lg);
+      padding:18px; box-shadow:var(--shadow); transition:0.2s; position:relative; overflow:hidden;
+    }
+    .period-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--gray-300); border-radius:0 2px 2px 0; }
+    .period-card.completed::before { background:var(--green-400); width:5px; }
+    .period-card.skipped::before { background:var(--amber-400); width:5px; }
+    .period-card.completed { background:var(--green-50); border-color:var(--green-100); }
+    .period-card.skipped { background:var(--amber-100); border-color:var(--amber-400); }
+    .period-chip { font-size:0.68rem; font-weight:700; background:var(--gray-800); color:#fff; padding:4px 10px; border-radius:12px; }
+    .completed .period-chip { background:var(--green-700); }
+    .skipped .period-chip { background:var(--amber-500); }
+    .class-title { font-size:1.05rem; font-weight:700; color:var(--gray-800); margin:2px 0; }
+    .subject-tag { font-size:0.8rem; color:var(--gray-600); display:flex; align-items:center; gap:4px; }
+    .status-pill { font-size:0.68rem; padding:3px 9px; border-radius:10px; font-weight:600; display:inline-block; }
+    .status-not-started { background:var(--gray-200); color:var(--gray-600); }
+    .status-completed { background:#d4edda; color:#155724; }
+    .status-skipped { background:#fff3cd; color:#856404; }
+    .dark-mode .status-completed { background:#1e3a28; color:#81c784; }
+    .dark-mode .status-skipped { background:#2e2818; color:#fbbf24; }
+    .notes-snippet { font-size:0.7rem; color:var(--gray-500); font-style:italic; margin-top:4px; }
+    .card-actions-row { display:flex; gap:6px; margin-top:12px; flex-wrap:wrap; }
+    .card-actions-row .btn { font-size:0.7rem; padding:5px 10px; }
+    .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:500; display:flex; align-items:center; justify-content:center; padding:16px; }
+    .modal-overlay.hidden { display:none; }
+    .modal { background:var(--white); border-radius:var(--radius-xl); padding:24px; max-width:480px; width:100%; box-shadow:var(--shadow-lg); max-height:85vh; overflow-y:auto; }
+    .modal h3 { margin-bottom:14px; color:var(--green-700); }
+    .modal label { display:block; font-weight:600; font-size:0.75rem; margin:10px 0 3px; color:var(--gray-600); text-transform:uppercase; }
+    .modal select, .modal input, .modal textarea { width:100%; padding:10px; border:1px solid var(--gray-300); border-radius:var(--radius-sm); font-family:inherit; font-size:0.88rem; background:var(--white); color:var(--gray-800); outline:none; }
+    .modal select:focus, .modal textarea:focus { border-color:var(--green-400); }
+    .modal .btn-row { display:flex; gap:8px; margin-top:18px; justify-content:flex-end; }
+    .calendar-nav-row { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+    .month-title { font-weight:700; font-size:1rem; min-width:150px; text-align:center; }
+    .calendar-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:3px; max-width:650px; background:var(--white); border-radius:var(--radius-lg); padding:12px; box-shadow:var(--shadow); }
+    .day-hdr { text-align:center; font-weight:700; font-size:0.7rem; color:var(--gray-500); padding:6px 0; }
+    .day-cell { aspect-ratio:1; border-radius:var(--radius-sm); display:flex; align-items:center; justify-content:center; cursor:pointer; font-weight:600; font-size:0.82rem; border:2px solid transparent; }
+    .day-cell:hover { border-color:var(--green-300); background:var(--green-50); }
+    .day-cell.today-ring { border-color:var(--green-500); box-shadow:0 0 0 3px rgba(76,175,80,0.12); }
+    .completed-day { background:#c8e6c9; color:#155724; }
+    .partial-day { background:#fff9c4; color:#5d4e00; }
+    .empty-day { background:var(--gray-100); color:var(--gray-600); }
+    .other-month { opacity:0.3; pointer-events:none; }
+    .analytics-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:14px; }
+    .stat-card { background:var(--white); border:1px solid var(--gray-200); border-radius:var(--radius-lg); padding:18px; box-shadow:var(--shadow); }
+    .stat-card h4 { font-size:0.7rem; text-transform:uppercase; letter-spacing:0.6px; color:var(--gray-500); margin-bottom:6px; }
+    .big-num { font-size:2.2rem; font-weight:800; color:var(--green-700); line-height:1; }
+    .mini-bar-wrap { background:var(--gray-100); height:7px; border-radius:8px; margin-top:5px; overflow:hidden; }
+    .mini-bar-fill { height:100%; background:linear-gradient(90deg, var(--green-400), var(--green-500)); border-radius:8px; }
+    .coverage-list { list-style:none; font-size:0.8rem; max-height:300px; overflow-y:auto; }
+    .coverage-list li { padding:5px 0; display:flex; gap:6px; border-bottom:1px solid var(--gray-100); }
+    .check { color:var(--green-500); font-weight:700; }
+    .cross { color:var(--red-500); font-weight:700; }
+    .pending-list { font-size:0.82rem; line-height:2; list-style:none; }
+    @media (max-width:900px) {
+      .sidebar { transform:translateX(-100%); }
+      .sidebar.open { transform:translateX(0); }
+      .main-area { margin-left:0 !important; }
+      .hamburger { display:flex; }
+      .period-grid { grid-template-columns:1fr; }
+      .content { padding:14px 12px; }
+    }
+    @media print {
+      .sidebar, .topbar, .action-bar, .btn, .modal-overlay, .search-input { display:none !important; }
+      .main-area { margin-left:0 !important; }
+      .content { padding:0 !important; }
+      .period-card { break-inside:avoid; box-shadow:none; border:1px solid #ccc; background:#fff; }
+      .print-header { display:block !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <button class="hamburger" id="hamburgerBtn">☰</button>
+    <div class="topbar-brand">
+      <div class="topbar-logo">RPS</div>
+      <div><div class="topbar-school-name">R.P.S. School</div><div class="topbar-school-sub">Practical Lesson Planner</div></div>
+    </div>
+    <div class="topbar-right">
+      <span class="topbar-badge">📅 2026–2027</span>
+      <span class="topbar-teacher"><span class="dot-live"></span> Mr. Mithilesh</span>
+      <span class="topbar-date" id="headerDate"></span>
+    </div>
+  </header>
+  <div class="app-container">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header"><span class="session-badge">🏫 Bihar Sharif (Nalanda)</span></div>
+      <nav class="sidebar-nav">
+        <button data-view="today" class="active"><span class="nav-icon">📋</span> Today's Plan</button>
+        <button data-view="calendar"><span class="nav-icon">📅</span> Calendar</button>
+        <button data-view="analytics"><span class="nav-icon">📊</span> Analytics</button>
+        <button data-view="settings"><span class="nav-icon">⚙️</span> Settings</button>
+      </nav>
+      <div class="sidebar-footer">R.P.S. School<br>Session 2026–2027</div>
+    </aside>
+    <div class="main-area">
+      <div class="content">
+        <div class="print-header" id="printHeader">
+          <h1>R.P.S. School, Bihar Sharif (Nalanda)</h1>
+          <p>Session 2026–2027 | Practical Lesson Plan | Teacher: Mr. Mithilesh</p>
+          <p>Date: <span id="printDate"></span></p>
+        </div>
+
+        <!-- TODAY VIEW -->
+        <div class="view active" id="view-today">
+          <div class="section-heading"><span class="accent-dot"></span><h2>Today's Schedule</h2><span class="date-chip" id="todayDateLabel"></span></div>
+          <div class="action-bar">
+            <button class="btn btn-primary" id="btnSmartSuggest">✨ Smart Suggestions</button>
+            <button class="btn btn-outline" id="btnAutoFill">⚡ Auto-Fill Empty</button>
+            <button class="btn btn-ghost" onclick="window.print()">🖨️ Print</button>
+            <button class="btn btn-outline" id="btnShareWhatsApp">📱 Share via WhatsApp</button>
+            <input type="text" class="search-input" id="searchClass" placeholder="🔍 Search class...">
+          </div>
+          <div class="period-grid" id="periodGrid"></div>
+        </div>
+
+        <!-- CALENDAR VIEW -->
+        <div class="view" id="view-calendar">
+          <div class="section-heading"><span class="accent-dot"></span><h2>Monthly Calendar</h2></div>
+          <div class="calendar-nav-row">
+            <button class="btn btn-outline btn-sm" id="calPrev">◀</button>
+            <span class="month-title" id="calMonthLabel"></span>
+            <button class="btn btn-outline btn-sm" id="calNext">▶</button>
+            <button class="btn btn-ghost btn-sm" id="calGoToday">📍 Today</button>
+          </div>
+          <div class="calendar-grid" id="calendarGrid"></div>
+          <div style="margin-top:12px;font-size:0.7rem;color:var(--gray-500);">🟢 Completed &nbsp; 🟡 Partial &nbsp; ⚪ Empty &nbsp; 🔵 Today</div>
+        </div>
+
+        <!-- ANALYTICS VIEW -->
+        <div class="view" id="view-analytics">
+          <div class="section-heading"><span class="accent-dot"></span><h2>Analytics Dashboard</h2></div>
+          <div class="analytics-grid" id="analyticsGrid"></div>
+          <div style="margin-top:18px;">
+            <h4 style="margin-bottom:8px;">📋 Pending Work</h4>
+            <ul class="pending-list" id="pendingWorkList"></ul>
+          </div>
+        </div>
+
+        <!-- SETTINGS VIEW -->
+        <div class="view" id="view-settings">
+          <div class="section-heading"><span class="accent-dot"></span><h2>Settings</h2></div>
+          <div class="stat-card" style="max-width:500px;">
+            <label>👨‍🏫 Teacher Name</label>
+            <input type="text" id="settingTeacherName" value="Mr. Mithilesh">
+            <label style="margin-top:18px;">🌓 Dark Mode</label>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <label class="toggle-switch"><input type="checkbox" id="toggleDarkMode"><span class="toggle-slider"></span></label>
+              <span id="darkModeLabel">Off</span>
+            </div>
+            <div style="margin-top:20px;display:flex;gap:8px;flex-wrap:wrap;">
+              <button class="btn btn-primary" id="btnSaveSettings">💾 Save</button>
+              <button class="btn btn-outline" id="btnExportData">📤 Export</button>
+              <button class="btn btn-outline" id="btnImportData">📥 Import</button>
+              <input type="file" id="importFileInput" accept=".json" hidden>
+              <button class="btn btn-warn" id="btnResetData">🗑️ Reset</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDIT MODAL -->
+  <div class="modal-overlay hidden" id="editModalOverlay">
+    <div class="modal">
+      <h3>✏️ Edit Period</h3>
+      <input type="hidden" id="editPeriodIndex">
+      <label><input type="checkbox" id="editIsActivity"> 📝 Mark as Activity / Note Only (no class/subject)</label>
+      <div id="editClassSection" style="margin-top:10px;">
+        <label>Class</label><select id="editClass"></select>
+        <label>Section</label><select id="editSection"></select>
+        <label>Subject</label><select id="editSubject"></select>
+      </div>
+      <label>Status</label>
+      <select id="editStatus"><option value="not-started">⏳ Not Started</option><option value="completed">✅ Completed</option><option value="skipped">⏭️ Skipped</option></select>
+      <label id="editNotesLabel">Notes</label>
+      <textarea id="editNotes" placeholder="Optional notes..."></textarea>
+      <div class="btn-row">
+        <button class="btn btn-outline" id="btnCancelEdit">Cancel</button>
+        <button class="btn btn-primary" id="btnSaveEdit">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const DB_NAME = 'RPS_Planner_DB';
+      const DB_VERSION = 2;
+      const CLASSES = ['VI','VII','VIII','IX','X','XI','XII'];
+      const SECTIONS_MAP = { VI:['A','B','C'], VII:['A','B','C','D'], VIII:['A','B','C','D'], IX:['A','B','C','D','E'], X:['A','B','C','D','E'], XI:['A','B','C'], XII:['A','B','C'] };
+      const SUBJECTS = ['Physics','Chemistry','Biology'];
+      const PERIODS = [2,3,4,5,6,7];
+      const CLASS_ORDER = Object.assign({}, ...CLASSES.map((c,i) => ({[c]:i})));
+      const TODAY = new Date();
+      const dateStr = d => d.toISOString().split('T')[0];
+      let currentView = 'today', currentDate = dateStr(TODAY), calMonth = TODAY.getMonth(), calYear = TODAY.getFullYear(), db, darkMode = false;
+
+      // ---------- IndexedDB ----------
+      function openDB() {
+        return new Promise((res,rej) => {
+          const req = indexedDB.open(DB_NAME, DB_VERSION);
+          req.onupgradeneeded = e => {
+            const d = e.target.result;
+            if(!d.objectStoreNames.contains('progress')) d.createObjectStore('progress',{keyPath:'id'});
+            if(!d.objectStoreNames.contains('schedule')) {
+              const s = d.createObjectStore('schedule',{keyPath:'id',autoIncrement:true});
+              s.createIndex('date','date',{unique:false});
+              s.createIndex('date_period',['date','period'],{unique:true});
+            }
+            if(!d.objectStoreNames.contains('settings')) d.createObjectStore('settings',{keyPath:'key'});
+          };
+          req.onsuccess = e => { db = e.target.result; res(db); };
+          req.onerror = e => rej(e.target.error);
+        });
+      }
+      const dbPut = (store,data) => new Promise((res,rej) => {
+        const tx = db.transaction(store,'readwrite'); tx.objectStore(store).put(data); tx.oncomplete=res; tx.onerror=e=>rej(e.target.error);
+      });
+      const dbGetAll = store => new Promise((res,rej) => {
+        const tx = db.transaction(store,'readonly'); const req = tx.objectStore(store).getAll(); req.onsuccess=()=>res(req.result); req.onerror=e=>rej(e.target.error);
+      });
+      const dbGet = (store,key) => new Promise((res,rej) => {
+        const tx = db.transaction(store,'readonly'); const req = tx.objectStore(store).get(key); req.onsuccess=()=>res(req.result); req.onerror=e=>rej(e.target.error);
+      });
+      const dbDelete = (store,key) => new Promise((res,rej) => {
+        const tx = db.transaction(store,'readwrite'); tx.objectStore(store).delete(key); tx.oncomplete=res; tx.onerror=e=>rej(e.target.error);
+      });
+      const dbClear = store => new Promise((res,rej) => {
+        const tx = db.transaction(store,'readwrite'); tx.objectStore(store).clear(); tx.oncomplete=res; tx.onerror=e=>rej(e.target.error);
+      });
+
+      async function getScheduleForDate(date) {
+        const all = await dbGetAll('schedule');
+        const map = {}; PERIODS.forEach(p=>map[p]=null);
+        all.filter(s=>s.date===date).forEach(s=>map[s.period]=s);
+        return map;
+      }
+
+      async function initProgress() {
+        if ((await dbGetAll('progress')).length===0) {
+          for (const cls of CLASSES) for (const subj of SUBJECTS) await dbPut('progress',{id:`${cls}_${subj}`, class:cls, subject:subj, currentSectionIndex:0});
+        }
+      }
+
+      async function initSettings() {
+        let s = await dbGet('settings','app');
+        if(!s) { s={key:'app',teacherName:'Mr. Mithilesh',darkMode:false}; await dbPut('settings',s); }
+        darkMode = s.darkMode; applyDarkMode(darkMode);
+        document.getElementById('settingTeacherName').value = s.teacherName;
+        document.getElementById('toggleDarkMode').checked = darkMode;
+        document.getElementById('darkModeLabel').textContent = darkMode?'On':'Off';
+      }
+
+      function applyDarkMode(enable) {
+        darkMode = enable; document.body.classList.toggle('dark-mode',enable);
+        document.getElementById('darkModeLabel').textContent = enable?'On':'Off';
+        document.getElementById('toggleDarkMode').checked = enable;
+      }
+
+      // ---------- Recommendation Engine ----------
+      async function getRecommendations(count=6) {
+        const progress = await dbGetAll('progress');
+        const candidates = [];
+        for (const p of progress) {
+          const totalSec = (SECTIONS_MAP[p.class]||[]).length;
+          if (p.currentSectionIndex < totalSec) {
+            candidates.push({ class:p.class, section:SECTIONS_MAP[p.class][p.currentSectionIndex], subject:p.subject, inProgress:p.currentSectionIndex>0 });
+          }
+        }
+        candidates.sort((a,b) => (b.inProgress-a.inProgress) || (CLASS_ORDER[a.class]-CLASS_ORDER[b.class]) || (SUBJECTS.indexOf(a.subject)-SUBJECTS.indexOf(b.subject)));
+        const grouped = {}; candidates.forEach(c => { if(!grouped[c.class]) grouped[c.class]=[]; grouped[c.class].push(c); });
+        const result = [], indices = {};
+        const sortedClasses = Object.keys(grouped).sort((a,b)=>CLASS_ORDER[a]-CLASS_ORDER[b]);
+        sortedClasses.forEach(c=>indices[c]=0);
+        while (result.length < count && sortedClasses.some(c=>indices[c] < (grouped[c]||[]).length)) {
+          for (const c of sortedClasses) { if (result.length>=count) break; if (indices[c] < grouped[c].length) result.push(grouped[c][indices[c]++]); }
+        }
+        return result;
+      }
+
+      // ---------- Render Today ----------
+      async function renderToday(date) {
+        currentDate = date;
+        document.getElementById('todayDateLabel').textContent = formatDateNice(date);
+        document.getElementById('headerDate').textContent = formatDateShort(date);
+        document.getElementById('printDate').textContent = formatDateNice(date);
+        const schedule = await getScheduleForDate(date);
+        const grid = document.getElementById('periodGrid');
+        const search = (document.getElementById('searchClass')?.value||'').trim().toUpperCase();
+        let html = '';
+        for (const p of PERIODS) {
+          const e = schedule[p];
+          if (!e) {
+            html += `<div class="period-card"><span class="period-chip">Period ${p}</span><div class="class-title" style="color:#999;">No class scheduled</div><div class="card-actions-row"><button class="btn btn-outline btn-sm btn-edit-period" data-period="${p}">✏️ Edit</button></div></div>`;
+            continue;
+          }
+          if (search && !`${e.class||''} ${e.section||''} ${e.subject||''} ${e.notes||''}`.toUpperCase().includes(search)) continue;
+          let cardClass = '', statusBadge = '', statusClass = 'status-not-started';
+          if (e.status==='completed') { cardClass='completed'; statusBadge='✅ Completed'; statusClass='status-completed'; }
+          else if (e.status==='skipped') { cardClass='skipped'; statusBadge='⏭️ Skipped'; statusClass='status-skipped'; }
+          else statusBadge = '⏳ Not Started';
+          const isActivity = e.isActivity === true;
+          const title = isActivity ? '📝 Activity' : `<strong>Class ${e.class} — Section ${e.section}</strong>`;
+          const subj = isActivity ? '' : `<div class="subject-tag">📖 ${e.subject}</div>`;
+          const notes = e.notes ? `<div class="notes-snippet">📝 ${e.notes}</div>` : '';
+          html += `
+            <div class="period-card ${cardClass}" data-period="${p}">
+              <span class="period-chip">Period ${p}</span>
+              <div class="class-title">${title}</div>
+              ${subj}
+              <span class="status-pill ${statusClass}">${statusBadge}</span>
+              ${notes}
+              <div class="card-actions-row">
+                <button class="btn btn-outline btn-sm btn-edit-period" data-period="${p}">✏️ Edit</button>
+                ${e ? `<button class="btn btn-success btn-sm btn-mark-done" data-period="${p}">✅ Done</button>` : ''}
+                ${e ? `<button class="btn btn-warn btn-sm btn-mark-skip" data-period="${p}">⏭️ Skip</button>` : ''}
+                ${isActivity ? `<button class="btn btn-outline btn-sm btn-share-note" data-period="${p}">📤 Share Note</button>` : ''}
+              </div>
+            </div>`;
+        }
+        grid.innerHTML = html || '<p style="text-align:center;padding:20px;">No matching periods</p>';
+        grid.querySelectorAll('.btn-edit-period').forEach(b=>b.addEventListener('click',()=>openEditModal(+b.dataset.period)));
+        grid.querySelectorAll('.btn-mark-done').forEach(b=>b.addEventListener('click',async()=>{await quickUpdate(+b.dataset.period,'completed'); renderToday(currentDate); if(currentView==='calendar') renderCalendar();}));
+        grid.querySelectorAll('.btn-mark-skip').forEach(b=>b.addEventListener('click',async()=>{await quickUpdate(+b.dataset.period,'skipped'); renderToday(currentDate); if(currentView==='calendar') renderCalendar();}));
+        grid.querySelectorAll('.btn-share-note').forEach(b=>b.addEventListener('click',()=>shareActivityNote(+b.dataset.period)));
+      }
+
+      async function quickUpdate(period,status) {
+        const sched = await getScheduleForDate(currentDate);
+        const entry = sched[period]; if(!entry) return;
+        entry.status = status; await dbPut('schedule',entry);
+        if (status==='completed' && !entry.isActivity && SUBJECTS.includes(entry.subject)) await advanceProgress(entry.class, entry.subject);
+      }
+      async function advanceProgress(cls,subj) {
+        const key = `${cls}_${subj}`; const prog = await dbGet('progress',key); if(!prog) return;
+        const total = (SECTIONS_MAP[cls]||[]).length;
+        if (prog.currentSectionIndex < total) { prog.currentSectionIndex++; await dbPut('progress',prog); }
+      }
+
+      async function shareActivityNote(period) {
+        const sched = await getScheduleForDate(currentDate);
+        const e = sched[period]; if(!e || !e.isActivity || !e.notes) return;
+        const msg = `📌 *Activity Report*\n🏫 R.P.S. School, Bihar Sharif\n👨‍🏫 Mr. Mithilesh\n📅 ${formatDateNice(currentDate)}\n🕐 Period ${period}\n📝 ${e.notes}`;
+        window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank');
+      }
+
+      // ---------- Edit Modal ----------
+      async function openEditModal(period) {
+        const sched = await getScheduleForDate(currentDate);
+        const entry = sched[period] || {};
+        document.getElementById('editPeriodIndex').value = period;
+        document.getElementById('editIsActivity').checked = entry.isActivity || false;
+        toggleActivityFields(entry.isActivity);
+        document.getElementById('editStatus').value = entry.status || 'not-started';
+        document.getElementById('editNotes').value = entry.notes || '';
+        if (!entry.isActivity) {
+          const classSel = document.getElementById('editClass');
+          classSel.innerHTML = CLASSES.map(c=>`<option value="${c}" ${c===entry.class?'selected':''}>Class ${c}</option>`).join('');
+          classSel.value = entry.class || 'VI';
+          updateSectionDropdown(classSel.value, entry.section);
+          document.getElementById('editSection').value = entry.section || 'A';
+          const subjSel = document.getElementById('editSubject');
+          subjSel.innerHTML = SUBJECTS.map(s=>`<option value="${s}" ${s===entry.subject?'selected':''}>${s}</option>`).join('');
+          subjSel.value = entry.subject || 'Physics';
+          classSel.onchange = function() { updateSectionDropdown(this.value); };
+        }
+        document.getElementById('editModalOverlay').classList.remove('hidden');
+      }
+      function toggleActivityFields(isActivity) {
+        document.getElementById('editClassSection').style.display = isActivity ? 'none' : 'block';
+        document.getElementById('editNotesLabel').textContent = isActivity ? 'Activity Description' : 'Notes';
+      }
+      document.getElementById('editIsActivity').addEventListener('change', function() { toggleActivityFields(this.checked); });
+      function updateSectionDropdown(cls, selected) {
+        const sel = document.getElementById('editSection');
+        const secs = SECTIONS_MAP[cls] || ['A'];
+        sel.innerHTML = secs.map(s=>`<option value="${s}" ${s===selected?'selected':''}>Section ${s}</option>`).join('');
+        if (selected) sel.value = selected;
+      }
+      document.getElementById('btnCancelEdit').addEventListener('click',()=>document.getElementById('editModalOverlay').classList.add('hidden'));
+      document.getElementById('btnSaveEdit').addEventListener('click', async () => {
+        const isActivity = document.getElementById('editIsActivity').checked;
+        const period = +document.getElementById('editPeriodIndex').value;
+        const status = document.getElementById('editStatus').value;
+        const notes = document.getElementById('editNotes').value.trim();
+        let entry;
+        if (isActivity) {
+          entry = { date:currentDate, period, class:'', section:'', subject:'Activity', status, notes, isActivity:true };
+        } else {
+          const cls = document.getElementById('editClass').value;
+          const sec = document.getElementById('editSection').value;
+          const subj = document.getElementById('editSubject').value;
+          entry = { date:currentDate, period, class:cls, section:sec, subject:subj, status, notes, isActivity:false };
+        }
+        await dbPut('schedule', entry);
+        if (status==='completed' && !isActivity && SUBJECTS.includes(entry.subject)) await advanceProgress(entry.class, entry.subject);
+        document.getElementById('editModalOverlay').classList.add('hidden');
+        await renderToday(currentDate);
+        if (currentView==='calendar') renderCalendar();
+      });
+      document.getElementById('editModalOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget) e.target.classList.add('hidden');});
+
+      // ---------- Actions ----------
+      document.getElementById('btnSmartSuggest').addEventListener('click',async()=>{
+        const recs = await getRecommendations(6);
+        const sched = await getScheduleForDate(currentDate);
+        for (const p of PERIODS) if(sched[p]) await dbDelete('schedule',sched[p].id);
+        for (let i=0;i<Math.min(recs.length,PERIODS.length);i++) {
+          const r = recs[i];
+          await dbPut('schedule',{date:currentDate,period:PERIODS[i],class:r.class,section:r.section,subject:r.subject,status:'not-started',notes:'',isActivity:false});
+        }
+        await renderToday(currentDate); if(currentView==='calendar') renderCalendar();
+      });
+      document.getElementById('btnAutoFill').addEventListener('click',async()=>{
+        const recs = await getRecommendations(6);
+        const sched = await getScheduleForDate(currentDate);
+        const filled = new Set(PERIODS.filter(p=>sched[p]));
+        const empty = PERIODS.filter(p=>!filled.has(p));
+        for (let i=0;i<Math.min(recs.length,empty.length);i++) {
+          const r = recs[i];
+          await dbPut('schedule',{date:currentDate,period:empty[i],class:r.class,section:r.section,subject:r.subject,status:'not-started',notes:'',isActivity:false});
+        }
+        await renderToday(currentDate); if(currentView==='calendar') renderCalendar();
+      });
+      document.getElementById('searchClass').addEventListener('input',()=>renderToday(currentDate));
+      document.getElementById('btnShareWhatsApp').addEventListener('click',async()=>{
+        const sched = await getScheduleForDate(currentDate);
+        let msg = `📋 *Daily Plan*\n🏫 R.P.S. School, Bihar Sharif\n👨‍🏫 Mr. Mithilesh\n📅 ${formatDateNice(currentDate)}\n\n`;
+        let has=false;
+        for (const p of PERIODS) {
+          const e = sched[p]; if(!e) continue; has=true;
+          const id = e.isActivity ? `📝 Activity` : `${e.class}-${e.section} (${e.subject})`;
+          msg += `*P${p}:* ${id} - ${e.status==='completed'?'✅':e.status==='skipped'?'⏭️':'⏳'} ${e.notes?' | '+e.notes:''}\n`;
+        }
+        if(!has) msg += 'No schedule.';
+        window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank');
+      });
+
+      // ---------- Calendar ----------
+      async function renderCalendar() {
+        document.getElementById('calMonthLabel').textContent = new Date(calYear,calMonth).toLocaleString('default',{month:'long',year:'numeric'});
+        const grid = document.getElementById('calendarGrid');
+        const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+        let html = days.map(d=>`<div class="day-hdr">${d}</div>`).join('');
+        const firstDay = new Date(calYear,calMonth,1).getDay();
+        const daysInMonth = new Date(calYear,calMonth+1,0).getDate();
+        const allSched = await dbGetAll('schedule');
+        const dateMap = {};
+        allSched.forEach(s=>{ if(!dateMap[s.date]) dateMap[s.date]={total:0,completed:0}; dateMap[s.date].total++; if(s.status==='completed') dateMap[s.date].completed++; });
+        const getClass = (d,m,y) => {
+          const ds = dateStr(new Date(y,m,d)); let cls = 'day-cell';
+          if (ds===dateStr(TODAY)) cls+=' today-ring';
+          const inf = dateMap[ds];
+          if (inf && inf.total>0) { cls += inf.completed>=inf.total ? ' completed-day' : (inf.completed>0 ? ' partial-day' : ' empty-day'); }
+          else cls += ' empty-day';
+          return cls;
+        };
+        for (let i=firstDay-1; i>=0; i--) {
+          const d = new Date(calYear,calMonth,0).getDate()-i;
+          html += `<div class="day-cell other-month">${d}</div>`;
+        }
+        for (let d=1; d<=daysInMonth; d++) {
+          html += `<div class="${getClass(d,calMonth,calYear)}" data-date="${dateStr(new Date(calYear,calMonth,d))}">${d}</div>`;
+        }
+        const totalCells = firstDay + daysInMonth;
+        const remaining = totalCells%7===0 ? 0 : 7-(totalCells%7);
+        for (let d=1; d<=remaining; d++) {
+          const m = calMonth===11 ? 0 : calMonth+1;
+          const y = calMonth===11 ? calYear+1 : calYear;
+          html += `<div class="day-cell other-month">${d}</div>`;
+        }
+        grid.innerHTML = html;
+        grid.querySelectorAll('.day-cell:not(.other-month)').forEach(cell=>{
+          cell.addEventListener('click',async()=>{ if(cell.dataset.date){ currentDate=cell.dataset.date; await renderToday(currentDate); switchView('today'); } });
+        });
+      }
+      document.getElementById('calPrev').onclick = ()=>{ calMonth--; if(calMonth<0){calMonth=11;calYear--;} renderCalendar(); };
+      document.getElementById('calNext').onclick = ()=>{ calMonth++; if(calMonth>11){calMonth=0;calYear++;} renderCalendar(); };
+      document.getElementById('calGoToday').onclick = ()=>{ calMonth=TODAY.getMonth(); calYear=TODAY.getFullYear(); currentDate=dateStr(TODAY); renderCalendar(); renderToday(currentDate); switchView('today'); };
+
+      // ---------- Analytics ----------
+      async function renderAnalytics() {
+        const allSched = await dbGetAll('schedule');
+        const completed = allSched.filter(s=>s.status==='completed' && !s.isActivity && SUBJECTS.includes(s.subject));
+        const totalCompleted = completed.length;
+        const classCounts = {}; CLASSES.forEach(c=>{classCounts[c]={total:0,completed:0};});
+        allSched.forEach(s=>{ if(classCounts[s.class]){ classCounts[s.class].total++; if(s.status==='completed') classCounts[s.class].completed++; } });
+        const subjCounts = {}; SUBJECTS.forEach(s=>subjCounts[s]=0); completed.forEach(s=>subjCounts[s.subject]++);
+        const periodUse = {}; PERIODS.forEach(p=>periodUse[p]=0); allSched.forEach(s=>periodUse[s.period]++);
+        const maxP = Math.max(1,...Object.values(periodUse));
+
+        // Section coverage
+        let coverageHTML = '<ul class="coverage-list">';
+        for (const cls of CLASSES) {
+          coverageHTML += `<li><strong>${cls}:</strong> `;
+          (SECTIONS_MAP[cls]||[]).forEach(sec => {
+            const hasDone = allSched.some(s=>s.class===cls && s.section===sec && s.status==='completed' && SUBJECTS.includes(s.subject));
+            coverageHTML += hasDone ? `<span class="check">${sec}✔</span> ` : `<span class="cross">${sec}❌</span> `;
+          });
+          coverageHTML += '</li>';
+        }
+        coverageHTML += '</ul>';
+
+        // Yearly target 270
+        const distinct = {}; completed.forEach(s=>{ const k = `${s.class}-${s.section}`; distinct[k] = (distinct[k]||0)+1; });
+        let sections10 = 0; CLASSES.forEach(c=> SECTIONS_MAP[c].forEach(sec=>{ if((distinct[`${c}-${sec}`]||0) >= 10) sections10++; }));
+
+        const grid = document.getElementById('analyticsGrid');
+        grid.innerHTML = `
+          <div class="stat-card"><h4>📊 Total Completed</h4><div class="big-num">${totalCompleted}</div></div>
+          <div class="stat-card"><h4>🎯 Yearly Target (270 practicals)</h4><div class="big-num">${totalCompleted} / 270</div><div class="mini-bar-wrap"><div class="mini-bar-fill" style="width:${Math.min(100,Math.round(totalCompleted/270*100))}%"></div></div></div>
+          <div class="stat-card"><h4>🏆 Sections with ≥10 practicals</h4><div class="big-num">${sections10} / 27</div><div class="mini-bar-wrap"><div class="mini-bar-fill" style="width:${Math.round(sections10/27*100)}%"></div></div></div>
+          <div class="stat-card"><h4>📚 By Subject</h4>${SUBJECTS.map(s=>`<div>${s}: ${subjCounts[s]||0}</div>`).join('')}</div>
+          <div class="stat-card"><h4>🏫 By Class</h4>${CLASSES.map(c=>`<div>${c}: ${classCounts[c].completed}/${classCounts[c].total}<div class="mini-bar-wrap"><div class="mini-bar-fill" style="width:${classCounts[c].total?Math.round(classCounts[c].completed/classCounts[c].total*100):0}%"></div></div></div>`).join('')}</div>
+          <div class="stat-card"><h4>🕐 Period Usage</h4>${PERIODS.map(p=>`<div>P${p}: ${periodUse[p]}<div class="mini-bar-wrap"><div class="mini-bar-fill" style="width:${Math.round(periodUse[p]/maxP*100)}%"></div></div></div>`).join('')}</div>
+          <div class="stat-card"><h4>✅ Section Coverage</h4>${coverageHTML}</div>
+        `;
+        const progress = await dbGetAll('progress');
+        let pending = '';
+        progress.forEach(p=>{ const total=(SECTIONS_MAP[p.class]||[]).length; if(p.currentSectionIndex<total) pending+=`<li>📌 ${p.class} - ${p.subject}: next → Section ${SECTIONS_MAP[p.class][p.currentSectionIndex]}</li>`; });
+        document.getElementById('pendingWorkList').innerHTML = pending || '<li>✅ All sections covered</li>';
+      }
+
+      // ---------- Settings ----------
+      document.getElementById('btnSaveSettings').onclick = async ()=>{
+        const name = document.getElementById('settingTeacherName').value.trim()||'Mr. Mithilesh';
+        const dm = document.getElementById('toggleDarkMode').checked;
+        await dbPut('settings',{key:'app',teacherName:name,darkMode:dm});
+        document.querySelector('.topbar-teacher').innerHTML = `<span class="dot-live"></span> ${name}`;
+        applyDarkMode(dm); alert('Saved!');
+      };
+      document.getElementById('toggleDarkMode').onchange = function(){ applyDarkMode(this.checked); };
+      document.getElementById('btnExportData').onclick = async ()=>{
+        const data = {progress:await dbGetAll('progress'),schedule:await dbGetAll('schedule'),settings:await dbGetAll('settings')};
+        const blob = new Blob([JSON.stringify(data)],{type:'application/json'});
+        const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`RPS_Backup_${dateStr(TODAY)}.json`; a.click();
+      };
+      document.getElementById('btnImportData').onclick = ()=> document.getElementById('importFileInput').click();
+      document.getElementById('importFileInput').onchange = async function(){
+        const file = this.files[0]; if(!file) return;
+        const text = await file.text(); try{
+          const data = JSON.parse(text); if(!data.progress||!data.schedule) throw new Error('Invalid');
+          if(!confirm('Replace all data?')) return;
+          await dbClear('progress'); await dbClear('schedule'); await dbClear('settings');
+          for(const p of data.progress) await dbPut('progress',p);
+          for(const s of data.schedule) await dbPut('schedule',s);
+          for(const st of data.settings) await dbPut('settings',st);
+          alert('Imported! Reloading...'); location.reload();
+        }catch(e){alert('Import failed: '+e.message);}
+        this.value='';
+      };
+      document.getElementById('btnResetData').onclick = async ()=>{
+        if(!confirm('Delete all data?')) return;
+        if(prompt('Type "yes" to confirm:')!=='yes') return;
+        await dbClear('progress'); await dbClear('schedule'); await dbClear('settings');
+        alert('Reset. Reloading...'); location.reload();
+      };
+
+      // ---------- View Switching ----------
+      function switchView(view) {
+        currentView=view;
+        document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+        document.getElementById('view-'+view).classList.add('active');
+        document.querySelectorAll('.sidebar-nav button').forEach(b=>b.classList.remove('active'));
+        document.querySelector(`[data-view="${view}"]`)?.classList.add('active');
+        if(view==='analytics') renderAnalytics();
+        if(view==='calendar') renderCalendar();
+        if(view==='today') renderToday(currentDate);
+        closeSidebar();
+      }
+      document.querySelectorAll('.sidebar-nav button').forEach(b=>b.addEventListener('click',()=>switchView(b.dataset.view)));
+
+      // Mobile sidebar
+      const sidebar = document.getElementById('sidebar'), overlay = document.getElementById('sidebarOverlay');
+      document.getElementById('hamburgerBtn').onclick = ()=>{ sidebar.classList.toggle('open'); overlay.classList.toggle('active'); };
+      overlay.onclick = ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('active'); };
+      window.addEventListener('resize',()=>{ if(window.innerWidth>900){ sidebar.classList.remove('open'); overlay.classList.remove('active'); } });
+      function closeSidebar(){ sidebar.classList.remove('open'); overlay.classList.remove('active'); }
+
+      function formatDateNice(d){ return new Date(d+'T00:00:00').toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'}); }
+      function formatDateShort(d){ return new Date(d+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); }
+
+      // ---------- Initialization ----------
+      (async ()=>{
+        await openDB(); await initProgress(); await initSettings();
+        document.getElementById('headerDate').textContent = formatDateShort(currentDate);
+        document.getElementById('printDate').textContent = formatDateNice(currentDate);
+        await renderToday(currentDate);
+      })();
+    })();
+  </script>
+</body>
+  </html>
