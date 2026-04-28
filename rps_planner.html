@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RPS School – Practical Lesson Planner</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --green-dark: #1a5c38;
+    --green-mid: #2d7a4f;
+    --green-light: #3da066;
+    --green-pale: #e8f5ee;
+    --green-ultra: #f0faf4;
+    --accent-gold: #c9a84c;
+    --accent-amber: #e8b84b;
+    --white: #ffffff;
+    --gray-50: #f8f9fa;
+    --gray-100: #f1f3f2;
+    --gray-200: #e2e8e4;
+    --gray-300: #c8d5cc;
+    --gray-400: #9eb8a7;
+    --gray-500: #6b8a76;
+    --gray-700: #3d5047;
+    --gray-900: #1c2d24;
+    --red-soft: #e53e3e;
+    --yellow-soft: #d69e2e;
+    --blue-soft: #3182ce;
+    --shadow-sm: 0 1px 3px rgba(26,92,56,0.08);
+    --shadow-md: 0 4px 16px rgba(26,92,56,0.12);
+    --shadow-lg: 0 8px 32px rgba(26,92,56,0.16);
+    --radius: 10px;
+    --radius-lg: 16px;
+    --sidebar-w: 220px;
+    --header-h: 70px;
+    --font-head: 'EB Garamond', Georgia, serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  [data-dark="true"] {
+    --white: #1a2d22;
+    --gray-50: #1e3328;
+    --gray-100: #243b2e;
+    --gray-200: #2e4d3a;
+    --gray-300: #3a6048;
+    --gray-400: #5a8a6a;
+    --gray-500: #82b897;
+    --gray-700: #b8d4c2;
+    --gray-900: #e8f5ee;
+    --green-pale: #1e3328;
+    --green-ultra: #1a2d22;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 15px; }
+  body {
+    font-family: var(--font-body);
+    background: var(--gray-50);
+    color: var(--gray-900);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: var(--header-h);
+    background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 100%);
+    display: flex; align-items: center; padding: 0 24px;
+    box-shadow: var(--shadow-md);
+    gap: 16px;
+  }
+  .header-emblem {
+    width: 46px; height: 46px; border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.35);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .header-text { flex: 1; }
+  .header-school {
+    font-family: var(--font-head);
+    font-size: 1.25rem; font-weight: 700;
+    color: #fff; letter-spacing: 0.02em;
+    line-height: 1.1;
+  }
+  .header-sub {
+    font-size: 0.72rem; color: rgba(255,255,255,0.75);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .header-meta {
+    text-align: right; color: rgba(255,255,255,0.85);
+    font-size: 0.78rem; line-height: 1.6;
+  }
+  .header-meta strong { color: #fff; font-weight: 600; }
+  .header-session {
+    display: flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,0.12);
+    padding: 4px 12px; border-radius: 20px;
+    font-size: 0.72rem; color: rgba(255,255,255,0.9);
+    letter-spacing: 0.04em; margin-right: 8px;
+  }
+
+  /* ── LAYOUT ── */
+  .app-shell {
+    display: flex;
+    padding-top: var(--header-h);
+    min-height: 100vh;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    position: fixed;
+    top: var(--header-h); left: 0; bottom: 0;
+    width: var(--sidebar-w);
+    background: var(--white);
+    border-right: 1px solid var(--gray-200);
+    display: flex; flex-direction: column;
+    z-index: 90;
+    box-shadow: var(--shadow-sm);
+    overflow-y: auto;
+  }
+  .sidebar-nav { padding: 16px 0; flex: 1; }
+  .nav-section-label {
+    font-size: 0.65rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gray-400); padding: 8px 18px 4px;
+  }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 18px; cursor: pointer;
+    font-size: 0.88rem; font-weight: 500;
+    color: var(--gray-700);
+    border-left: 3px solid transparent;
+    transition: all 0.18s;
+    user-select: none;
+  }
+  .nav-item:hover { background: var(--green-pale); color: var(--green-dark); }
+  .nav-item.active {
+    background: var(--green-pale);
+    color: var(--green-dark);
+    border-left-color: var(--green-mid);
+    font-weight: 600;
+  }
+  .nav-icon { font-size: 1.1rem; width: 22px; text-align: center; flex-shrink: 0; }
+  .sidebar-footer {
+    padding: 14px 18px;
+    border-top: 1px solid var(--gray-200);
+    font-size: 0.75rem; color: var(--gray-400);
+    line-height: 1.6;
+  }
+
+  /* ── MAIN ── */
+  .main-content {
+    margin-left: var(--sidebar-w);
+    flex: 1; padding: 24px;
+    min-height: calc(100vh - var(--header-h));
+  }
+
+  /* ── PAGE VIEWS ── */
+  .page { display: none; }
+  .page.active { display: block; animation: fadeIn 0.25s ease; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow-sm);
+    padding: 20px;
+    transition: box-shadow 0.2s;
+  }
+  .card:hover { box-shadow: var(--shadow-md); }
+  .card-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .card-title {
+    font-family: var(--font-head);
+    font-size: 1.1rem; font-weight: 600;
+    color: var(--gray-900);
+  }
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 16px; border-radius: 8px;
+    font-family: var(--font-body); font-size: 0.82rem;
+    font-weight: 600; cursor: pointer;
+    border: none; transition: all 0.18s; user-select: none;
+    letter-spacing: 0.01em;
+  }
+  .btn-primary {
+    background: var(--green-mid);
+    color: white;
+  }
+  .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+  .btn-outline {
+    background: transparent;
+    border: 1.5px solid var(--green-mid);
+    color: var(--green-mid);
+  }
+  .btn-outline:hover { background: var(--green-pale); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--gray-500);
+    padding: 6px 10px;
+  }
+  .btn-ghost:hover { background: var(--gray-100); color: var(--gray-900); }
+  .btn-danger { background: #fee2e2; color: var(--red-soft); }
+  .btn-danger:hover { background: #fca5a5; }
+  .btn-gold { background: var(--accent-gold); color: white; }
+  .btn-gold:hover { background: var(--accent-amber); }
+  .btn-sm { padding: 5px 10px; font-size: 0.76rem; }
+
+  /* ── BADGES ── */
+  .badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 9px; border-radius: 20px;
+    font-size: 0.72rem; font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .badge-green { background: #dcfce7; color: #166534; }
+  .badge-yellow { background: #fef9c3; color: #854d0e; }
+  .badge-red { background: #fee2e2; color: #991b1b; }
+  .badge-blue { background: #dbeafe; color: #1e40af; }
+  .badge-gray { background: var(--gray-100); color: var(--gray-500); }
+
+  /* ── PAGE TITLE ── */
+  .page-title {
+    font-family: var(--font-head);
+    font-size: 1.7rem; font-weight: 700;
+    color: var(--gray-900); margin-bottom: 4px;
+  }
+  .page-subtitle { font-size: 0.85rem; color: var(--gray-400); margin-bottom: 24px; }
+
+  /* ── GRID ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+
+  /* ── TODAY PAGE ── */
+  .date-banner {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
+  }
+  .date-display {
+    font-family: var(--font-head);
+    font-size: 1.4rem; font-weight: 600; color: var(--gray-900);
+  }
+  .date-display small { font-size: 0.85rem; color: var(--gray-400); margin-left: 8px; font-family: var(--font-body); }
+  .action-bar { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  /* SUGGESTION BOX */
+  .suggestion-box {
+    background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-light) 100%);
+    border-radius: var(--radius-lg);
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    color: white;
+    position: relative; overflow: hidden;
+  }
+  .suggestion-box::before {
+    content: ''; position: absolute;
+    top: -30px; right: -30px;
+    width: 120px; height: 120px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+  }
+  .suggestion-box::after {
+    content: ''; position: absolute;
+    bottom: -20px; right: 60px;
+    width: 80px; height: 80px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 50%;
+  }
+  .suggestion-title {
+    font-family: var(--font-head);
+    font-size: 1.05rem; font-weight: 600;
+    margin-bottom: 10px; opacity: 0.95;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .suggestion-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .suggestion-chip {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 20px; padding: 4px 12px;
+    font-size: 0.8rem; font-weight: 500;
+    backdrop-filter: blur(4px);
+    cursor: pointer; transition: background 0.18s;
+  }
+  .suggestion-chip:hover { background: rgba(255,255,255,0.28); }
+
+  /* PERIOD CARD */
+  .periods-grid { display: flex; flex-direction: column; gap: 12px; }
+  .period-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    transition: all 0.2s;
+  }
+  .period-card:hover { box-shadow: var(--shadow-md); border-color: var(--gray-300); }
+  .period-card.status-completed { border-left: 4px solid var(--green-mid); }
+  .period-card.status-skipped { border-left: 4px solid var(--red-soft); opacity: 0.8; }
+  .period-card.status-pending { border-left: 4px solid var(--gray-300); }
+
+  .period-header {
+    display: flex; align-items: center;
+    padding: 12px 16px; gap: 12px;
+    cursor: pointer;
+  }
+  .period-num {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--green-pale);
+    color: var(--green-dark); font-weight: 700;
+    font-size: 0.95rem; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .period-info { flex: 1; }
+  .period-main-label { font-weight: 600; font-size: 0.95rem; color: var(--gray-900); }
+  .period-sub-label { font-size: 0.78rem; color: var(--gray-400); margin-top: 1px; }
+  .period-actions { display: flex; align-items: center; gap: 8px; }
+  .period-expand-icon { font-size: 0.8rem; color: var(--gray-400); transition: transform 0.2s; }
+  .period-card.expanded .period-expand-icon { transform: rotate(180deg); }
+
+  .period-body {
+    display: none; padding: 0 16px 16px;
+    border-top: 1px solid var(--gray-100);
+    margin-top: 0;
+  }
+  .period-card.expanded .period-body { display: block; }
+  .period-body-inner { padding-top: 14px; }
+
+  /* FORM CONTROLS */
+  .form-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+  .form-group { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 110px; }
+  .form-label { font-size: 0.72rem; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.06em; }
+  .form-control {
+    padding: 8px 10px; border-radius: 7px;
+    border: 1.5px solid var(--gray-200);
+    background: var(--gray-50); color: var(--gray-900);
+    font-family: var(--font-body); font-size: 0.85rem;
+    transition: border-color 0.18s;
+    outline: none;
+  }
+  .form-control:focus { border-color: var(--green-mid); background: var(--white); }
+  textarea.form-control { min-height: 60px; resize: vertical; }
+  .status-select-wrap { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .status-btn {
+    padding: 6px 14px; border-radius: 20px;
+    border: 1.5px solid var(--gray-200);
+    background: var(--gray-50); color: var(--gray-500);
+    font-size: 0.78rem; font-weight: 600; cursor: pointer;
+    transition: all 0.18s; font-family: var(--font-body);
+  }
+  .status-btn.active-completed { background: #dcfce7; color: #166534; border-color: #86efac; }
+  .status-btn.active-skipped { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
+  .status-btn.active-pending { background: var(--gray-100); color: var(--gray-700); border-color: var(--gray-300); }
+  .save-row { display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px; }
+
+  /* ── CALENDAR PAGE ── */
+  .cal-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+  .cal-nav-btn {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1.5px solid var(--gray-200);
+    background: var(--white); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; color: var(--gray-700);
+    transition: all 0.18s;
+  }
+  .cal-nav-btn:hover { background: var(--green-pale); border-color: var(--green-mid); }
+  .cal-month-label {
+    font-family: var(--font-head); font-size: 1.3rem;
+    font-weight: 600; color: var(--gray-900); flex: 1;
+  }
+  .cal-grid {
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    gap: 6px; margin-top: 10px;
+  }
+  .cal-dow {
+    text-align: center; font-size: 0.7rem; font-weight: 700;
+    color: var(--gray-400); letter-spacing: 0.06em;
+    text-transform: uppercase; padding: 4px 0;
+  }
+  .cal-cell {
+    aspect-ratio: 1; border-radius: 8px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.18s;
+    border: 1.5px solid var(--gray-200);
+    background: var(--white); font-size: 0.88rem;
+    position: relative; overflow: hidden;
+  }
+  .cal-cell:hover { border-color: var(--green-mid); box-shadow: var(--shadow-sm); }
+  .cal-cell.other-month { opacity: 0.35; cursor: default; }
+  .cal-cell.today { border-color: var(--green-mid); background: var(--green-pale); font-weight: 700; }
+  .cal-cell.status-full { background: #dcfce7; border-color: #86efac; }
+  .cal-cell.status-partial { background: #fef9c3; border-color: #fde68a; }
+  .cal-cell.status-empty-data { background: #fee2e2; border-color: #fca5a5; }
+  .cal-cell .cal-day-num { font-weight: 600; color: var(--gray-900); font-size: 0.9rem; }
+  .cal-cell .cal-dot-row { display: flex; gap: 2px; margin-top: 2px; }
+  .cal-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green-mid); }
+  .cal-legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 16px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--gray-500); }
+  .legend-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+
+  /* Day Detail Modal */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.45); backdrop-filter: blur(3px);
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; animation: fadeIn 0.2s; }
+  .modal {
+    background: var(--white); border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg); padding: 24px;
+    max-width: 520px; width: calc(100% - 32px);
+    max-height: 80vh; overflow-y: auto;
+    animation: slideUp 0.25s ease;
+  }
+  @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: none; opacity: 1; } }
+  .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .modal-title { font-family: var(--font-head); font-size: 1.2rem; font-weight: 600; }
+  .modal-close { background: none; border: none; cursor: pointer; font-size: 1.2rem; color: var(--gray-400); padding: 4px; border-radius: 6px; }
+  .modal-close:hover { background: var(--gray-100); }
+
+  /* ── ANALYTICS PAGE ── */
+  .stat-card {
+    background: var(--white); border-radius: var(--radius-lg);
+    border: 1px solid var(--gray-200); box-shadow: var(--shadow-sm);
+    padding: 18px 20px; text-align: center;
+  }
+  .stat-num {
+    font-family: var(--font-head); font-size: 2.2rem;
+    font-weight: 700; color: var(--green-dark); line-height: 1;
+  }
+  .stat-label { font-size: 0.78rem; color: var(--gray-400); margin-top: 4px; font-weight: 500; }
+  .progress-bar-wrap { background: var(--gray-100); border-radius: 20px; height: 8px; overflow: hidden; margin-top: 4px; }
+  .progress-bar { height: 100%; border-radius: 20px; background: linear-gradient(90deg, var(--green-mid), var(--green-light)); transition: width 0.4s; }
+
+  .coverage-grid {
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .coverage-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 12px; background: var(--gray-50);
+    border-radius: 8px;
+  }
+  .coverage-class { font-weight: 600; font-size: 0.88rem; min-width: 50px; }
+  .coverage-sections { display: flex; gap: 6px; flex-wrap: wrap; flex: 1; }
+  .section-badge {
+    padding: 3px 9px; border-radius: 6px;
+    font-size: 0.75rem; font-weight: 600;
+  }
+  .section-badge.done { background: #dcfce7; color: #166534; }
+  .section-badge.pending { background: #fee2e2; color: #991b1b; }
+  .section-badge.partial { background: #fef9c3; color: #854d0e; }
+
+  /* Period utilization */
+  .util-bar-wrap { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .util-period-label { font-size: 0.82rem; font-weight: 600; color: var(--gray-700); width: 60px; flex-shrink: 0; }
+  .util-bar-bg { flex: 1; background: var(--gray-100); border-radius: 20px; height: 10px; overflow: hidden; }
+  .util-bar-fill { height: 100%; border-radius: 20px; background: linear-gradient(90deg, var(--green-mid), var(--green-light)); transition: width 0.4s; }
+  .util-count { font-size: 0.78rem; color: var(--gray-400); width: 28px; text-align: right; }
+
+  /* pending table */
+  .pending-table { width: 100%; border-collapse: collapse; }
+  .pending-table th {
+    text-align: left; font-size: 0.72rem; font-weight: 700;
+    color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 6px 10px; border-bottom: 1.5px solid var(--gray-200);
+  }
+  .pending-table td { padding: 9px 10px; border-bottom: 1px solid var(--gray-100); font-size: 0.85rem; }
+  .pending-table tr:hover td { background: var(--gray-50); }
+
+  /* ── SETTINGS PAGE ── */
+  .settings-section { margin-bottom: 28px; }
+  .settings-section h3 {
+    font-family: var(--font-head); font-size: 1.1rem; font-weight: 600;
+    color: var(--gray-900); margin-bottom: 14px;
+    padding-bottom: 8px; border-bottom: 1px solid var(--gray-200);
+  }
+  .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; }
+  .toggle-label { font-size: 0.9rem; color: var(--gray-700); }
+  .toggle-sub { font-size: 0.75rem; color: var(--gray-400); margin-top: 2px; }
+  .toggle {
+    width: 44px; height: 24px; border-radius: 12px;
+    background: var(--gray-200); cursor: pointer;
+    position: relative; transition: background 0.2s;
+    border: none; flex-shrink: 0;
+  }
+  .toggle::after {
+    content: ''; position: absolute; top: 2px; left: 2px;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: white; transition: transform 0.2s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  }
+  .toggle.on { background: var(--green-mid); }
+  .toggle.on::after { transform: translateX(20px); }
+
+  /* search box */
+  .search-box {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--white); border: 1.5px solid var(--gray-200);
+    border-radius: 8px; padding: 8px 12px; margin-bottom: 16px;
+  }
+  .search-box input {
+    border: none; outline: none; background: transparent;
+    font-family: var(--font-body); font-size: 0.88rem;
+    color: var(--gray-900); flex: 1;
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 24px; right: 24px; z-index: 999;
+    background: var(--green-dark); color: white;
+    padding: 12px 20px; border-radius: 10px;
+    font-size: 0.85rem; font-weight: 500;
+    box-shadow: var(--shadow-lg);
+    transform: translateY(80px); opacity: 0;
+    transition: all 0.3s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .toast.show { transform: none; opacity: 1; }
+
+  /* Print */
+  @media print {
+    .sidebar, .site-header, .action-bar, .period-actions .btn,
+    .save-row, .suggestion-box { display: none !important; }
+    .main-content { margin-left: 0; padding: 0; }
+    .period-card { box-shadow: none !important; border: 1px solid #ccc; }
+    .period-body { display: block !important; }
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: 3px; }
+
+  /* ── SEARCH PAGE ── */
+  .search-results { display: flex; flex-direction: column; gap: 10px; }
+  .search-result-card {
+    background: var(--white); border: 1px solid var(--gray-200);
+    border-radius: var(--radius); padding: 14px 16px;
+    box-shadow: var(--shadow-sm);
+  }
+  .search-result-top { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .search-result-date { font-size: 0.78rem; color: var(--gray-400); }
+
+  /* Responsive tweaks */
+  @media (max-width: 700px) {
+    :root { --sidebar-w: 0px; }
+    .sidebar { transform: translateX(-220px); width: 220px; transition: transform 0.25s; }
+    .sidebar.open { transform: none; }
+    .main-content { margin-left: 0; padding: 16px; }
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .hamburger { display: flex !important; }
+  }
+  .hamburger {
+    display: none; position: fixed; bottom: 20px; left: 16px; z-index: 150;
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--green-dark); color: white;
+    border: none; font-size: 1.3rem; cursor: pointer;
+    align-items: center; justify-content: center;
+    box-shadow: var(--shadow-lg);
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-emblem">🏫</div>
+  <div class="header-text">
+    <div class="header-school">R.P.S. School</div>
+    <div class="header-sub">Practical Lesson Planner · Bihar Sharif (Nalanda)</div>
+  </div>
+  <div class="header-session">📅 2026–2027</div>
+  <div class="header-meta">
+    <strong id="header-teacher">Mr. Mithilesh</strong><br>
+    Science Teacher
+  </div>
+</header>
+
+<div class="app-shell">
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-nav">
+      <div class="nav-section-label">Planning</div>
+      <div class="nav-item active" data-page="today" onclick="navigate('today')">
+        <span class="nav-icon">📋</span> Today's Plan
+      </div>
+      <div class="nav-item" data-page="calendar" onclick="navigate('calendar')">
+        <span class="nav-icon">📅</span> Calendar
+      </div>
+      <div class="nav-section-label" style="margin-top:8px;">Reports</div>
+      <div class="nav-item" data-page="analytics" onclick="navigate('analytics')">
+        <span class="nav-icon">📊</span> Analytics
+      </div>
+      <div class="nav-item" data-page="search" onclick="navigate('search')">
+        <span class="nav-icon">🔍</span> Search
+      </div>
+      <div class="nav-section-label" style="margin-top:8px;">System</div>
+      <div class="nav-item" data-page="settings" onclick="navigate('settings')">
+        <span class="nav-icon">⚙️</span> Settings
+      </div>
+    </div>
+    <div class="sidebar-footer">
+      RPS Planner v1.0<br>Offline · IndexedDB
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- ── TODAY PAGE ── -->
+    <div class="page active" id="page-today">
+      <div class="date-banner">
+        <div>
+          <div class="page-title">Today's Schedule</div>
+          <div id="today-date-label" class="page-subtitle"></div>
+        </div>
+        <div class="action-bar">
+          <button class="btn btn-gold" onclick="autoFillDay()">⚡ Auto Fill</button>
+          <button class="btn btn-primary" onclick="generateSuggestions()">🧠 Smart Suggest</button>
+          <button class="btn btn-outline" onclick="printDay()">🖨️ Print</button>
+        </div>
+      </div>
+
+      <!-- Suggestion box -->
+      <div class="suggestion-box" id="suggestion-box">
+        <div class="suggestion-title">🎯 Smart Suggestions for Today</div>
+        <div class="suggestion-chips" id="suggestion-chips">
+          <span class="suggestion-chip" style="opacity:0.7;">Loading suggestions…</span>
+        </div>
+      </div>
+
+      <!-- Period cards -->
+      <div class="periods-grid" id="periods-grid"></div>
+    </div>
+
+    <!-- ── CALENDAR PAGE ── -->
+    <div class="page" id="page-calendar">
+      <div class="page-title">Calendar View</div>
+      <div class="page-subtitle">Click any date to view or edit its schedule</div>
+      <div class="card">
+        <div class="cal-header">
+          <button class="cal-nav-btn" onclick="calNav(-1)">‹</button>
+          <div class="cal-month-label" id="cal-month-label"></div>
+          <button class="cal-nav-btn" onclick="calNav(1)">›</button>
+          <button class="btn btn-sm btn-outline" onclick="calGoToday()">Today</button>
+        </div>
+        <div class="cal-grid" id="cal-grid"></div>
+        <div class="cal-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#dcfce7;border:1px solid #86efac;"></div> All Completed</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#fef9c3;border:1px solid #fde68a;"></div> Partial</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#fee2e2;border:1px solid #fca5a5;"></div> Has Data</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#f1f3f2;border:1px solid #e2e8e4;"></div> No Data</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ANALYTICS PAGE ── -->
+    <div class="page" id="page-analytics">
+      <div class="page-title">Analytics Dashboard</div>
+      <div class="page-subtitle">Track completion, coverage and utilization</div>
+
+      <div class="grid-4" style="margin-bottom:20px;" id="stat-cards"></div>
+
+      <div class="grid-2" style="margin-bottom:20px;">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Section Coverage</div>
+            <button class="btn btn-sm btn-ghost" onclick="renderAnalytics()">↻</button>
+          </div>
+          <div id="coverage-list" class="coverage-grid"></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Period Utilization</div></div>
+          <div id="period-util"></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:20px;">
+        <div class="card-header">
+          <div class="card-title">Monthly Progress by Class</div>
+        </div>
+        <div id="monthly-progress"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Pending Work</div>
+          <span id="pending-count" class="badge badge-red"></span>
+        </div>
+        <table class="pending-table">
+          <thead><tr><th>Class</th><th>Section</th><th>Subject</th><th>Status</th></tr></thead>
+          <tbody id="pending-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── SEARCH PAGE ── -->
+    <div class="page" id="page-search">
+      <div class="page-title">Search Schedule</div>
+      <div class="page-subtitle">Find any class across all sessions</div>
+      <div class="search-box">
+        <span>🔍</span>
+        <input type="text" id="search-input" placeholder="Search by class, subject, section, date…" oninput="runSearch()">
+      </div>
+      <div class="search-results" id="search-results">
+        <div style="color:var(--gray-400);text-align:center;padding:30px;">Type to search across all schedule records.</div>
+      </div>
+    </div>
+
+    <!-- ── SETTINGS PAGE ── -->
+    <div class="page" id="page-settings">
+      <div class="page-title">Settings</div>
+      <div class="page-subtitle">Customize your planner</div>
+
+      <div class="settings-section">
+        <h3>Profile</h3>
+        <div class="form-group" style="max-width:320px;">
+          <label class="form-label">Teacher Name</label>
+          <input class="form-control" id="setting-teacher" type="text" value="Mr. Mithilesh">
+        </div>
+        <div style="margin-top:10px;">
+          <button class="btn btn-primary" onclick="saveSettings()">💾 Save Profile</button>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>Appearance</h3>
+        <div class="toggle-row">
+          <div>
+            <div class="toggle-label">Dark Mode</div>
+            <div class="toggle-sub">Switch to dark color scheme</div>
+          </div>
+          <button class="toggle" id="dark-toggle" onclick="toggleDark()"></button>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>Data Management</h3>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-outline" onclick="exportData()">📤 Export JSON</button>
+          <button class="btn btn-outline" onclick="document.getElementById('import-file').click()">📥 Import JSON</button>
+          <input type="file" id="import-file" style="display:none" accept=".json" onchange="importData(event)">
+          <button class="btn btn-danger" onclick="confirmReset()">🗑️ Reset All Data</button>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>About</h3>
+        <div style="font-size:0.85rem;color:var(--gray-500);line-height:1.8;">
+          <strong>R.P.S. School Practical Lesson Planner</strong><br>
+          Session: 2026–2027 · Bihar Sharif, Nalanda<br>
+          Version 1.0 · Offline-First · IndexedDB Storage<br>
+          All data stored locally in your browser.
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Modal for calendar day detail -->
+<div class="modal-overlay" id="day-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-date-title">Day Detail</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">✓ Saved</div>
+
+<!-- Hamburger for mobile -->
+<button class="hamburger" id="hamburger" onclick="toggleSidebar()">☰</button>
+
+<script>
+// ═══════════════════════════════════════
+//  CONSTANTS & DATA STRUCTURES
+// ═══════════════════════════════════════
+const DB_NAME = 'RPS_Planner_DB';
+const DB_VER = 1;
+
+const CLASSES = {
+  'VI':   ['A','B','C'],
+  'VII':  ['A','B','C'],
+  'VIII': ['A','B','C','D'],
+  'IX':   ['A','B','C','D','E'],
+  'X':    ['A','B','C','D','E'],
+  'XI':   ['A','B','C'],
+  'XII':  ['A','B','C']
+};
+const CLASS_ORDER = ['VI','VII','VIII','IX','X','XI','XII'];
+const SUBJECTS = ['Physics','Chemistry','Biology'];
+const PERIODS = [1,2,3,4,5,6];
+const STATUSES = ['pending','completed','skipped'];
+const STATUS_LABELS = { pending:'Not Started', completed:'Completed', skipped:'Skipped' };
+
+// ═══════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════
+let db = null;
+let currentPage = 'today';
+let calYear = new Date().getFullYear();
+let calMonth = new Date().getMonth();
+let todayStr = dateStr(new Date());
+let settings = { teacherName: 'Mr. Mithilesh', darkMode: false };
+let todaySchedule = {}; // period -> {class, section, subject, status, notes}
+
+// ═══════════════════════════════════════
+//  DB INIT
+// ═══════════════════════════════════════
+function initDB() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(DB_NAME, DB_VER);
+    req.onupgradeneeded = e => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains('progress')) {
+        const ps = db.createObjectStore('progress', { keyPath: 'id' });
+        ps.createIndex('class_subject', ['class','subject']);
+      }
+      if (!db.objectStoreNames.contains('schedule')) {
+        const ss = db.createObjectStore('schedule', { keyPath: 'id', autoIncrement: true });
+        ss.createIndex('date_period', ['date','period']);
+        ss.createIndex('date', 'date');
+      }
+      if (!db.objectStoreNames.contains('settings')) {
+        db.createObjectStore('settings', { keyPath: 'key' });
+      }
+    };
+    req.onsuccess = e => { db = e.target.result; resolve(); };
+    req.onerror = () => reject(req.error);
+  });
+}
+
+function dbGet(store, key) {
+  return new Promise((res, rej) => {
+    const tx = db.transaction(store, 'readonly');
+    const req = tx.objectStore(store).get(key);
+    req.onsuccess = () => res(req.result);
+    req.onerror = () => rej(req.error);
+  });
+}
+
+function dbPut(store, obj) {
+  return new Promise((res, rej) => {
+    const tx = db.transaction(store, 'readwrite');
+    const req = tx.objectStore(store).put(obj);
+    req.onsuccess = () => res(req.result);
+    req.onerror = () => rej(req.error);
+  });
+}
+
+function dbGetAll(store) {
+  return new Promise((res, rej) => {
+    const tx = db.transaction(store, 'readonly');
+    const req = tx.objectStore(store).getAll();
+    req.onsuccess = () => res(req.result);
+    req.onerror = () => rej(req.error);
+  });
+}
+
+function dbDelete(store, key) {
+  return new Promise((res, rej) => {
+    const tx = db.transaction(store, 'readwrite');
+    const req = tx.objectStore(store).delete(key);
+    req.onsuccess = () => res();
+    req.onerror = () => rej(req.error);
+  });
+}
+
+function dbClear(store) {
+  return new Promise((res, rej) => {
+    const tx = db.transaction(store, 'readwrite');
+    const req = tx.objectStore(store).clear();
+    req.onsuccess = () => res();
+    req.onerror = () => rej(req.error);
+  });
+}
+
+// ═══════════════════════════════════════
+//  SETTINGS
+// ═══════════════════════════════════════
+async function loadSettings() {
+  const s = await dbGet('settings', 'main');
+  if (s) {
+    settings = { ...settings, ...s.value };
+    document.getElementById('setting-teacher').value = settings.teacherName;
+    document.getElementById('header-teacher').textContent = settings.teacherName;
+    if (settings.darkMode) applyDark(true);
+  }
+}
+
+async function saveSettings() {
+  settings.teacherName = document.getElementById('setting-teacher').value || 'Mr. Mithilesh';
+  await dbPut('settings', { key: 'main', value: settings });
+  document.getElementById('header-teacher').textContent = settings.teacherName;
+  toast('Settings saved!');
+}
+
+function toggleDark() {
+  settings.darkMode = !settings.darkMode;
+  applyDark(settings.darkMode);
+  dbPut('settings', { key: 'main', value: settings });
+}
+
+function applyDark(on) {
+  document.body.setAttribute('data-dark', on ? 'true' : 'false');
+  const btn = document.getElementById('dark-toggle');
+  btn.classList.toggle('on', on);
+}
+
+// ═══════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════
+function navigate(page) {
+  currentPage = page;
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.querySelector(`[data-page="${page}"]`).classList.add('active');
+  // close mobile sidebar
+  document.getElementById('sidebar').classList.remove('open');
+
+  if (page === 'today') renderToday();
+  if (page === 'calendar') renderCalendar();
+  if (page === 'analytics') renderAnalytics();
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+// ═══════════════════════════════════════
+//  DATE HELPERS
+// ═══════════════════════════════════════
+function dateStr(d) {
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+function parseDateStr(s) {
+  const [y,m,d] = s.split('-').map(Number);
+  return new Date(y, m-1, d);
+}
+
+function formatDateFull(d) {
+  return d.toLocaleDateString('en-IN', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+}
+
+function formatDateShort(d) {
+  return d.toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+}
+
+// ═══════════════════════════════════════
+//  PROGRESS TRACKING
+// ═══════════════════════════════════════
+function progressId(cls, subject) { return cls + '_' + subject; }
+
+async function getProgress(cls, subject) {
+  const p = await dbGet('progress', progressId(cls, subject));
+  return p ? p.sectionIdx : 0;
+}
+
+async function setProgress(cls, subject, idx) {
+  await dbPut('progress', { id: progressId(cls, subject), class: cls, subject, sectionIdx: idx });
+}
+
+// Returns {class, section, subject} for what needs to be taught next
+// Implements continuity: continue from where left off, cycling through sections
+async function getNextForClass(cls, subject) {
+  const sections = CLASSES[cls];
+  const allProgress = await dbGetAll('progress');
+  const allSchedule = await dbGetAll('schedule');
+
+  // Find sectionIdx progress for this class-subject
+  const prog = allProgress.find(p => p.class === cls && p.subject === subject);
+  let sectionIdx = prog ? prog.sectionIdx : 0;
+
+  // Check if current section has been completed today
+  const completedSections = allSchedule
+    .filter(r => r.class === cls && r.subject === subject && r.status === 'completed')
+    .map(r => r.section);
+
+  // Find next pending section
+  let attempts = 0;
+  while (attempts < sections.length) {
+    const sec = sections[sectionIdx % sections.length];
+    // If not completed yet, suggest this
+    if (!completedSections.includes(sec) || attempts === sections.length - 1) {
+      return { class: cls, section: sec, subject };
+    }
+    sectionIdx++;
+    attempts++;
+  }
+  return { class: cls, section: sections[0], subject };
+}
+
+// ═══════════════════════════════════════
+//  SMART RECOMMENDATION ENGINE
+// ═══════════════════════════════════════
+async function generateSuggestions() {
+  const allSchedule = await dbGetAll('schedule');
+  const allProgress = await dbGetAll('progress');
+
+  // Find what's been least recently done
+  const suggestions = [];
+  const used = new Set();
+
+  // Priority 1: Carry forward missed/skipped from yesterday
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const yStr = dateStr(yesterday);
+  const yesterdayMissed = allSchedule.filter(r =>
+    r.date === yStr && (r.status === 'skipped' || r.status === 'pending')
+  );
+  for (const r of yesterdayMissed) {
+    const key = r.class + '_' + r.section + '_' + r.subject;
+    if (!used.has(key)) {
+      suggestions.push({ class: r.class, section: r.section, subject: r.subject, reason: 'Carry-forward from yesterday' });
+      used.add(key);
+    }
+  }
+
+  // Priority 2: Continue next section in continuity order
+  const subjectRota = ['Physics','Chemistry','Biology'];
+  for (const cls of CLASS_ORDER) {
+    for (const subj of subjectRota) {
+      if (suggestions.length >= 12) break;
+      const prog = allProgress.find(p => p.class === cls && p.subject === subj);
+      const sections = CLASSES[cls];
+      const idx = prog ? prog.sectionIdx : 0;
+      const sec = sections[idx % sections.length];
+      const key = cls + '_' + sec + '_' + subj;
+      if (!used.has(key)) {
+        suggestions.push({ class: cls, section: sec, subject: subj, reason: 'Continuity' });
+        used.add(key);
+      }
+    }
+    if (suggestions.length >= 12) break;
+  }
+
+  // Render chips
+  const container = document.getElementById('suggestion-chips');
+  container.innerHTML = '';
+  const shown = suggestions.slice(0, 6);
+  shown.forEach((s, i) => {
+    const chip = document.createElement('span');
+    chip.className = 'suggestion-chip';
+    chip.textContent = `${s.class} ${s.section} – ${s.subject}`;
+    chip.title = s.reason;
+    chip.onclick = () => applySuggestionToNextFree(s);
+    container.appendChild(chip);
+  });
+  if (!shown.length) container.innerHTML = '<span style="opacity:.7">No suggestions available</span>';
+  toast('Smart suggestions updated!');
+}
+
+async function applySuggestionToNextFree(s) {
+  // Find first empty period today
+  for (const p of PERIODS) {
+    const existing = todaySchedule[p];
+    if (!existing || existing.status === 'pending') {
+      todaySchedule[p] = { class: s.class, section: s.section, subject: s.subject, status: 'pending', notes: '' };
+      await savePeriodToDB(p);
+      renderToday();
+      toast(`Applied ${s.class} ${s.section} – ${s.subject} to Period ${p}`);
+      return;
+    }
+  }
+  toast('All periods are filled!');
+}
+
+// ═══════════════════════════════════════
+//  AUTO FILL
+// ═══════════════════════════════════════
+async function autoFillDay() {
+  const allProgress = await dbGetAll('progress');
+
+  // Build a smart rotation: one of each class per 3 periods, mixing subjects
+  const queue = [];
+  const subjectCycle = ['Physics','Chemistry','Biology'];
+  let si = 0;
+
+  for (const cls of CLASS_ORDER) {
+    const subj = subjectCycle[si % 3];
+    si++;
+    const prog = allProgress.find(p => p.class === cls && p.subject === subj);
+    const sections = CLASSES[cls];
+    const idx = prog ? prog.sectionIdx : 0;
+    const sec = sections[idx % sections.length];
+    queue.push({ class: cls, section: sec, subject: subj, status: 'pending', notes: '' });
+    if (queue.length >= 6) break;
+  }
+
+  for (let i = 0; i < PERIODS.length; i++) {
+    const slot = queue[i] || { class:'', section:'', subject:'', status:'pending', notes:'' };
+    todaySchedule[PERIODS[i]] = slot;
+    if (slot.class) await savePeriodToDB(PERIODS[i]);
+  }
+
+  renderToday();
+  toast('Day auto-filled with smart suggestions!');
+}
+
+// ═══════════════════════════════════════
+//  SCHEDULE CRUD
+// ═══════════════════════════════════════
+async function loadTodaySchedule() {
+  const allSchedule = await dbGetAll('schedule');
+  todaySchedule = {};
+  allSchedule
+    .filter(r => r.date === todayStr)
+    .forEach(r => { todaySchedule[r.period] = r; });
+}
+
+async function savePeriodToDB(period) {
+  const entry = todaySchedule[period];
+  if (!entry) return;
+
+  // Find existing record for today+period
+  const allSchedule = await dbGetAll('schedule');
+  const existing = allSchedule.find(r => r.date === todayStr && r.period === period);
+
+  const record = {
+    date: todayStr,
+    period,
+    class: entry.class || '',
+    section: entry.section || '',
+    subject: entry.subject || '',
+    status: entry.status || 'pending',
+    notes: entry.notes || ''
+  };
+
+  if (existing) {
+    record.id = existing.id;
+  }
+
+  await dbPut('schedule', record);
+
+  // Update progress if completed
+  if (entry.status === 'completed' && entry.class && entry.section) {
+    const sections = CLASSES[entry.class];
+    if (sections) {
+      const idx = sections.indexOf(entry.section);
+      const nextIdx = (idx + 1) % sections.length;
+      await setProgress(entry.class, entry.subject, nextIdx);
+    }
+  }
+}
+
+// ═══════════════════════════════════════
+//  RENDER TODAY
+// ═══════════════════════════════════════
+async function renderToday() {
+  const d = parseDateStr(todayStr);
+  document.getElementById('today-date-label').textContent = formatDateFull(d);
+
+  await loadTodaySchedule();
+  await generateSuggestions();
+
+  const grid = document.getElementById('periods-grid');
+  grid.innerHTML = '';
+
+  for (const p of PERIODS) {
+    const entry = todaySchedule[p] || { class:'', section:'', subject:'', status:'pending', notes:'' };
+    const card = createPeriodCard(p, entry);
+    grid.appendChild(card);
+  }
+}
+
+function createPeriodCard(period, entry) {
+  const card = document.createElement('div');
+  card.className = `period-card status-${entry.status}`;
+  card.id = `period-card-${period}`;
+
+  const hasData = entry.class && entry.section && entry.subject;
+  const mainLabel = hasData ? `${entry.class} ${entry.section} — ${entry.subject}` : '— Not assigned —';
+  const subLabel = `Period ${period}  ·  ${STATUS_LABELS[entry.status] || 'Not Started'}`;
+
+  const statusBadgeClass = entry.status === 'completed' ? 'badge-green' : entry.status === 'skipped' ? 'badge-red' : 'badge-gray';
+
+  card.innerHTML = `
+    <div class="period-header" onclick="togglePeriodCard(${period})">
+      <div class="period-num">${period}</div>
+      <div class="period-info">
+        <div class="period-main-label">${mainLabel}</div>
+        <div class="period-sub-label">${subLabel}</div>
+      </div>
+      <div class="period-actions">
+        <span class="badge ${statusBadgeClass}">${STATUS_LABELS[entry.status] || 'Pending'}</span>
+        <span class="period-expand-icon">▼</span>
+      </div>
+    </div>
+    <div class="period-body">
+      <div class="period-body-inner">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Class</label>
+            <select class="form-control" id="p${period}-class" onchange="onClassChange(${period})">
+              <option value="">— Select —</option>
+              ${CLASS_ORDER.map(c => `<option value="${c}" ${entry.class===c?'selected':''}>${c}</option>`).join('')}
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Section</label>
+            <select class="form-control" id="p${period}-section">
+              ${buildSectionOptions(entry.class, entry.section)}
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Subject</label>
+            <select class="form-control" id="p${period}-subject">
+              <option value="">— Select —</option>
+              ${SUBJECTS.map(s => `<option value="${s}" ${entry.subject===s?'selected':''}>${s}</option>`).join('')}
+            </select>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:12px;">
+          <label class="form-label">Status</label>
+          <div class="status-select-wrap">
+            ${STATUSES.map(s => `
+              <button class="status-btn ${entry.status===s?'active-'+s:''}"
+                onclick="setStatus(${period},'${s}')" id="sb-${period}-${s}">
+                ${s==='completed'?'✅':s==='skipped'?'❌':'⬜'} ${STATUS_LABELS[s]}
+              </button>`).join('')}
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:12px;">
+          <label class="form-label">Notes</label>
+          <textarea class="form-control" id="p${period}-notes" placeholder="Any notes…">${entry.notes||''}</textarea>
+        </div>
+        <div class="save-row">
+          <button class="btn btn-ghost btn-sm" onclick="clearPeriod(${period})">Clear</button>
+          <button class="btn btn-primary btn-sm" onclick="savePeriod(${period})">💾 Save</button>
+        </div>
+      </div>
+    </div>
+  `;
+  return card;
+}
+
+function buildSectionOptions(cls, selectedSection) {
+  if (!cls || !CLASSES[cls]) return '<option value="">— Select Class first —</option>';
+  return '<option value="">— Select —</option>' +
+    CLASSES[cls].map(s => `<option value="${s}" ${selectedSection===s?'selected':''}>${s}</option>`).join('');
+}
+
+function onClassChange(period) {
+  const cls = document.getElementById(`p${period}-class`).value;
+  document.getElementById(`p${period}-section`).innerHTML = buildSectionOptions(cls, '');
+}
+
+function togglePeriodCard(period) {
+  const card = document.getElementById(`period-card-${period}`);
+  card.classList.toggle('expanded');
+}
+
+function setStatus(period, status) {
+  STATUSES.forEach(s => {
+    const btn = document.getElementById(`sb-${period}-${s}`);
+    if (btn) {
+      btn.className = 'status-btn' + (s === status ? ' active-' + s : '');
+    }
+  });
+}
+
+async function savePeriod(period) {
+  const cls = document.getElementById(`p${period}-class`).value;
+  const sec = document.getElementById(`p${period}-section`).value;
+  const subj = document.getElementById(`p${period}-subject`).value;
+  const notes = document.getElementById(`p${period}-notes`).value;
+
+  // Determine status from status buttons
+  let status = 'pending';
+  STATUSES.forEach(s => {
+    const btn = document.getElementById(`sb-${period}-${s}`);
+    if (btn && btn.className.includes('active-' + s)) status = s;
+  });
+
+  todaySchedule[period] = { class: cls, section: sec, subject: subj, status, notes };
+  await savePeriodToDB(period);
+
+  // Re-render card
+  const oldCard = document.getElementById(`period-card-${period}`);
+  const newCard = createPeriodCard(period, todaySchedule[period]);
+  newCard.classList.add('expanded');
+  oldCard.replaceWith(newCard);
+
+  // Update status class
+  newCard.className = `period-card status-${status} expanded`;
+  toast(`Period ${period} saved!`);
+}
+
+async function clearPeriod(period) {
+  todaySchedule[period] = { class:'', section:'', subject:'', status:'pending', notes:'' };
+  await savePeriodToDB(period);
+  const oldCard = document.getElementById(`period-card-${period}`);
+  const newCard = createPeriodCard(period, todaySchedule[period]);
+  newCard.classList.add('expanded');
+  oldCard.replaceWith(newCard);
+  toast('Period cleared');
+}
+
+function printDay() { window.print(); }
+
+// ═══════════════════════════════════════
+//  CALENDAR
+// ═══════════════════════════════════════
+function calNav(dir) {
+  calMonth += dir;
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  if (calMonth < 0) { calMonth = 11; calYear--; }
+  renderCalendar();
+}
+
+function calGoToday() {
+  const now = new Date();
+  calYear = now.getFullYear();
+  calMonth = now.getMonth();
+  renderCalendar();
+}
+
+async function renderCalendar() {
+  const label = new Date(calYear, calMonth, 1).toLocaleDateString('en-IN', { month:'long', year:'numeric' });
+  document.getElementById('cal-month-label').textContent = label;
+
+  const allSchedule = await dbGetAll('schedule');
+
+  // Build status map per date
+  const dateStatus = {};
+  allSchedule.forEach(r => {
+    if (!dateStatus[r.date]) dateStatus[r.date] = { total:0, completed:0, has:false };
+    dateStatus[r.date].has = true;
+    dateStatus[r.date].total++;
+    if (r.status === 'completed') dateStatus[r.date].completed++;
+  });
+
+  const grid = document.getElementById('cal-grid');
+  grid.innerHTML = '';
+
+  // Day of week headers
+  ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => {
+    const el = document.createElement('div');
+    el.className = 'cal-dow'; el.textContent = d;
+    grid.appendChild(el);
+  });
+
+  const first = new Date(calYear, calMonth, 1);
+  const last = new Date(calYear, calMonth+1, 0);
+  const todayDate = parseDateStr(todayStr);
+
+  // Blank cells before first
+  for (let i = 0; i < first.getDay(); i++) {
+    const el = document.createElement('div');
+    el.className = 'cal-cell other-month';
+    el.innerHTML = '<div class="cal-day-num"></div>';
+    grid.appendChild(el);
+  }
+
+  for (let d = 1; d <= last.getDate(); d++) {
+    const date = new Date(calYear, calMonth, d);
+    const ds = dateStr(date);
+    const info = dateStatus[ds];
+    let statusClass = '';
+    if (info) {
+      if (info.completed === info.total && info.total > 0) statusClass = 'status-full';
+      else if (info.completed > 0) statusClass = 'status-partial';
+      else statusClass = 'status-empty-data';
+    }
+
+    const isToday = ds === todayStr;
+    const el = document.createElement('div');
+    el.className = `cal-cell ${statusClass} ${isToday ? 'today' : ''}`;
+    el.onclick = () => openDayModal(ds);
+
+    const dots = info ? Array(Math.min(info.completed, 3)).fill('<div class="cal-dot"></div>').join('') : '';
+
+    el.innerHTML = `
+      <div class="cal-day-num">${d}</div>
+      <div class="cal-dot-row">${dots}</div>
+    `;
+    grid.appendChild(el);
+  }
+}
+
+async function openDayModal(ds) {
+  const d = parseDateStr(ds);
+  document.getElementById('modal-date-title').textContent = formatDateFull(d);
+
+  const allSchedule = await dbGetAll('schedule');
+  const recs = allSchedule.filter(r => r.date === ds).sort((a,b) => a.period - b.period);
+
+  const body = document.getElementById('modal-body');
+  if (!recs.length) {
+    body.innerHTML = '<div style="color:var(--gray-400);text-align:center;padding:20px;">No schedule data for this day.</div>';
+  } else {
+    body.innerHTML = recs.map(r => `
+      <div style="display:flex;align-items:center;gap:10px;padding:10px;border-bottom:1px solid var(--gray-100);">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--green-pale);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.82rem;color:var(--green-dark);flex-shrink:0;">${r.period}</div>
+        <div style="flex:1;">
+          <div style="font-weight:600;font-size:0.9rem;">${r.class} ${r.section} — ${r.subject || '—'}</div>
+          <div style="font-size:0.75rem;color:var(--gray-400);">${r.notes || ''}</div>
+        </div>
+        <span class="badge ${r.status==='completed'?'badge-green':r.status==='skipped'?'badge-red':'badge-gray'}">${STATUS_LABELS[r.status]||'Pending'}</span>
+      </div>
+    `).join('');
+  }
+
+  // If viewing today or a different date, add go-to button
+  const goBtn = ds === todayStr
+    ? `<button class="btn btn-primary btn-sm" style="margin-top:12px" onclick="closeModal();navigate('today')">Open Today</button>`
+    : '';
+  body.innerHTML += goBtn;
+
+  document.getElementById('day-modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('day-modal').classList.remove('open');
+}
+
+// Click outside modal to close
+document.getElementById('day-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ═══════════════════════════════════════
+//  ANALYTICS
+// ═══════════════════════════════════════
+async function renderAnalytics() {
+  const allSchedule = await dbGetAll('schedule');
+  const allProgress = await dbGetAll('progress');
+
+  // Stat cards
+  const completed = allSchedule.filter(r => r.status === 'completed').length;
+  const skipped = allSchedule.filter(r => r.status === 'skipped').length;
+  const total = allSchedule.filter(r => r.class).length;
+  const uniqueDays = new Set(allSchedule.map(r => r.date)).size;
+
+  document.getElementById('stat-cards').innerHTML = `
+    <div class="stat-card">
+      <div class="stat-num">${completed}</div>
+      <div class="stat-label">Practicals Completed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">${total}</div>
+      <div class="stat-label">Total Scheduled</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">${skipped}</div>
+      <div class="stat-label">Skipped</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">${uniqueDays}</div>
+      <div class="stat-label">Days Active</div>
+    </div>
+  `;
+
+  // Section coverage
+  const covEl = document.getElementById('coverage-list');
+  covEl.innerHTML = '';
+  for (const cls of CLASS_ORDER) {
+    const sections = CLASSES[cls];
+    const row = document.createElement('div');
+    row.className = 'coverage-row';
+    const badges = sections.map(sec => {
+      const recs = allSchedule.filter(r => r.class === cls && r.section === sec);
+      const done = recs.some(r => r.status === 'completed');
+      const has = recs.length > 0;
+      const cl = done ? 'done' : has ? 'partial' : 'pending';
+      const icon = done ? '✔' : has ? '~' : '○';
+      return `<span class="section-badge ${cl}">${sec} ${icon}</span>`;
+    }).join('');
+    row.innerHTML = `<span class="coverage-class">${cls}</span><div class="coverage-sections">${badges}</div>`;
+    covEl.appendChild(row);
+  }
+
+  // Period utilization
+  const utilEl = document.getElementById('period-util');
+  const periodCounts = {};
+  PERIODS.forEach(p => periodCounts[p] = 0);
+  allSchedule.filter(r => r.status === 'completed').forEach(r => { if (r.period) periodCounts[r.period] = (periodCounts[r.period]||0)+1; });
+  const maxCount = Math.max(...Object.values(periodCounts), 1);
+  utilEl.innerHTML = PERIODS.map(p => `
+    <div class="util-bar-wrap">
+      <span class="util-period-label">Period ${p}</span>
+      <div class="util-bar-bg"><div class="util-bar-fill" style="width:${(periodCounts[p]/maxCount)*100}%"></div></div>
+      <span class="util-count">${periodCounts[p]}</span>
+    </div>
+  `).join('');
+
+  // Monthly progress
+  const monthEl = document.getElementById('monthly-progress');
+  monthEl.innerHTML = CLASS_ORDER.map(cls => {
+    const total = CLASSES[cls].length * SUBJECTS.length;
+    const completedCount = SUBJECTS.reduce((acc, subj) => {
+      const prog = allProgress.find(p => p.class === cls && p.subject === subj);
+      return acc + (prog ? prog.sectionIdx : 0);
+    }, 0);
+    const pct = Math.min(Math.round((completedCount / total) * 100), 100);
+    return `
+      <div style="margin-bottom:10px;">
+        <div style="display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:4px;">
+          <span style="font-weight:600;color:var(--gray-700);">Class ${cls}</span>
+          <span style="color:var(--gray-400);">${pct}%</span>
+        </div>
+        <div class="progress-bar-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
+      </div>
+    `;
+  }).join('');
+
+  // Pending table
+  const pending = [];
+  for (const cls of CLASS_ORDER) {
+    for (const subj of SUBJECTS) {
+      const prog = allProgress.find(p => p.class === cls && p.subject === subj);
+      const idx = prog ? prog.sectionIdx : 0;
+      const sections = CLASSES[cls];
+      const remaining = sections.slice(idx);
+      remaining.forEach(sec => {
+        pending.push({ class: cls, section: sec, subject: subj });
+      });
+    }
+  }
+  document.getElementById('pending-count').textContent = pending.length + ' items';
+  document.getElementById('pending-table-body').innerHTML = pending.slice(0, 30).map(p => `
+    <tr>
+      <td><strong>${p.class}</strong></td>
+      <td>${p.section}</td>
+      <td><span class="badge badge-blue">${p.subject}</span></td>
+      <td><span class="badge badge-yellow">Pending</span></td>
+    </tr>
+  `).join('') || `<tr><td colspan="4" style="text-align:center;color:var(--gray-400);padding:20px;">All caught up! 🎉</td></tr>`;
+}
+
+// ═══════════════════════════════════════
+//  SEARCH
+// ═══════════════════════════════════════
+async function runSearch() {
+  const q = document.getElementById('search-input').value.toLowerCase().trim();
+  const container = document.getElementById('search-results');
+
+  if (!q) {
+    container.innerHTML = '<div style="color:var(--gray-400);text-align:center;padding:30px;">Type to search across all schedule records.</div>';
+    return;
+  }
+
+  const allSchedule = await dbGetAll('schedule');
+  const results = allSchedule.filter(r =>
+    (r.class + ' ' + r.section + ' ' + r.subject + ' ' + r.date + ' ' + r.notes).toLowerCase().includes(q)
+  ).sort((a,b) => b.date.localeCompare(a.date));
+
+  if (!results.length) {
+    container.innerHTML = '<div style="color:var(--gray-400);text-align:center;padding:30px;">No records found.</div>';
+    return;
+  }
+
+  container.innerHTML = results.slice(0, 50).map(r => `
+    <div class="search-result-card">
+      <div class="search-result-top">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--green-pale);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.82rem;color:var(--green-dark);">${r.period}</div>
+        <div style="flex:1;">
+          <strong>${r.class} ${r.section}</strong> — ${r.subject || '—'}
+        </div>
+        <span class="badge ${r.status==='completed'?'badge-green':r.status==='skipped'?'badge-red':'badge-gray'}">${STATUS_LABELS[r.status]||'Pending'}</span>
+      </div>
+      <div class="search-result-date">📅 ${formatDateShort(parseDateStr(r.date))}${r.notes ? ' · ' + r.notes : ''}</div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════
+//  EXPORT / IMPORT
+// ═══════════════════════════════════════
+async function exportData() {
+  const schedule = await dbGetAll('schedule');
+  const progress = await dbGetAll('progress');
+  const settingsData = await dbGetAll('settings');
+
+  const blob = new Blob([JSON.stringify({ schedule, progress, settings: settingsData }, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `RPS_Planner_Backup_${dateStr(new Date())}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('Data exported!');
+}
+
+async function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const text = await file.text();
+  try {
+    const data = JSON.parse(text);
+    if (data.schedule) {
+      await dbClear('schedule');
+      for (const r of data.schedule) await dbPut('schedule', r);
+    }
+    if (data.progress) {
+      await dbClear('progress');
+      for (const r of data.progress) await dbPut('progress', r);
+    }
+    if (data.settings) {
+      await dbClear('settings');
+      for (const r of data.settings) await dbPut('settings', r);
+    }
+    await loadSettings();
+    renderToday();
+    toast('Data imported successfully!');
+  } catch (e) {
+    toast('Import failed: invalid JSON');
+  }
+  event.target.value = '';
+}
+
+async function confirmReset() {
+  if (!confirm('Reset ALL data? This cannot be undone.')) return;
+  await dbClear('schedule');
+  await dbClear('progress');
+  todaySchedule = {};
+  renderToday();
+  toast('All data reset.');
+}
+
+// ═══════════════════════════════════════
+//  TOAST
+// ═══════════════════════════════════════
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = '✓ ' + msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2800);
+}
+
+// ═══════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════
+async function init() {
+  await initDB();
+  await loadSettings();
+
+  // Set today label
+  const now = new Date();
+  todayStr = dateStr(now);
+
+  await renderToday();
+
+  // Keyboard shortcut: Escape closes modal
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+}
+
+init();
+</script>
+</body>
+</html>
