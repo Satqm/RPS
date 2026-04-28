@@ -1,0 +1,1836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R.P.S. School | Practical Lesson Planner 2026–2027</title>
+    <style>
+        :root {
+            --green-900: #0d3b1e;
+            --green-800: #14522b;
+            --green-700: #1a6b3c;
+            --green-600: #1f7a44;
+            --green-500: #2e8b4e;
+            --green-400: #4caf50;
+            --green-300: #81c784;
+            --green-200: #a5d6a7;
+            --green-100: #c8e6c9;
+            --green-50: #e8f5e9;
+            --green-25: #f4faf5;
+            --amber-500: #f59e0b;
+            --amber-400: #fbbf24;
+            --amber-100: #fef3c7;
+            --amber-50: #fffbeb;
+            --red-600: #e53935;
+            --red-500: #ef4444;
+            --red-100: #fee2e2;
+            --red-50: #fef2f2;
+            --gray-900: #111827;
+            --gray-800: #1f2937;
+            --gray-700: #374151;
+            --gray-600: #4b5563;
+            --gray-500: #6b7280;
+            --gray-400: #9ca3af;
+            --gray-300: #d1d5db;
+            --gray-200: #e5e7eb;
+            --gray-100: #f3f4f6;
+            --gray-50: #f9fafb;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(0, 0, 0, 0.04);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.08), 0 4px 10px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.12);
+            --radius-xs: 4px;
+            --radius-sm: 6px;
+            --radius: 10px;
+            --radius-lg: 14px;
+            --radius-xl: 18px;
+            --radius-2xl: 24px;
+            --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+            --sidebar-w: 240px;
+            --topbar-h: 64px;
+        }
+        .dark-mode {
+            --green-900: #e8f5e9;
+            --green-800: #c8e6c9;
+            --green-700: #a5d6a7;
+            --green-600: #81c784;
+            --green-500: #66bb6a;
+            --green-400: #4caf50;
+            --green-300: #388e3c;
+            --green-200: #2e7d32;
+            --green-100: #1b5e20;
+            --green-50: #1a3c24;
+            --green-25: #162e1e;
+            --gray-900: #f9fafb;
+            --gray-800: #f3f4f6;
+            --gray-700: #e5e7eb;
+            --gray-600: #d1d5db;
+            --gray-500: #9ca3af;
+            --gray-400: #6b7280;
+            --gray-300: #4b5563;
+            --gray-200: #374151;
+            --gray-100: #1f2937;
+            --gray-50: #181c1f;
+            --white: #1a1d1a;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.35);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.4);
+            --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: var(--font);
+            background: var(--gray-50);
+            color: var(--gray-800);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            transition: background var(--transition), color var(--transition);
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+        }
+        .topbar {
+            height: var(--topbar-h);
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition);
+            gap: 12px;
+        }
+        .topbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+        .topbar-logo {
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, var(--green-700), var(--green-500));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: -0.5px;
+            flex-shrink: 0;
+        }
+        .topbar-school-name {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--green-800);
+            letter-spacing: 0.2px;
+            line-height: 1.2;
+            white-space: nowrap;
+        }
+        .topbar-school-sub {
+            font-size: 0.65rem;
+            color: var(--gray-500);
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+        .topbar-badge {
+            font-size: 0.68rem;
+            background: var(--green-50);
+            color: var(--green-700);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+            border: 1px solid var(--green-100);
+        }
+        .topbar-teacher {
+            font-size: 0.78rem;
+            color: var(--gray-600);
+            font-weight: 600;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .topbar-teacher .dot-live {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--green-400);
+            animation: pulse-dot 2s infinite;
+        }
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 0 8px rgba(76, 175, 80, 0);
+            }
+        }
+        .topbar-date {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            white-space: nowrap;
+        }
+        .hamburger {
+            display: none;
+            all: unset;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--gray-100);
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all var(--transition);
+            flex-shrink: 0;
+        }
+        .hamburger:hover {
+            background: var(--green-50);
+            color: var(--green-700);
+        }
+        .app-container {
+            display: flex;
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+        .sidebar {
+            width: var(--sidebar-w);
+            background: var(--white);
+            border-right: 1px solid var(--gray-200);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: var(--topbar-h);
+            left: 0;
+            bottom: 0;
+            z-index: 150;
+            box-shadow: var(--shadow);
+            transition: transform var(--transition-slow), box-shadow var(--transition-slow);
+            overflow-y: auto;
+        }
+        .sidebar-header {
+            padding: 16px 18px 10px;
+            border-bottom: 1px solid var(--gray-100);
+            text-align: center;
+        }
+        .sidebar-header .session-badge {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 700;
+            background: var(--green-50);
+            color: var(--green-700);
+            padding: 4px 10px;
+            border-radius: 12px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .sidebar-nav {
+            flex: 1;
+            padding: 8px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+        .sidebar-nav button {
+            all: unset;
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 12px 18px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            color: var(--gray-600);
+            border-left: 3px solid transparent;
+            transition: all var(--transition);
+            font-weight: 500;
+            border-radius: 0;
+            position: relative;
+        }
+        .sidebar-nav button:hover {
+            background: var(--green-25);
+            color: var(--green-700);
+        }
+        .sidebar-nav button.active {
+            background: var(--green-50);
+            color: var(--green-700);
+            border-left-color: var(--green-500);
+            font-weight: 600;
+        }
+        .sidebar-nav button .nav-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 1.05rem;
+            flex-shrink: 0;
+        }
+        .sidebar-nav button .nav-badge {
+            margin-left: auto;
+            font-size: 0.65rem;
+            background: var(--green-100);
+            color: var(--green-700);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .sidebar-footer {
+            padding: 10px 16px;
+            border-top: 1px solid var(--gray-100);
+            font-size: 0.68rem;
+            color: var(--gray-500);
+            text-align: center;
+            line-height: 1.5;
+        }
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            top: var(--topbar-h);
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 140;
+            transition: opacity var(--transition-slow);
+        }
+        .sidebar-overlay.active {
+            display: block;
+            animation: fadeIn 0.25s ease;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .main-area {
+            margin-left: var(--sidebar-w);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100vh - var(--topbar-h));
+            transition: margin var(--transition-slow);
+            width: 100%;
+        }
+        .content {
+            flex: 1;
+            padding: 24px 28px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .print-header {
+            display: none;
+        }
+        .view {
+            display: none;
+            animation: viewIn 0.3s ease;
+        }
+        .view.active {
+            display: block;
+        }
+        @keyframes viewIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .section-heading {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+        .section-heading h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            letter-spacing: -0.2px;
+        }
+        .section-heading .accent-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--green-400);
+            flex-shrink: 0;
+        }
+        .section-heading .date-chip {
+            font-size: 0.78rem;
+            background: var(--gray-100);
+            color: var(--gray-600);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+        .action-bar {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+            align-items: center;
+        }
+        .btn {
+            all: unset;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 9px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+            transition: all var(--transition);
+            border: 1px solid transparent;
+            white-space: nowrap;
+            user-select: none;
+        }
+        .btn:active {
+            transform: scale(0.96);
+        }
+        .btn-sm {
+            padding: 6px 11px;
+            font-size: 0.72rem;
+            border-radius: 14px;
+        }
+        .btn-primary {
+            background: var(--green-600);
+            color: #fff;
+            box-shadow: var(--shadow-sm);
+        }
+        .btn-primary:hover {
+            background: var(--green-700);
+            box-shadow: var(--shadow-md);
+        }
+        .btn-outline {
+            border: 1px solid var(--gray-300);
+            color: var(--gray-700);
+            background: var(--white);
+        }
+        .btn-outline:hover {
+            background: var(--gray-50);
+            border-color: var(--green-300);
+            color: var(--green-700);
+        }
+        .btn-ghost {
+            color: var(--gray-600);
+            background: transparent;
+        }
+        .btn-ghost:hover {
+            background: var(--gray-100);
+            color: var(--gray-800);
+        }
+        .btn-warn {
+            background: var(--amber-500);
+            color: #fff;
+            box-shadow: var(--shadow-sm);
+        }
+        .btn-warn:hover {
+            background: #d97706;
+            box-shadow: var(--shadow-md);
+        }
+        .btn-danger {
+            background: var(--red-500);
+            color: #fff;
+            box-shadow: var(--shadow-sm);
+        }
+        .btn-danger:hover {
+            background: #dc2626;
+            box-shadow: var(--shadow-md);
+        }
+        .btn-success {
+            background: var(--green-400);
+            color: #fff;
+            box-shadow: var(--shadow-sm);
+        }
+        .btn-success:hover {
+            background: var(--green-500);
+            box-shadow: var(--shadow-md);
+        }
+        .search-input {
+            padding: 9px 16px;
+            border: 1px solid var(--gray-300);
+            border-radius: 20px;
+            font-size: 0.82rem;
+            background: var(--white);
+            color: var(--gray-800);
+            transition: all var(--transition);
+            font-family: var(--font);
+            min-width: 180px;
+            outline: none;
+        }
+        .search-input:focus {
+            border-color: var(--green-400);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.08);
+        }
+        .period-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+            gap: 14px;
+        }
+        .period-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: 18px;
+            box-shadow: var(--shadow);
+            transition: all var(--transition);
+            position: relative;
+            cursor: default;
+            overflow: hidden;
+        }
+        .period-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--gray-300);
+            border-radius: 0 2px 2px 0;
+            transition: all var(--transition);
+        }
+        .period-card:hover {
+            box-shadow: var(--shadow-lg);
+            border-color: var(--green-200);
+            transform: translateY(-1px);
+        }
+        .period-card.completed {
+            background: var(--green-25);
+            border-color: var(--green-100);
+        }
+        .period-card.completed::before {
+            background: var(--green-400);
+            width: 5px;
+        }
+        .period-card.skipped {
+            background: var(--amber-50);
+            border-color: var(--amber-100);
+        }
+        .period-card.skipped::before {
+            background: var(--amber-400);
+            width: 5px;
+        }
+        .period-card .period-chip {
+            display: inline-block;
+            font-size: 0.68rem;
+            font-weight: 700;
+            background: var(--gray-800);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 12px;
+            letter-spacing: 0.4px;
+            margin-bottom: 10px;
+        }
+        .period-card.completed .period-chip {
+            background: var(--green-600);
+        }
+        .period-card.skipped .period-chip {
+            background: var(--amber-500);
+        }
+        .period-card .class-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin: 2px 0;
+        }
+        .period-card .subject-tag {
+            font-size: 0.8rem;
+            color: var(--gray-600);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin: 2px 0;
+        }
+        .status-pill {
+            display: inline-block;
+            font-size: 0.68rem;
+            padding: 3px 9px;
+            border-radius: 10px;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+            margin-top: 6px;
+        }
+        .status-not-started {
+            background: var(--gray-200);
+            color: var(--gray-600);
+        }
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+        .dark-mode .status-completed {
+            background: #1e3a28;
+            color: #81c784;
+        }
+        .status-skipped {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .dark-mode .status-skipped {
+            background: #2e2818;
+            color: #fbbf24;
+        }
+        .period-card .notes-snippet {
+            font-size: 0.7rem;
+            color: var(--gray-500);
+            margin-top: 4px;
+            font-style: italic;
+            line-height: 1.3;
+        }
+        .period-card .card-actions-row {
+            display: flex;
+            gap: 6px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        .period-card .card-actions-row .btn {
+            font-size: 0.7rem;
+            padding: 5px 10px;
+            border-radius: 14px;
+        }
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.2s ease;
+            padding: 16px;
+        }
+        .modal-overlay.hidden {
+            display: none;
+        }
+        .modal {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: 24px 22px;
+            width: 100%;
+            max-width: 460px;
+            box-shadow: var(--shadow-xl);
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: modalPop 0.25s ease;
+        }
+        @keyframes modalPop {
+            from {
+                opacity: 0;
+                transform: scale(0.94);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .modal h3 {
+            margin-bottom: 14px;
+            color: var(--green-800);
+            font-size: 1.05rem;
+            letter-spacing: -0.2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .modal label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.75rem;
+            margin-bottom: 3px;
+            color: var(--gray-600);
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+        .modal select,
+        .modal input,
+        .modal textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius-sm);
+            font-family: var(--font);
+            font-size: 0.88rem;
+            background: var(--white);
+            color: var(--gray-800);
+            transition: all var(--transition);
+            appearance: auto;
+            -webkit-appearance: auto;
+            outline: none;
+        }
+        .modal select:focus,
+        .modal input:focus,
+        .modal textarea:focus {
+            border-color: var(--green-400);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.08);
+        }
+        .modal textarea {
+            resize: vertical;
+            min-height: 55px;
+        }
+        .modal .btn-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 18px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+        .calendar-nav-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+        .calendar-nav-row .month-title {
+            font-weight: 700;
+            font-size: 1rem;
+            min-width: 150px;
+            text-align: center;
+            color: var(--gray-800);
+            letter-spacing: -0.2px;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 3px;
+            max-width: 650px;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 12px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+        }
+        .calendar-grid .day-hdr {
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.7rem;
+            color: var(--gray-500);
+            padding: 6px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .calendar-grid .day-cell {
+            aspect-ratio: 1;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.82rem;
+            transition: all var(--transition);
+            border: 2px solid transparent;
+            position: relative;
+            color: var(--gray-700);
+        }
+        .day-cell:hover {
+            border-color: var(--green-300);
+            background: var(--green-25);
+            color: var(--green-700);
+        }
+        .day-cell.today-ring {
+            border-color: var(--green-500);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.12);
+            font-weight: 800;
+        }
+        .day-cell.completed-day {
+            background: #c8e6c9;
+            color: #155724;
+            font-weight: 700;
+        }
+        .dark-mode .day-cell.completed-day {
+            background: #1e3a28;
+            color: #81c784;
+        }
+        .day-cell.partial-day {
+            background: #fff9c4;
+            color: #5d4e00;
+            font-weight: 700;
+        }
+        .dark-mode .day-cell.partial-day {
+            background: #2e2818;
+            color: #fbbf24;
+        }
+        .day-cell.empty-day {
+            background: var(--gray-100);
+            color: var(--gray-500);
+        }
+        .day-cell.other-month {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        .calendar-legend {
+            display: flex;
+            gap: 16px;
+            margin-top: 12px;
+            font-size: 0.7rem;
+            color: var(--gray-500);
+            flex-wrap: wrap;
+        }
+        .calendar-legend span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+        .legend-dot.green {
+            background: #c8e6c9;
+            border: 1px solid #81c784;
+        }
+        .legend-dot.yellow {
+            background: #fff9c4;
+            border: 1px solid #fbbf24;
+        }
+        .legend-dot.gray {
+            background: #e5e7eb;
+            border: 1px solid #d1d5db;
+        }
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 14px;
+        }
+        .stat-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: 18px;
+            box-shadow: var(--shadow);
+            transition: all var(--transition);
+        }
+        .stat-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+        .stat-card h4 {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--gray-500);
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+        .stat-card .big-num {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--green-700);
+            letter-spacing: -1px;
+            line-height: 1;
+        }
+        .stat-card .sub-text {
+            font-size: 0.72rem;
+            color: var(--gray-500);
+            margin-top: 2px;
+        }
+        .mini-bar-wrap {
+            background: var(--gray-100);
+            border-radius: 8px;
+            height: 7px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+        .mini-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--green-400), var(--green-500));
+            border-radius: 8px;
+            transition: width 0.5s ease;
+        }
+        .coverage-list {
+            list-style: none;
+            font-size: 0.8rem;
+            max-height: 350px;
+            overflow-y: auto;
+            padding: 0;
+        }
+        .coverage-list li {
+            padding: 5px 0;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            border-bottom: 1px solid var(--gray-100);
+            flex-wrap: wrap;
+        }
+        .coverage-list .check {
+            color: var(--green-500);
+            font-weight: 700;
+        }
+        .coverage-list .cross {
+            color: var(--red-500);
+            font-weight: 700;
+        }
+        .pending-list {
+            font-size: 0.82rem;
+            color: var(--gray-700);
+            line-height: 2;
+            padding: 0;
+            list-style: none;
+        }
+        .pending-list li {
+            padding: 2px 0;
+            border-bottom: 1px dotted var(--gray-200);
+        }
+        .settings-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: 22px;
+            max-width: 550px;
+            box-shadow: var(--shadow);
+        }
+        .settings-card label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.78rem;
+            margin-bottom: 3px;
+            color: var(--gray-600);
+            margin-top: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+        .settings-card input[type="text"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-family: var(--font);
+            background: var(--white);
+            color: var(--gray-800);
+            outline: none;
+            transition: all var(--transition);
+        }
+        .settings-card input[type="text"]:focus {
+            border-color: var(--green-400);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.08);
+        }
+        .toggle-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 4px;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 26px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: #ccc;
+            border-radius: 26px;
+            transition: var(--transition);
+        }
+        .toggle-slider::before {
+            content: '';
+            position: absolute;
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: #fff;
+            border-radius: 50%;
+            transition: var(--transition);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        input:checked+.toggle-slider {
+            background: var(--green-500);
+        }
+        input:checked+.toggle-slider::before {
+            transform: translateX(22px);
+        }
+        @media (max-width: 900px) {
+            .sidebar {
+                transform: translateX(-100%);
+                box-shadow: var(--shadow-xl);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-area {
+                margin-left: 0 !important;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .topbar-school-name {
+                font-size: 0.9rem;
+            }
+            .topbar-badge {
+                display: none;
+            }
+            .topbar-teacher {
+                font-size: 0.7rem;
+            }
+            .period-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            .content {
+                padding: 14px 12px;
+            }
+            .calendar-grid {
+                padding: 6px;
+                gap: 2px;
+            }
+            .calendar-grid .day-cell {
+                font-size: 0.7rem;
+            }
+            .analytics-grid {
+                grid-template-columns: 1fr;
+            }
+            .action-bar {
+                gap: 5px;
+            }
+            .btn {
+                padding: 7px 12px;
+                font-size: 0.72rem;
+            }
+            .search-input {
+                min-width: 120px;
+                font-size: 0.75rem;
+                padding: 7px 12px;
+            }
+        }
+        @media (max-width: 480px) {
+            .topbar {
+                padding: 0 10px;
+            }
+            .topbar-logo {
+                width: 32px;
+                height: 32px;
+                font-size: 0.9rem;
+            }
+            .topbar-school-name {
+                font-size: 0.75rem;
+            }
+            .topbar-school-sub {
+                font-size: 0.55rem;
+            }
+            .topbar-date {
+                font-size: 0.65rem;
+            }
+            .section-heading h2 {
+                font-size: 1rem;
+            }
+            .period-card {
+                padding: 12px;
+            }
+            .period-card .class-title {
+                font-size: 0.9rem;
+            }
+            .calendar-grid {
+                padding: 3px;
+                gap: 1px;
+            }
+            .calendar-grid .day-cell {
+                font-size: 0.62rem;
+                border-radius: 3px;
+            }
+            .calendar-grid .day-hdr {
+                font-size: 0.6rem;
+            }
+            .modal {
+                padding: 16px;
+                border-radius: var(--radius-lg);
+            }
+        }
+        @media print {
+            .sidebar,
+            .topbar,
+            .action-bar,
+            .card-actions-row,
+            .btn,
+            .modal-overlay,
+            .sidebar-overlay,
+            .hamburger,
+            .search-input,
+            .sidebar-nav button,
+            .print-header {
+                display: none !important;
+            }
+            .main-area {
+                margin-left: 0 !important;
+            }
+            .content {
+                padding: 0 !important;
+                max-width: 100% !important;
+            }
+            .period-card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ccc;
+                background: #fff !important;
+            }
+            body {
+                background: #fff;
+                color: #000;
+            }
+            .print-header {
+                display: block !important;
+                text-align: center;
+                margin-bottom: 20px;
+                border-bottom: 2px solid #000;
+                padding-bottom: 10px;
+            }
+            .print-header h1 {
+                font-size: 1.5rem;
+                margin: 0;
+            }
+            .print-header p {
+                margin: 2px 0;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <button class="hamburger" id="hamburgerBtn" aria-label="Menu">☰</button>
+        <div class="topbar-brand">
+            <div class="topbar-logo">RPS</div>
+            <div>
+                <div class="topbar-school-name">R.P.S. School</div>
+                <div class="topbar-school-sub">Practical Lesson Planner</div>
+            </div>
+        </div>
+        <div class="topbar-right">
+            <span class="topbar-badge">📅 2026–2027</span>
+            <span class="topbar-teacher"><span class="dot-live"></span> Mr. Mithilesh</span>
+            <span class="topbar-date" id="headerDate"></span>
+        </div>
+    </header>
+    <div class="app-container">
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><span class="session-badge">🏫 Bihar Sharif (Nalanda)</span></div>
+            <nav class="sidebar-nav">
+                <button data-view="today" class="active"><span class="nav-icon">📋</span> Today's Plan<span class="nav-badge" id="todayNavBadge">now</span></button>
+                <button data-view="calendar"><span class="nav-icon">📅</span> Calendar</button>
+                <button data-view="analytics"><span class="nav-icon">📊</span> Analytics</button>
+                <button data-view="settings"><span class="nav-icon">⚙️</span> Settings</button>
+            </nav>
+            <div class="sidebar-footer">R.P.S. School<br>Session 2026–2027<br><small>Offline-First ERP Lite</small></div>
+        </aside>
+        <div class="main-area" id="mainArea">
+            <div class="content">
+                <div class="print-header" id="printHeader">
+                    <h1>R.P.S. School, Bihar Sharif (Nalanda)</h1>
+                    <p>Session 2026–2027 | Practical Lesson Plan</p>
+                    <p>Teacher: Mr. Mithilesh | Date: <span id="printDate"></span></p>
+                </div>
+                <div class="view active" id="view-today">
+                    <div class="section-heading"><span class="accent-dot"></span><h2>Today's Schedule</h2><span class="date-chip" id="todayDateLabel"></span></div>
+                    <div class="action-bar">
+                        <button class="btn btn-primary" id="btnSmartSuggest">✨ Smart Suggestions</button>
+                        <button class="btn btn-outline" id="btnAutoFill">⚡ Auto-Fill Empty Slots</button>
+                        <button class="btn btn-ghost" onclick="window.print()">🖨️ Print</button>
+                        <button class="btn btn-outline" id="btnShareWhatsApp">📱 Share Plan via WhatsApp</button>
+                        <input type="text" class="search-input" id="searchClass" placeholder="🔍 Search class/section...">
+                    </div>
+                    <div class="period-grid" id="periodGrid"></div>
+                </div>
+                <div class="view" id="view-calendar">
+                    <div class="section-heading"><span class="accent-dot"></span><h2>Monthly Calendar</h2></div>
+                    <div class="calendar-nav-row">
+                        <button class="btn btn-outline btn-sm" id="calPrev">◀</button>
+                        <span class="month-title" id="calMonthLabel"></span>
+                        <button class="btn btn-outline btn-sm" id="calNext">▶</button>
+                        <button class="btn btn-ghost btn-sm" id="calGoToday">📍 Today</button>
+                    </div>
+                    <div class="calendar-grid" id="calendarGrid"></div>
+                    <div class="calendar-legend">
+                        <span><span class="legend-dot green"></span> Completed</span>
+                        <span><span class="legend-dot yellow"></span> Partial</span>
+                        <span><span class="legend-dot gray"></span> Empty</span>
+                        <span>🔵 Today</span>
+                    </div>
+                </div>
+                <div class="view" id="view-analytics">
+                    <div class="section-heading"><span class="accent-dot"></span><h2>Analytics Dashboard</h2></div>
+                    <div class="analytics-grid" id="analyticsGrid"></div>
+                    <div style="margin-top:18px;">
+                        <h4 style="margin-bottom:8px;color:var(--gray-700);font-size:0.85rem;">📋 Pending Work</h4>
+                        <ul class="pending-list" id="pendingWorkList"></ul>
+                    </div>
+                </div>
+                <div class="view" id="view-settings">
+                    <div class="section-heading"><span class="accent-dot"></span><h2>Settings</h2></div>
+                    <div class="settings-card">
+                        <label>👨‍🏫 Teacher Name</label>
+                        <input type="text" id="settingTeacherName" value="Mr. Mithilesh">
+                        <label style="margin-top:18px;">🌓 Dark Mode</label>
+                        <div class="toggle-wrap">
+                            <label class="toggle-switch"><input type="checkbox" id="toggleDarkMode"><span class="toggle-slider"></span></label>
+                            <span style="font-size:0.8rem;color:var(--gray-600);" id="darkModeLabel">Off</span>
+                        </div>
+                        <div style="margin-top:20px;display:flex;gap:8px;flex-wrap:wrap;">
+                            <button class="btn btn-primary" id="btnSaveSettings">💾 Save Settings</button>
+                            <button class="btn btn-outline" id="btnExportData">📤 Export Backup</button>
+                            <button class="btn btn-outline" id="btnImportData">📥 Import Backup</button>
+                            <input type="file" id="importFileInput" accept=".json" style="display:none;">
+                            <button class="btn btn-danger" id="btnResetData">🗑️ Reset All</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay hidden" id="editModalOverlay">
+        <div class="modal" id="editModal">
+            <h3>✏️ Edit Period</h3>
+            <input type="hidden" id="editPeriodIndex">
+            <label>Class</label><select id="editClass"></select>
+            <label>Section</label><select id="editSection"></select>
+            <label>Subject</label><select id="editSubject"></select>
+            <label>Status</label><select id="editStatus"><option value="not-started">⏳ Not Started</option><option value="completed">✅ Completed</option><option value="skipped">⏭️ Skipped</option></select>
+            <label>Notes</label><textarea id="editNotes" placeholder="Add any notes here..."></textarea>
+            <div class="btn-row">
+                <button class="btn btn-outline" id="btnCancelEdit">Cancel</button>
+                <button class="btn btn-primary" id="btnSaveEdit">💾 Save Changes</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        (function() {
+            const DB_NAME = 'RPS_Planner_DB';
+            const DB_VERSION = 2;
+            const CLASSES = ['VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+            const SECTIONS_MAP = {
+                'VI': ['A', 'B', 'C'],
+                'VII': ['A', 'B', 'C', 'D'],
+                'VIII': ['A', 'B', 'C', 'D'],
+                'IX': ['A', 'B', 'C', 'D', 'E'],
+                'X': ['A', 'B', 'C', 'D', 'E'],
+                'XI': ['A', 'B', 'C'],
+                'XII': ['A', 'B', 'C']
+            };
+            const SUBJECTS = ['Physics', 'Chemistry', 'Biology'];
+            const SUBJECTS_WITH_MISC = ['Physics', 'Chemistry', 'Biology', 'Miscellaneous'];
+            const PERIODS = [2, 3, 4, 5, 6, 7];
+            const CLASS_ORDER = {};
+            CLASSES.forEach((c, i) => { CLASS_ORDER[c] = i; });
+            const SUBJECT_ORDER = { 'Physics': 0, 'Chemistry': 1, 'Biology': 2 };
+            const TODAY = new Date();
+            const dateStr = (d) => d.toISOString().split('T')[0];
+            let currentView = 'today';
+            let currentDate = dateStr(TODAY);
+            let calMonth = TODAY.getMonth();
+            let calYear = TODAY.getFullYear();
+            let db = null;
+            let darkMode = false;
+
+            function openDB() {
+                return new Promise((resolve, reject) => {
+                    const req = indexedDB.open(DB_NAME, DB_VERSION);
+                    req.onupgradeneeded = (e) => {
+                        const d = e.target.result;
+                        if (!d.objectStoreNames.contains('progress')) d.createObjectStore('progress', { keyPath: 'id' });
+                        if (!d.objectStoreNames.contains('schedule')) {
+                            const s = d.createObjectStore('schedule', { keyPath: 'id', autoIncrement: true });
+                            s.createIndex('date', 'date', { unique: false });
+                            s.createIndex('date_period', ['date', 'period'], { unique: true });
+                        }
+                        if (!d.objectStoreNames.contains('settings')) d.createObjectStore('settings', { keyPath: 'key' });
+                    };
+                    req.onsuccess = (e) => { db = e.target.result; resolve(db); };
+                    req.onerror = (e) => reject(e.target.error);
+                });
+            }
+
+            function dbPut(store, data) {
+                return new Promise((res, rej) => {
+                    const tx = db.transaction(store, 'readwrite');
+                    tx.objectStore(store).put(data);
+                    tx.oncomplete = res;
+                    tx.onerror = (e) => rej(e.target.error);
+                });
+            }
+
+            function dbGetAll(store) {
+                return new Promise((res, rej) => {
+                    const tx = db.transaction(store, 'readonly');
+                    const req = tx.objectStore(store).getAll();
+                    req.onsuccess = () => res(req.result);
+                    req.onerror = (e) => rej(e.target.error);
+                });
+            }
+
+            function dbGet(store, key) {
+                return new Promise((res, rej) => {
+                    const tx = db.transaction(store, 'readonly');
+                    const req = tx.objectStore(store).get(key);
+                    req.onsuccess = () => res(req.result);
+                    req.onerror = (e) => rej(e.target.error);
+                });
+            }
+
+            function dbDelete(store, key) {
+                return new Promise((res, rej) => {
+                    const tx = db.transaction(store, 'readwrite');
+                    tx.objectStore(store).delete(key);
+                    tx.oncomplete = res;
+                    tx.onerror = (e) => rej(e.target.error);
+                });
+            }
+
+            function dbClear(store) {
+                return new Promise((res, rej) => {
+                    const tx = db.transaction(store, 'readwrite');
+                    tx.objectStore(store).clear();
+                    tx.oncomplete = res;
+                    tx.onerror = (e) => rej(e.target.error);
+                });
+            }
+
+            async function getScheduleForDate(date) {
+                const all = await dbGetAll('schedule');
+                const result = {};
+                PERIODS.forEach(p => { result[p] = null; });
+                all.filter(s => s.date === date).forEach(s => { result[s.period] = s; });
+                return result;
+            }
+
+            async function getAllProgress() { return await dbGetAll('progress'); }
+
+            async function initProgressIfEmpty() {
+                const existing = await dbGetAll('progress');
+                if (existing.length === 0) {
+                    for (const cls of CLASSES)
+                        for (const subj of SUBJECTS)
+                            await dbPut('progress', { id: `${cls}_${subj}`, class: cls, subject: subj, currentSectionIndex: 0 });
+                }
+            }
+
+            async function initSettingsIfEmpty() {
+                const s = await dbGet('settings', 'app');
+                if (!s) {
+                    await dbPut('settings', { key: 'app', teacherName: 'Mr. Mithilesh', darkMode: false });
+                    darkMode = false;
+                } else {
+                    darkMode = s.darkMode || false;
+                    applyDarkMode(darkMode);
+                    document.getElementById('settingTeacherName').value = s.teacherName || 'Mr. Mithilesh';
+                    document.getElementById('toggleDarkMode').checked = darkMode;
+                    document.getElementById('darkModeLabel').textContent = darkMode ? 'On' : 'Off';
+                }
+            }
+
+            function applyDarkMode(enable) {
+                darkMode = enable;
+                document.body.classList.toggle('dark-mode', enable);
+                document.getElementById('darkModeLabel').textContent = enable ? 'On' : 'Off';
+                document.getElementById('toggleDarkMode').checked = enable;
+            }
+
+            async function getDiverseRecommendations(count = 6) {
+                const progress = await getAllProgress();
+                const allCandidates = [];
+                for (const p of progress) {
+                    const total = (SECTIONS_MAP[p.class] || []).length;
+                    if (p.currentSectionIndex < total) {
+                        const nextSection = SECTIONS_MAP[p.class][p.currentSectionIndex];
+                        allCandidates.push({ class: p.class, section: nextSection, subject: p.subject, progressEntry: p,
+                            sectionsRemaining: total - p.currentSectionIndex, inProgress: p.currentSectionIndex > 0,
+                            totalSections: total, currentIndex: p.currentSectionIndex });
+                    }
+                }
+                if (allCandidates.length === 0) return [];
+                const grouped = {};
+                for (const c of allCandidates) {
+                    if (!grouped[c.class]) grouped[c.class] = [];
+                    grouped[c.class].push(c);
+                }
+                const sortedClasses = Object.keys(grouped).sort((a, b) => {
+                    const aIn = grouped[a].some(x => x.inProgress);
+                    const bIn = grouped[b].some(x => x.inProgress);
+                    if (aIn && !bIn) return -1;
+                    if (!aIn && bIn) return 1;
+                    return (CLASS_ORDER[a] ?? 99) - (CLASS_ORDER[b] ?? 99);
+                });
+                for (const cls of sortedClasses) {
+                    grouped[cls].sort((a, b) => {
+                        if (a.inProgress && !b.inProgress) return -1;
+                        if (!a.inProgress && b.inProgress) return 1;
+                        return (SUBJECT_ORDER[a.subject] ?? 99) - (SUBJECT_ORDER[b.subject] ?? 99);
+                    });
+                }
+                const result = [];
+                const indices = {};
+                sortedClasses.forEach(cls => { indices[cls] = 0; });
+                while (result.length < count && sortedClasses.some(cls => indices[cls] < (grouped[cls] || []).length)) {
+                    for (const cls of sortedClasses) {
+                        if (result.length >= count) break;
+                        const group = grouped[cls] || [];
+                        if (indices[cls] < group.length) { result.push(group[indices[cls]]);
+                            indices[cls]++; }
+                    }
+                }
+                return result;
+            }
+
+            async function renderToday(date) {
+                currentDate = date;
+                document.getElementById('todayDateLabel').textContent = formatDateNice(date);
+                document.getElementById('headerDate').textContent = formatDateShort(date);
+                document.getElementById('todayNavBadge').textContent = formatDateShort(date);
+                document.getElementById('printDate').textContent = formatDateNice(date);
+                const schedule = await getScheduleForDate(date);
+                const grid = document.getElementById('periodGrid');
+                const searchTerm = (document.getElementById('searchClass')?.value || '').trim().toUpperCase();
+                let html = '';
+                for (const p of PERIODS) {
+                    const entry = schedule[p];
+                    let cardClass = '',
+                        statusBadge = '',
+                        statusClass = 'status-not-started',
+                        classInfo = '<span style="color:#999;font-style:italic;">No class scheduled</span>',
+                        subjectInfo = '',
+                        notesPreview = '',
+                        isMisc = false;
+                    if (entry) {
+                        if (entry.status === 'completed') { cardClass = 'completed';
+                            statusBadge = '✅ Completed';
+                            statusClass = 'status-completed'; } else if (entry.status === 'skipped') { cardClass =
+                                'skipped';
+                            statusBadge = '⏭️ Skipped';
+                            statusClass = 'status-skipped'; } else { statusBadge = '⏳ Not Started';
+                            statusClass = 'status-not-started'; }
+                        classInfo = `<strong>Class ${entry.class} — Section ${entry.section}</strong>`;
+                        subjectInfo = entry.subject;
+                        notesPreview = entry.notes ? `📝 ${entry.notes}` : '';
+                        isMisc = entry.subject === 'Miscellaneous';
+                    }
+                    if (searchTerm && entry) {
+                        const haystack =
+                            `${entry.class} ${entry.section} ${entry.subject} ${entry.notes||''}`.toUpperCase();
+                        if (!haystack.includes(searchTerm)) continue;
+                    }
+                    html += `
+                <div class="period-card ${cardClass}" data-period="${p}">
+                  <span class="period-chip">Period ${p}</span>
+                  <div class="class-title">${classInfo}</div>
+                  ${subjectInfo ? `<div class="subject-tag">📖 ${subjectInfo}</div>` : ''}
+                  ${statusBadge ? `<span class="status-pill ${statusClass}">${statusBadge}</span>` : ''}
+                  ${notesPreview ? `<div class="notes-snippet">${notesPreview}</div>` : ''}
+                  <div class="card-actions-row">
+                    <button class="btn btn-outline btn-sm btn-edit-period" data-period="${p}">✏️ Edit</button>
+                    ${entry ? `<button class="btn btn-success btn-sm btn-mark-done" data-period="${p}">✅ Done</button>` : ''}
+                    ${entry ? `<button class="btn btn-warn btn-sm btn-mark-skip" data-period="${p}">⏭️ Skip</button>` : ''}
+                    ${entry && isMisc && entry.notes ? `<button class="btn btn-outline btn-sm btn-share-note" data-period="${p}">📤 Share Note</button>` : ''}
+                  </div>
+                </div>`;
+                }
+                grid.innerHTML = html ||
+                    '<p style="color:var(--gray-500);text-align:center;padding:20px;">No periods match your search.</p>';
+                grid.querySelectorAll('.btn-edit-period').forEach(b => b.addEventListener('click', () => openEditModal(
+                    parseInt(b.dataset.period))));
+                grid.querySelectorAll('.btn-mark-done').forEach(b => b.addEventListener('click', async () => { await
+                        quickUpdateStatus(parseInt(b.dataset.period), 'completed');
+                    await renderToday(currentDate); if (currentView === 'calendar') await renderCalendar(); }));
+                grid.querySelectorAll('.btn-mark-skip').forEach(b => b.addEventListener('click', async () => { await
+                        quickUpdateStatus(parseInt(b.dataset.period), 'skipped');
+                    await renderToday(currentDate); if (currentView === 'calendar') await renderCalendar(); }));
+                grid.querySelectorAll('.btn-share-note').forEach(b => b.addEventListener('click', () => {
+                    const period = parseInt(b.dataset.period);
+                    shareMiscNote(period);
+                }));
+            }
+
+            async function shareMiscNote(period) {
+                const schedule = await getScheduleForDate(currentDate);
+                const entry = schedule[period];
+                if (!entry || entry.subject !== 'Miscellaneous' || !entry.notes) return;
+                const msg =
+                    `📌 *Miscellaneous Activity Report*\n\n🏫 *R.P.S. School, Bihar Sharif (Nalanda)*\n👨‍🏫 Teacher: Mr. Mithilesh\n📅 Date: ${formatDateNice(currentDate)}\n🕐 Period: ${period}\n📝 Activity: ${entry.notes}\n\n_Shared via Practical Lesson Planner_`;
+                window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+            }
+
+            async function quickUpdateStatus(period, status) {
+                const schedule = await getScheduleForDate(currentDate);
+                const entry = schedule[period];
+                if (!entry) return;
+                entry.status = status;
+                await dbPut('schedule', entry);
+                if (status === 'completed' && SUBJECTS.includes(entry.subject)) {
+                    await advanceProgress(entry.class, entry.subject);
+                }
+            }
+
+            async function advanceProgress(cls, subject) {
+                const key = `${cls}_${subject}`;
+                const prog = await dbGet('progress', key);
+                if (!prog) return;
+                const total = (SECTIONS_MAP[cls] || []).length;
+                if (prog.currentSectionIndex < total) { prog.currentSectionIndex++;
+                    await dbPut('progress', prog); }
+            }
+
+            async function openEditModal(period) {
+                const schedule = await getScheduleForDate(currentDate);
+                const entry = schedule[period];
+                document.getElementById('editPeriodIndex').value = period;
+                const classSel = document.getElementById('editClass');
+                classSel.innerHTML = CLASSES.map(c =>
+                    `<option value="${c}" ${c===(entry?.class||'VI')?'selected':''}>Class ${c}</option>`).join('');
+                classSel.value = entry?.class || 'VI';
+                updateSectionDropdown(classSel.value, entry?.section || 'A');
+                const subjectSel = document.getElementById('editSubject');
+                subjectSel.innerHTML = SUBJECTS_WITH_MISC.map(s =>
+                    `<option value="${s}" ${s===(entry?.subject||'Physics')?'selected':''}>${s}</option>`).join('');
+                subjectSel.value = entry?.subject || 'Physics';
+                document.getElementById('editStatus').value = entry?.status || 'not-started';
+                document.getElementById('editNotes').value = entry?.notes || '';
+                document.getElementById('editModalOverlay').classList.remove('hidden');
+                classSel.onchange = function() { updateSectionDropdown(this.value, null); };
+            }
+
+            function updateSectionDropdown(cls, selectedSection) {
+                const sel = document.getElementById('editSection');
+                const sections = SECTIONS_MAP[cls] || ['A'];
+                sel.innerHTML = sections.map(s =>
+                    `<option value="${s}" ${s===selectedSection?'selected':''}>Section ${s}</option>`).join('');
+                if (selectedSection && sections.includes(selectedSection)) sel.value = selectedSection;
+            }
+            document.getElementById('btnCancelEdit').addEventListener('click', () => document.getElementById(
+                'editModalOverlay').classList.add('hidden'));
+            document.getElementById('btnSaveEdit').addEventListener('click', async () => {
+                const period = parseInt(document.getElementById('editPeriodIndex').value);
+                const cls = document.getElementById('editClass').value;
+                const section = document.getElementById('editSection').value;
+                const subject = document.getElementById('editSubject').value;
+                const status = document.getElementById('editStatus').value;
+                const notes = document.getElementById('editNotes').value.trim();
+                const schedule = await getScheduleForDate(currentDate);
+                let entry = schedule[period];
+                if (entry) { entry.class = cls;
+                    entry.section = section;
+                    entry.subject = subject;
+                    entry.status = status;
+                    entry.notes = notes; } else { entry = { date: currentDate, period, class: cls, section, subject, status,
+                        notes }; }
+                await dbPut('schedule', entry);
+                if (status === 'completed' && SUBJECTS.includes(subject)) await advanceProgress(cls, subject);
+                document.getElementById('editModalOverlay').classList.add('hidden');
+                await renderToday(currentDate);
+                if (currentView === 'calendar') await renderCalendar();
+            });
+            document.getElementById('editModalOverlay').addEventListener('click', function(e) { if (e.target === this) this
+                    .classList.add('hidden'); });
+            document.getElementById('btnSmartSuggest').addEventListener('click', async () => {
+                const recs = await getDiverseRecommendations(6);
+                const existing = await getScheduleForDate(currentDate);
+                for (const p of PERIODS) { if (existing[p]) await dbDelete('schedule', existing[p].id); }
+                for (let i = 0; i < Math.min(recs.length, PERIODS.length); i++) {
+                    const r = recs[i];
+                    await dbPut('schedule', { date: currentDate, period: PERIODS[i], class: r.class, section: r.section,
+                        subject: r.subject, status: 'not-started', notes: '' });
+                }
+                await renderToday(currentDate);
+                if (currentView === 'calendar') await renderCalendar();
+            });
+            document.getElementById('btnAutoFill').addEventListener('click', async () => {
+                const recs = await getDiverseRecommendations(6);
+                const existing = await getScheduleForDate(currentDate);
+                const filled = new Set();
+                for (const p of PERIODS) { if (existing[p]) filled.add(p); }
+                const empty = PERIODS.filter(p => !filled.has(p));
+                for (let i = 0; i < Math.min(recs.length, empty.length); i++) {
+                    const r = recs[i];
+                    await dbPut('schedule', { date: currentDate, period: empty[i], class: r.class, section: r.section,
+                        subject: r.subject, status: 'not-started', notes: '' });
+                }
+                await renderToday(currentDate);
+                if (currentView === 'calendar') await renderCalendar();
+            });
+            document.getElementById('searchClass').addEventListener('input', () => renderToday(currentDate));
+            document.getElementById('btnShareWhatsApp').addEventListener('click', async () => {
+                const schedule = await getScheduleForDate(currentDate);
+                let msg =
+                    `📋 *Daily Practical Plan*\n🏫 *R.P.S. School, Bihar Sharif (Nalanda)*\n👨‍🏫 Teacher: Mr. Mithilesh\n📅 Date: ${formatDateNice(currentDate)}\n\n`;
+                let hasAny = false;
+                for (const p of PERIODS) {
+                    const e = schedule[p];
+                    if (e) {
+                        hasAny = true;
+                        msg +=
+                            `*Period ${p}:* ${e.class}-${e.section} (${e.subject}) - ${e.status==='completed'?'✅':e.status==='skipped'?'⏭️':'⏳'}${e.notes?' | Note: '+e.notes:''}\n`;
+                    }
+                }
+                if (!hasAny) msg += 'No practicals scheduled.';
+                msg += '\n_Generated by Practical Lesson Planner_';
+                window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+            });
+
+            async function renderCalendar() {
+                document.getElementById('calMonthLabel').textContent = new Date(calYear, calMonth).toLocaleString(
+                    'default', { month: 'long', year: 'numeric' });
+                const grid = document.getElementById('calendarGrid');
+                const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                let html = dayHeaders.map(d => `<div class="day-hdr">${d}</div>`).join('');
+                const firstDay = new Date(calYear, calMonth, 1).getDay();
+                const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+                const allSchedules = await dbGetAll('schedule');
+                const dateStatusMap = {};
+                for (const s of allSchedules) {
+                    if (!dateStatusMap[s.date]) dateStatusMap[s.date] = { total: 0, completed: 0 };
+                    dateStatusMap[s.date].total++;
+                    if (s.status === 'completed') dateStatusMap[s.date].completed++;
+                }
+
+                function getDayClass(d, m, y) {
+                    const ds = dateStr(new Date(y, m, d));
+                    let cls = 'day-cell';
+                    if (ds === dateStr(TODAY)) cls += ' today-ring';
+                    const info = dateStatusMap[ds];
+                    if (info && info.total > 0) {
+                        if (info.completed >= info.total) cls += ' completed-day';
+                        else if (info.completed > 0) cls += ' partial-day';
+                        else cls += ' empty-day';
+                    } else cls += ' empty-day';
+                    return cls;
+                }
+                for (let i = firstDay - 1; i >= 0; i--) {
+                    const d = new Date(calYear, calMonth, 0).getDate() - i;
+                    const ds = dateStr(new Date(calMonth === 0 ? calYear - 1 : calYear, calMonth === 0 ? 11 : calMonth - 1,
+                        d));
+                    html += `<div class="day-cell other-month" data-date="${ds}">${d}</div>`;
+                }
+                for (let d = 1; d <= daysInMonth; d++) {
+                    const cls = getDayClass(d, calMonth, calYear);
+                    const ds = dateStr(new Date(calYear, calMonth, d));
+                    html += `<div class="${cls}" data-date="${ds}">${d}</div>`;
+                }
+                const totalCells = firstDay + daysInMonth;
+                const remaining = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+                for (let d = 1; d <= remaining; d++) {
+                    const m = calMonth === 11 ? 0 : calMonth + 1;
+                    const y = calMonth === 11 ? calYear + 1 : calYear;
+                    const ds = dateStr(new Date(y, m, d));
+                    html += `<div class="day-cell other-month" data-date="${ds}">${d}</div>`;
+                }
+                grid.innerHTML = html;
+                grid.querySelectorAll('.day-cell:not(.other-month)').forEach(cell => {
+                    cell.addEventListener('click', async () => {
+                        if (cell.dataset.date) { currentDate = cell.dataset.date; await renderToday(
+                                currentDate);
+                            switchView('today'); }
+                    });
+                });
+            }
+            document.getElementById('calPrev').addEventListener('click', () => { calMonth--; if (calMonth < 0) { calMonth =
+                    11;
+                    calYear--; } renderCalendar(); });
+            document.getElementById('calNext').addEventListener('click', () => { calMonth++; if (calMonth > 11) { calMonth =
+                    0;
+                    calYear++; } renderCalendar(); });
+            document.getElementById('calGoToday').addEventListener('click', () => {
+                calMonth = TODAY.getMonth();
+                calYear = TODAY.getFullYear();
+                currentDate = dateStr(TODAY);
+                renderCalendar();
+                renderToday(currentDate);
+                switchView('today');
+            });
+
+            async function renderAnalytics() {
+                const allSchedules = await dbGetAll('schedule');
+                const allProgress = await dbGetAll('progress');
+                const grid = document.getElementById('analyticsGrid');
+                const completed = allSchedules.filter(s => s.status === 'completed');
+                const totalCompleted = completed.length;
+                const classCounts = {};
+                CLASSES.forEach(c => { classCounts[c] = { total: 0, completed: 0, skipped: 0 }; });
+                allSchedules.forEach(s => { if (classCounts[s.class]) { classCounts[s.class].total++; if (s.status ===
+                        'completed') classCounts[s.class].completed++; if (s.status === 'skipped') classCounts[s.class]
+                        .skipped++; } });
+                const subjectCounts = {};
+                SUBJECTS.forEach(s => { subjectCounts[s] = 0; });
+                completed.forEach(s => { if (SUBJECTS.includes(s.subject)) subjectCounts[s.subject] = (subjectCounts[s
+                    .subject] || 0) + 1; });
+                const periodUsage = {};
+                PERIODS.forEach(p => { periodUsage[p] = 0; });
+                allSchedules.forEach(s => { periodUsage[s.period] = (periodUsage[s.period] || 0) + 1; });
+                const maxPeriod = Math.max(1, ...Object.values(periodUsage));
+                const now = new Date();
+                const thisMonth = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+                const distinctSectionsThisMonth = new Set();
+                allSchedules.forEach(s => { if (s.status === 'completed' && s.date.startsWith(thisMonth) && SUBJECTS
+                        .includes(s.subject)) distinctSectionsThisMonth.add(`${s.class}-${s.section}`); });
+                const monthlyProgress = distinctSectionsThisMonth.size;
+                const monthlyTarget = 27;
+                const distinctAllTime = {};
+                completed.forEach(s => { if (SUBJECTS.includes(s.subject)) { const key =
+                    `${s.class}-${s.section}`;
+                        distinctAllTime[key] = (distinctAllTime[key] || 0) + 1; } });
+                let yearlyTargetMet = 0;
+                const allSectionsList = [];
+                CLASSES.forEach(cls => { SECTIONS_MAP[cls].forEach(sec => { const key =
+                    `${cls}-${sec}`;
+                        allSectionsList.push({ cls, sec, count: distinctAllTime[key] || 0 }); if ((distinctAllTime[
+                                key] || 0) >= 10) yearlyTargetMet++; }); });
+                let html = `
+              <div class="stat-card"><h4>📊 Total Practicals Completed</h4><div class="big-num">${totalCompleted}</div><div class="sub-text">All time</div></div>
+              <div class="stat-card"><h4>📅 Monthly Target (${monthlyTarget} sections)</h4><div class="big-num">${monthlyProgress}/${monthlyTarget}</div><div class="mini-bar-wrap"><div class="mini-bar-fill" style="width:${Math.round((monthlyProgress/monthlyTarget)*100)}%;"></div></div><div class="sub-text">Distinct sections completed this month</div></div>
+              <div class="stat-card"><h4>🏆 Yearly Target (10 each)</h4><div class="big-num">${yearlyTargetMet}/${allSectionsList.length}</div><div class="sub-text">Sections with ≥10 practicals</div></div>
+              <div class="stat-card"><h4>📚 By Subject</h4>${SUBJECTS.map(s=>`<div style="margin:4px 0;font-size:0.82rem;"><strong>${s}:</strong> ${subjectCounts[s]||0}</div>`).join('')}</div>
+              <div class="stat-card"><h4>🏫 By Class</h4>${CLASSES.map(c=>`<div style="margin:3px 0;font-size:0.78rem;"><strong>${c}:</strong> ${classCounts[c].completed}/${classCounts[c].total}<div class="mini-bar-wrap"><div class="mini-bar-fill" style="width:${classCounts[c].total>0?Math.round((classCounts[c].completed/classCounts[c].total)*100):0}%;"></div></div></div>`).join('')}</div>
+              <div class="stat-card"><h4>🕐 Period Utilization</h4>${PERIODS.map(p=>`<div style="margin:3px 0;font-size:0.78rem;"><strong>P${p}:</strong> ${periodUsage[p]||0}<div class="mini-bar-wrap"><div class="mini-bar-fill" style="width:${Math.round(((periodUsage[p]||0)/maxPeriod)*100)}%;"></div></div></div>`).join('')}</div>
+              <div class="stat-card"><h4>📋 Yearly Section Progress</h4><div style="max-height:250px;overflow-y:auto;">${allSectionsList.map(s=>`<div style="font-size:0.72rem;margin:2px 0;">${s.cls}-${s.sec}: ${s.count}/10<div class="mini-bar-wrap"><div class="mini-bar-fill" style="width:${Math.min(100,(s.count/10)*100)}%;"></div></div></div>`).join('')}</div></div>`;
+                grid.innerHTML = html;
+                let pending = '';
+                for (const p of allProgress) {
+                    const total = (SECTIONS_MAP[p.class] || []).length;
+                    if (p.currentSectionIndex < total) {
+                        const next = SECTIONS_MAP[p.class][p.currentSectionIndex];
+                        pending +=
+                            `<li>📌 <strong>${p.class} — ${p.subject}</strong>: Next → Section ${next} (${p.currentSectionIndex}/${total})</li>`;
+                    }
+                }
+                document.getElementById('pendingWorkList').innerHTML = pending || '<li>✅ All sections covered</li>';
+            }
+
+            document.getElementById('btnSaveSettings').addEventListener('click', async () => {
+                const name = document.getElementById('settingTeacherName').value.trim() || 'Mr. Mithilesh';
+                const dm = document.getElementById('toggleDarkMode').checked;
+                await dbPut('settings', { key: 'app', teacherName: name, darkMode: dm });
+                document.querySelector('.topbar-teacher').innerHTML = '<span class="dot-live"></span> ' + name;
+                applyDarkMode(dm);
+                alert('✅ Settings saved!');
+            });
+            document.getElementById('toggleDarkMode').addEventListener('change', function() { applyDarkMode(this.checked); });
+            document.getElementById('btnExportData').addEventListener('click', async () => {
+                const data = { progress: await dbGetAll('progress'), schedule: await dbGetAll('schedule'),
+                    settings: await dbGetAll('settings'), exportedAt: new Date().toISOString(), version: DB_VERSION };
+                const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = `RPS_Backup_${dateStr(TODAY)}.json`;
+                a.click();
+            });
+            document.getElementById('btnImportData').addEventListener('click', () => document.getElementById('importFileInput')
+                .click());
+            document.getElementById('importFileInput').addEventListener('change', async function() {
+                const file = this.files[0];
+                if (!file) return;
+                try {
+                    const text = await file.text();
+                    const data = JSON.parse(text);
+                    if (!data.progress || !data.schedule || !data.settings) throw new Error('Invalid format');
+                    if (!confirm('⚠️ Replace all current data?')) return;
+                    await dbClear('progress');
+                    await dbClear('schedule');
+                    await dbClear('settings');
+                    for (const p of data.progress) await dbPut('progress', p);
+                    for (const s of data.schedule) await dbPut('schedule', s);
+                    for (const st of data.settings) await dbPut('settings', st);
+                    alert('✅ Imported! Reloading...');
+                    location.reload();
+                } catch (e) { alert('❌ ' + e.message); }
+                this.value = '';
+            });
+            document.getElementById('btnResetData').addEventListener('click', async () => {
+                if (!confirm('⚠️ Delete all data?')) return;
+                if (prompt('Type "yes" to confirm:') !== 'yes') return;
+                await dbClear('progress');
+                await dbClear('schedule');
+                await dbClear('settings');
+                alert('✅ Reset. Reloading...');
+                location.reload();
+            });
+
+            function switchView(view) {
+                currentView = view;
+                document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+                document.getElementById('view-' + view).classList.add('active');
+                document.querySelectorAll('.sidebar-nav button').forEach(b => b.classList.remove('active'));
+                document.querySelector(`[data-view="${view}"]`)?.classList.add('active');
+                if (view === 'analytics') renderAnalytics();
+                if (view === 'calendar') renderCalendar();
+                if (view === 'today') renderToday(currentDate);
+                closeSidebar();
+            }
+            document.querySelectorAll('.sidebar-nav button').forEach(b => b.addEventListener('click', () => switchView(b
+                .dataset.view)));
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            document.getElementById('hamburgerBtn').addEventListener('click', () => { sidebar.classList.toggle('open');
+                overlay.classList.toggle('active'); });
+            overlay.addEventListener('click', () => { sidebar.classList.remove('open');
+                overlay.classList.remove('active'); });
+            window.addEventListener('resize', () => { if (window.innerWidth > 900) { sidebar.classList.remove('open');
+                    overlay.classList.remove('active'); } });
+
+            function formatDateNice(d) { return new Date(d + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long',
+                    year: 'numeric', month: 'long', day: 'numeric' }); }
+
+            function formatDateShort(d) { return new Date(d + 'T00:00:00').toLocaleDateString('en-US', { month: 'short',
+                    day: 'numeric', year: 'numeric' }); }
+
+            async function init() {
+                await openDB();
+                await initProgressIfEmpty();
+                await initSettingsIfEmpty();
+                document.getElementById('headerDate').textContent = formatDateShort(currentDate);
+                document.getElementById('todayDateLabel').textContent = formatDateNice(currentDate);
+                document.getElementById('printDate').textContent = formatDateNice(currentDate);
+                const s = await dbGet('settings', 'app');
+                if (s) {
+                    document.getElementById('settingTeacherName').value = s.teacherName || 'Mr. Mithilesh';
+                    document.querySelector('.topbar-teacher').innerHTML = '<span class="dot-live"></span> ' + (s
+                        .teacherName || 'Mr. Mithilesh');
+                    applyDarkMode(s.darkMode || false);
+                }
+                await renderToday(currentDate);
+            }
+            init().catch(e => console.error(e));
+        })();
+    </script>
+</body>
+</html>
