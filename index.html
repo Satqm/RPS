@@ -60,7 +60,6 @@
             --gray-100: #f3f4f6;
             --gray-50: #f9fafb;
             --white: #ffffff;
-            /* Neo-brutalist additions */
             --border-thick: 2px;
             --shadow-brutal: 8px 8px 0 rgba(0,0,0,0.15);
             --shadow-brutal-sm: 4px 4px 0 rgba(0,0,0,0.12);
@@ -142,7 +141,6 @@
             -webkit-tap-highlight-color: transparent;
             -webkit-font-smoothing: antialiased;
             line-height: 1.5;
-            /* Dotted grid background layers */
             background-image:
                 radial-gradient(circle, rgba(0,0,0,0.08) 1px, transparent 1px),
                 radial-gradient(circle, rgba(0,0,0,0.05) 1px, transparent 1px),
@@ -164,26 +162,6 @@
             100% { background-position: 0 0, 0 0, 160px 160px; }
         }
 
-        /* Custom cursor */
-        .custom-cursor {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--green-600);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 1000;
-            transition: width 0.2s, height 0.2s, background 0.2s, border-color 0.2s;
-            transform: translate(-50%, -50%);
-            mix-blend-mode: difference;
-        }
-        .custom-cursor.hovering {
-            width: 40px;
-            height: 40px;
-            background: rgba(46,139,78,0.2);
-            border-color: var(--green-400);
-        }
-
         /* ── TOPBAR ── */
         .topbar {
             position: sticky;
@@ -194,7 +172,7 @@
             display: flex;
             align-items: center;
             padding: 0 18px;
-            gap: 14px;
+            gap: 12px;
             box-shadow: 0 4px 0 rgba(0,0,0,0.2), 0 8px 20px rgba(0,0,0,0.18);
             transition: background var(--transition-slow);
             border-bottom: 2px solid #000;
@@ -231,12 +209,17 @@
             letter-spacing: 0.01em;
             line-height: 1.2;
             white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .topbar-sub {
             font-size: 0.6rem;
             color: rgba(255, 255, 255, 0.72);
             letter-spacing: 0.07em;
             text-transform: uppercase;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .topbar-right {
             display: flex;
@@ -255,6 +238,7 @@
             white-space: nowrap;
             border: 1px solid rgba(255, 255, 255, 0.16);
             box-shadow: 0 2px 0 rgba(0,0,0,0.15);
+            display: none; /* hidden on mobile by default */
         }
         .topbar-teacher {
             font-size: 0.72rem;
@@ -264,6 +248,9 @@
             align-items: center;
             gap: 5px;
             white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100px;
         }
         .dot-live {
             width: 7px;
@@ -284,10 +271,12 @@
             display: none;
         }
         @media (min-width: 600px) {
+            .topbar-chip { display: inline-block; }
             .topbar-date { display: inline; }
+            .topbar-teacher { max-width: none; }
         }
         .hamburger {
-            display: none;
+            display: flex;
             all: unset;
             cursor: pointer;
             width: 38px;
@@ -374,6 +363,7 @@
             border-radius: 0 6px 6px 0;
             margin-right: 6px;
             border-bottom: 1px solid var(--gray-200);
+            min-height: 44px; /* larger touch target */
         }
         .sidebar-nav button:hover {
             background: var(--green-25);
@@ -423,6 +413,7 @@
             transition: margin var(--transition-slow);
             display: flex;
             flex-direction: column;
+            touch-action: pan-y; /* allow vertical scroll, horizontal swipe captured by JS */
         }
         .content {
             flex: 1;
@@ -450,11 +441,13 @@
             }
         }
 
-        /* ── PRINT STYLES (unchanged, but adapted for brutalist) ── */
+        /* ── PRINT STYLES ── */
         .print-only-header { display: none; }
         .print-period-table-wrap { display: none; }
         .print-summary-box { display: none; }
         .print-footer-line { display: none; }
+        .print-signature-line { display: none; }
+
         @media print {
             @page { margin: 10mm 12mm; size: A4 portrait; }
             body {
@@ -463,6 +456,8 @@
                 font-size: 11px;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
+                animation: none !important;
+                background-image: none !important;
             }
             .sidebar, .topbar, .action-bar, .btn, .modal-overlay, .search-input,
             .sidebar-overlay, .hamburger, .card-actions-row, .card-actions-row .btn,
@@ -477,17 +472,145 @@
             .content { padding: 0 !important; max-width: 100% !important; width: 100% !important; }
             .view { display: block !important; animation: none !important; }
             .view.active { display: block !important; }
-            .print-only-header { display: block !important; text-align: center; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 3px solid #1a6b3c; }
-            .print-only-header .print-logo-line { font-size: 1.5rem; font-weight: 800; color: #1a6b3c; }
-            .print-only-header .print-sub-line { font-size: 0.7rem; color: #444; margin: 3px 0; }
-            .print-only-header .print-decor { position: absolute; bottom: -3px; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #1a6b3c, #3da066, #1a6b3c); }
-            .print-period-table-wrap { display: block !important; margin-top: 10px; }
-            .print-period-table { width: 100%; border-collapse: collapse; font-size: 0.68rem; box-shadow: 0 0 0 1px #ddd; }
-            .print-period-table th, .print-period-table td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
-            .print-period-table thead th { background: #1a6b3c; color: #fff; font-weight: 700; }
-            .print-summary-box { display: block !important; margin-top: 10px; padding: 8px 14px; border: 2px solid #1a6b3c; background: #f9fdf9; }
-            .print-footer-line { display: block !important; text-align: center; margin-top: 10px; font-size: 0.58rem; color: #777; }
-            .section-heading h2 { font-size: 1rem !important; color: #1a6b3c !important; }
+            .print-only-header {
+                display: block !important;
+                text-align: center;
+                margin-bottom: 12px;
+                padding-bottom: 6px;
+                border-bottom: 3px solid #1a6b3c;
+                position: relative;
+            }
+            .print-only-header .print-logo-line {
+                font-size: 1.8rem;
+                font-weight: 800;
+                color: #1a6b3c;
+                letter-spacing: 0.04em;
+                text-transform: uppercase;
+            }
+            .print-only-header .print-sub-line {
+                font-size: 0.75rem;
+                color: #444;
+                margin: 3px 0;
+                letter-spacing: 0.03em;
+            }
+            .print-only-header .print-decor {
+                position: absolute;
+                bottom: -3px;
+                left: 0;
+                right: 0;
+                height: 3px;
+                background: linear-gradient(90deg, #1a6b3c, #3da066, #1a6b3c);
+                border-radius: 0;
+            }
+            .print-period-table-wrap {
+                display: block !important;
+                margin-top: 8px;
+            }
+            .print-period-table-wrap h3 {
+                font-size: 0.85rem;
+                margin-bottom: 6px;
+                border-bottom: 1px solid #ccc;
+                padding-bottom: 4px;
+                letter-spacing: 0.03em;
+                color: #1a6b3c;
+            }
+            .print-period-table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 0.68rem;
+                box-shadow: 0 0 0 1px #ddd;
+            }
+            .print-period-table th, .print-period-table td {
+                border: 1px solid #ccc;
+                padding: 6px 8px;
+                text-align: left;
+                vertical-align: top;
+            }
+            .print-period-table thead th {
+                background: #1a6b3c;
+                color: #fff;
+                font-weight: 700;
+                font-size: 0.62rem;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                padding: 7px 8px;
+                border-color: #14522b;
+            }
+            .print-period-table .col-p { width: 7%; text-align: center; }
+            .print-period-table .col-cls { width: 12%; }
+            .print-period-table .col-sec { width: 9%; text-align: center; }
+            .print-period-table .col-sub { width: 16%; }
+            .print-period-table .col-st { width: 13%; text-align: center; font-weight: 600; }
+            .print-period-table .col-nt { width: 43%; }
+            .print-period-table tbody tr:nth-child(even) { background: #f7faf7; }
+            .print-period-table tbody tr:nth-child(odd) { background: #fff; }
+            .print-period-table .row-completed { background: #e6f4ea !important; }
+            .print-period-table .row-skipped { background: #fffdf0 !important; }
+            .print-period-table .row-not-started { background: #fff !important; }
+            .print-status-dot {
+                display: inline-block;
+                width: 9px;
+                height: 9px;
+                border-radius: 50%;
+                margin-right: 4px;
+                vertical-align: middle;
+            }
+            .print-status-dot.dot-done { background: #2e8b4e; }
+            .print-status-dot.dot-skip { background: #d69e2e; }
+            .print-status-dot.dot-pend { background: #bbb; }
+            .print-summary-box {
+                display: block !important;
+                margin-top: 8px;
+                padding: 8px 14px;
+                border: 2px solid #1a6b3c;
+                border-radius: 6px;
+                background: #f9fdf9;
+                font-size: 0.7rem;
+                line-height: 1.7;
+            }
+            .print-summary-box strong { font-weight: 700; color: #1a6b3c; }
+            .print-summary-box .summary-row {
+                display: flex;
+                gap: 16px;
+                flex-wrap: wrap;
+            }
+            .print-summary-box .summary-item {
+                white-space: nowrap;
+                font-weight: 500;
+            }
+            .print-footer-line {
+                display: block !important;
+                text-align: center;
+                margin-top: 10px;
+                font-size: 0.58rem;
+                color: #777;
+                border-top: 1px solid #ddd;
+                padding-top: 5px;
+                letter-spacing: 0.04em;
+            }
+            .print-signature-line {
+                display: flex !important;
+                justify-content: space-between;
+                margin-top: 25px;
+                padding: 0 10px;
+                font-size: 0.75rem;
+            }
+            .print-signature-line .sig-block {
+                text-align: center;
+                min-width: 120px;
+            }
+            .print-signature-line .sig-line {
+                border-top: 1px dotted #333;
+                margin-top: 30px;
+                padding-top: 4px;
+            }
+            .section-heading h2 {
+                font-size: 1rem !important;
+                color: #1a6b3c !important;
+                margin-bottom: 6px !important;
+            }
+            #printHeader { display: none !important; }
+            .section-heading { display: none !important; }
         }
 
         /* ── VIEWS & CONTENT ── */
@@ -515,6 +638,7 @@
             font-weight: 700;
             color: var(--gray-900);
             letter-spacing: -0.01em;
+            margin: 0;
         }
         .accent-dot {
             width: 9px;
@@ -535,7 +659,7 @@
             letter-spacing: 0.01em;
         }
 
-        /* Buttons – brutalist style */
+        /* Buttons */
         .action-bar {
             display: flex;
             gap: 7px;
@@ -563,13 +687,14 @@
             background: var(--white);
             color: var(--gray-800);
             box-shadow: var(--shadow-brutal-sm);
+            min-height: 40px; /* larger touch target */
         }
         .btn:active {
             transform: translate(2px, 2px);
             box-shadow: none;
         }
-        .btn-sm { padding: 5px 10px; font-size: 0.7rem; border-radius: 14px; }
-        .btn-xs { padding: 3px 8px; font-size: 0.65rem; border-radius: 10px; }
+        .btn-sm { padding: 5px 10px; font-size: 0.7rem; border-radius: 14px; min-height: 36px; }
+        .btn-xs { padding: 3px 8px; font-size: 0.65rem; border-radius: 10px; min-height: 32px; }
         .btn-primary { background: var(--green-500); color: #fff; }
         .btn-primary:hover { background: var(--green-700); box-shadow: 0 6px 0 rgba(0,0,0,0.2); transform: translateY(-1px); }
         .btn-outline { border: 2px solid var(--gray-300); color: var(--gray-700); background: var(--white); }
@@ -639,11 +764,14 @@
             transition: background var(--transition-fast);
             backdrop-filter: blur(2px);
             box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+            min-height: 32px;
+            display: flex;
+            align-items: center;
         }
         .suggestion-chip:hover { background: rgba(255, 255, 255, 0.26); }
         .suggestion-chip.used { opacity: 0.45; text-decoration: line-through; pointer-events: none; }
 
-        /* Period cards – neo-brutalist */
+        /* Period cards */
         .period-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -736,23 +864,7 @@
         .activity-type-tag { display: inline-block; font-size: 0.67rem; font-weight: 600; background: #eff6ff; color: #2563eb; padding: 3px 9px; border-radius: 10px; margin-top: 2px; }
         .dark-mode .activity-type-tag { background: #1e3a5f; color: #93c5fd; }
         .card-actions-row { display: flex; gap: 5px; margin-top: 10px; flex-wrap: wrap; }
-        .card-actions-row .btn { font-size: 0.67rem; padding: 4px 9px; }
-
-        /* Cursor-tracking glow wrapper for cards */
-        .card-glow {
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s;
-            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(46,139,78,0.15), transparent 70%);
-            mix-blend-mode: multiply;
-        }
-        .period-card:hover .card-glow,
-        .stat-card:hover .card-glow {
-            opacity: 1;
-        }
+        .card-actions-row .btn { font-size: 0.67rem; padding: 4px 9px; min-height: 32px; }
 
         /* Modal & overlay */
         .modal-overlay {
@@ -851,6 +963,7 @@
             transition: all var(--transition-fast);
             position: relative;
             background: var(--white);
+            min-height: 36px;
         }
         .day-cell:hover { border-color: var(--green-300); background: var(--green-25); transform: scale(1.05); }
         .day-cell.today-ring { border-color: var(--green-500); box-shadow: 0 0 0 4px rgba(46,139,78,0.1); font-weight: 800; }
@@ -926,7 +1039,7 @@
             box-shadow: 0 2px 0 rgba(0,0,0,0.1);
         }
         .settings-card input[type="text"]:focus { border-color: var(--green-400); box-shadow: 0 0 0 3px rgba(61,160,102,0.06); }
-        .toggle-row { display: flex; align-items: center; gap: 10px; margin: 8px 0; cursor: pointer; font-weight: 500; font-size: 0.84rem; color: var(--gray-700); user-select: none; }
+        .toggle-row { display: flex; align-items: center; gap: 10px; margin: 8px 0; cursor: pointer; font-weight: 500; font-size: 0.84rem; color: var(--gray-700); user-select: none; min-height: 44px; }
         .toggle-switch { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
         .toggle-switch input { opacity: 0; width: 0; height: 0; }
         .toggle-slider { position: absolute; cursor: pointer; inset: 0; background: var(--gray-300); border-radius: 24px; transition: var(--transition-fast); border: 1px solid #000; }
@@ -986,6 +1099,16 @@
         .confirm-modal p { font-size: 0.8rem; color: var(--gray-600); margin-bottom: 16px; line-height: 1.5; }
         .confirm-modal .confirm-btn-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
 
+        /* Backup reminder modal (specific) */
+        #backupReminderOverlay .confirm-modal p {
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+        #backupReminderOverlay .confirm-btn-row .btn {
+            min-height: 40px;
+            padding: 8px 16px;
+        }
+
         /* Scroll reveal */
         .reveal {
             opacity: 0;
@@ -1009,12 +1132,15 @@
             .topbar-school { font-size: 0.88rem; }
             .analytics-grid { grid-template-columns: 1fr; }
             .calendar-grid { gap: 2px; padding: 6px; }
+            .section-heading h2 { font-size: 1.05rem; }
+            .topbar { padding: 0 10px; gap: 8px; }
+            .topbar-logo { width: 36px; height: 36px; font-size: 1rem; }
+            .topbar-teacher { font-size: 0.65rem; }
+            .topbar-chip { display: none; }
         }
     </style>
 </head>
 <body>
-    <!-- Custom Cursor -->
-    <div class="custom-cursor" id="customCursor"></div>
 
     <!-- ── TOPBAR ── -->
     <header class="topbar">
@@ -1048,7 +1174,7 @@
             <div class="sidebar-footer">RPS Planner v2.2<br>Offline &middot; IndexedDB</div>
         </aside>
 
-        <div class="main-area">
+        <div class="main-area" id="mainArea">
             <div class="content">
 
                 <!-- PRINT-ONLY HEADER -->
@@ -1097,6 +1223,10 @@
                             <tbody id="printPeriodTbody"></tbody>
                         </table>
                         <div class="print-summary-box" id="printSummaryBox"></div>
+                        <div class="print-signature-line">
+                            <div class="sig-block">Teacher's Signature<div class="sig-line"></div></div>
+                            <div class="sig-block">Principal's Signature<div class="sig-line"></div></div>
+                        </div>
                         <div class="print-footer-line">R.P.S. School, Bihar Sharif &mdash; Practical Lesson Planner &mdash; Session 2026-2027</div>
                     </div>
                 </div>
@@ -1205,6 +1335,19 @@
             <div class="confirm-btn-row">
                 <button class="btn btn-outline btn-sm" id="btnConfirmCancel">Cancel</button>
                 <button class="btn btn-gold btn-sm" id="btnConfirmProceed">&#10024; Yes, Reshuffle</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BACKUP REMINDER MODAL -->
+    <div class="modal-overlay hidden" id="backupReminderOverlay">
+        <div class="confirm-modal">
+            <h4>&#128190; Backup Reminder</h4>
+            <p>It's been a while since your last backup. Your data is precious!<br>
+            Tap below to export a full backup now.</p>
+            <div class="confirm-btn-row">
+                <button class="btn btn-outline btn-sm" id="btnBackupLater">Later</button>
+                <button class="btn btn-primary btn-sm" id="btnBackupNow">&#128228; Backup Now</button>
             </div>
         </div>
     </div>
@@ -1343,19 +1486,13 @@
                 tx.onerror = e => rej(e.target.error);
             });
 
-            // ── CUSTOM CURSOR ──
-            const cursor = document.getElementById('customCursor');
-            document.addEventListener('mousemove', e => {
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
-            });
-            document.addEventListener('mouseover', e => {
-                if (e.target.closest('button, a, .btn, .day-cell, .suggestion-chip, input, select, textarea, .toggle-row, .period-card, .stat-card')) {
-                    cursor.classList.add('hovering');
-                } else {
-                    cursor.classList.remove('hovering');
-                }
-            });
+            // ── DATA MODIFICATION TRACKING ──
+            async function markDataModified() {
+                const now = Date.now();
+                const s = await dbGet('settings', 'lastModified');
+                if (s) { s.value = now; await dbPut('settings', s); }
+                else await dbPut('settings', { key: 'lastModified', value: now });
+            }
 
             // ── LIVE CLOCK ──
             function updateClock() {
@@ -1371,7 +1508,36 @@
             updateClock();
             setInterval(updateClock, 1000);
 
-            // ── SCROLL REVEAL (for dynamically added content we call revealObserver after renders) ──
+            // ── SWIPE NAVIGATION ──
+            const viewOrder = ['today', 'calendar', 'analytics', 'search', 'settings'];
+            let touchStartX = 0, touchEndX = 0;
+            const mainArea = document.getElementById('mainArea');
+
+            mainArea.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            mainArea.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, { passive: true });
+
+            function handleSwipe() {
+                const threshold = 60;
+                const diff = touchStartX - touchEndX;
+                if (Math.abs(diff) > threshold) {
+                    const currentIdx = viewOrder.indexOf(currentView);
+                    if (diff > 0) {
+                        // swipe left -> next
+                        if (currentIdx < viewOrder.length - 1) switchView(viewOrder[currentIdx + 1]);
+                    } else {
+                        // swipe right -> previous
+                        if (currentIdx > 0) switchView(viewOrder[currentIdx - 1]);
+                    }
+                }
+            }
+
+            // ── SCROLL REVEAL ──
             const revealObserver = new IntersectionObserver(entries => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -1408,6 +1574,39 @@
                 document.getElementById('darkModeLabel').textContent = enable ? 'On' : 'Off';
                 document.getElementById('toggleDarkMode').checked = enable;
             }
+
+            // ── BACKUP REMINDER LOGIC ──
+            async function checkBackupReminder() {
+                const lastModified = await dbGet('settings', 'lastModified');
+                const lastBackup = await dbGet('settings', 'lastBackup');
+                if (!lastModified) return; // no data yet
+                const modTime = lastModified.value;
+                const backupTime = lastBackup ? lastBackup.value : 0;
+                const now = Date.now();
+                const sevenDays = 7 * 24 * 60 * 60 * 1000;
+                if (modTime > backupTime && (now - backupTime > sevenDays || backupTime === 0)) {
+                    document.getElementById('backupReminderOverlay').classList.remove('hidden');
+                }
+            }
+            async function performBackup() {
+                const data = { progress: await dbGetAll('progress'), schedule: await dbGetAll('schedule'), settings: await dbGetAll('settings') };
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = `RPS_Planner_Backup_${dateStr(TODAY)}.json`;
+                a.click();
+                // Update last backup timestamp
+                await dbPut('settings', { key: 'lastBackup', value: Date.now() });
+                toast('Backup saved!');
+                document.getElementById('backupReminderOverlay').classList.add('hidden');
+            }
+            document.getElementById('btnBackupNow').addEventListener('click', performBackup);
+            document.getElementById('btnBackupLater').addEventListener('click', () => {
+                document.getElementById('backupReminderOverlay').classList.add('hidden');
+            });
+            document.getElementById('backupReminderOverlay').addEventListener('click', e => {
+                if (e.target === e.currentTarget) e.target.classList.add('hidden');
+            });
 
             // ── SCHEDULE HELPERS ──
             async function getScheduleForDate(date) {
@@ -1557,6 +1756,7 @@
                         const newEntry = { date: currentDate, period, class: cls, section: sec, subject: subj, status: 'not-started', notes: '', isActivity: false, activityType: '' };
                         if (existing && existing.id && !existing.class) newEntry.id = existing.id;
                         await dbPut('schedule', newEntry);
+                        await markDataModified();
                         await renderToday(currentDate);
                         if (currentView === 'calendar') renderCalendar();
                         toast(`Assigned ${cls}-${sec} (${subj}) to Period ${period}!`);
@@ -1600,7 +1800,6 @@
                     </tr>`;
                     if (!e) {
                         html += `<div class="period-card reveal" data-period="${p}">
-                            <div class="card-glow"></div>
                             <span class="period-chip">Period ${p}</span>
                             <div class="class-title" style="color:#999;">— No class scheduled —</div>
                             <div class="card-actions-row"><button class="btn btn-outline btn-sm btn-edit-period" data-period="${p}">✏️ Edit</button></div>
@@ -1619,7 +1818,6 @@
                     const subj = isActivity ? '' : `<div class="subject-tag">Subject: ${e.subject}</div>`;
                     const notes = e.notes ? `<div class="notes-snippet">Notes: ${e.notes}</div>` : '';
                     html += `<div class="period-card ${cardClass} reveal" data-period="${p}">
-                        <div class="card-glow"></div>
                         <span class="period-chip">Period ${p}</span>
                         <div class="class-title">${title}${activityTag}</div>
                         ${activityTypeDisplay}${subj}
@@ -1649,7 +1847,6 @@
                 grid.querySelectorAll('.btn-mark-done').forEach(b => b.addEventListener('click', async () => { await quickUpdate(+b.dataset.period, 'completed'); renderToday(currentDate); if (currentView === 'calendar') renderCalendar(); }));
                 grid.querySelectorAll('.btn-mark-skip').forEach(b => b.addEventListener('click', async () => { await quickUpdate(+b.dataset.period, 'skipped'); renderToday(currentDate); if (currentView === 'calendar') renderCalendar(); }));
                 grid.querySelectorAll('.btn-share-note').forEach(b => b.addEventListener('click', () => shareActivityNote(+b.dataset.period)));
-                // Observe newly added reveals
                 observeReveal();
             }
 
@@ -1660,6 +1857,7 @@
                 const prevStatus = entry.status;
                 entry.status = status;
                 await dbPut('schedule', entry);
+                await markDataModified();
                 if (status === 'completed' && prevStatus !== 'completed' && !entry.isActivity && SUBJECTS.includes(entry.subject)) {
                     await advanceProgress(entry.class, entry.subject);
                 }
@@ -1762,6 +1960,7 @@
                 }
                 try {
                     await dbPut('schedule', entry);
+                    await markDataModified();
                     if (status === 'completed' && prevStatus !== 'completed' && !isActivity && SUBJECTS.includes(entry.subject)) {
                         await advanceProgress(entry.class, entry.subject);
                     }
@@ -1812,6 +2011,7 @@
                 for (const [period, item] of Object.entries(assignments)) {
                     await dbPut('schedule', { date: currentDate, period: Number(period), class: item.class, section: item.section, subject: item.subject, status: 'not-started', notes: '', isActivity: false, activityType: '' });
                 }
+                await markDataModified();
                 await renderToday(currentDate);
                 if (currentView === 'calendar') renderCalendar();
                 toast('Smart suggestions applied!');
@@ -1830,6 +2030,7 @@
                         fillCount++;
                     }
                 }
+                await markDataModified();
                 await renderToday(currentDate);
                 if (currentView === 'calendar') renderCalendar();
                 toast(`Filled ${fillCount} empty slots!`);
@@ -1965,13 +2166,13 @@
                 coverageHTML += '</ul>';
                 const grid = document.getElementById('analyticsGrid');
                 grid.innerHTML = `
-                    <div class="stat-card reveal"><div class="card-glow"></div><h4>Total Completed</h4><div class="big-num">${totalCompleted}</div></div>
-                    <div class="stat-card reveal"><div class="card-glow"></div><h4>Yearly Target (270)</h4><div class="big-num">${totalCompleted} / 270</div><div class="mini-bar-wrap"><div class="mini-bar-fill" style="width:${Math.min(100,Math.round(totalCompleted/270*100))}%"></div></div></div>
-                    <div class="stat-card reveal"><div class="card-glow"></div><h4>Sections with 10+</h4><div class="big-num">${sections10} / 27</div><div class="mini-bar-wrap"><div class="mini-bar-fill" style="width:${Math.round(sections10/27*100)}%"></div></div></div>
-                    <div class="stat-card reveal"><div class="card-glow"></div><h4>By Subject</h4>${SUBJECTS.map(s=>`<div style="margin:3px 0;">${s}: <strong>${subjCounts[s]||0}</strong></div>`).join('')}</div>
-                    <div class="stat-card reveal"><div class="card-glow"></div><h4>By Class</h4>${CLASSES.map(c=>`<div style="margin:2px 0;">${c}: <strong>${classCounts[c].completed}</strong>/${classCounts[c].total}<div class="mini-bar-wrap"><div class="mini-bar-fill" style="width:${classCounts[c].total?Math.round(classCounts[c].completed/classCounts[c].total*100):0}%"></div></div></div>`).join('')}</div>
-                    <div class="stat-card reveal"><div class="card-glow"></div><h4>Period Usage</h4>${PERIODS.map(p=>`<div style="margin:2px 0;">P${p}: <strong>${periodUse[p]}</strong><div class="mini-bar-wrap"><div class="mini-bar-fill" style="width:${Math.round(periodUse[p]/maxP*100)}%"></div></div></div>`).join('')}</div>
-                    <div class="stat-card reveal"><div class="card-glow"></div><h4>Section Coverage</h4>${coverageHTML}</div>
+                    <div class="stat-card reveal"><h4>Total Completed</h4><div class="big-num">${totalCompleted}</div></div>
+                    <div class="stat-card reveal"><h4>Yearly Target (270)</h4><div class="big-num">${totalCompleted} / 270</div><div class="mini-bar-wrap"><div class="mini-bar-fill" style="width:${Math.min(100,Math.round(totalCompleted/270*100))}%"></div></div></div>
+                    <div class="stat-card reveal"><h4>Sections with 10+</h4><div class="big-num">${sections10} / 27</div><div class="mini-bar-wrap"><div class="mini-bar-fill" style="width:${Math.round(sections10/27*100)}%"></div></div></div>
+                    <div class="stat-card reveal"><h4>By Subject</h4>${SUBJECTS.map(s=>`<div style="margin:3px 0;">${s}: <strong>${subjCounts[s]||0}</strong></div>`).join('')}</div>
+                    <div class="stat-card reveal"><h4>By Class</h4>${CLASSES.map(c=>`<div style="margin:2px 0;">${c}: <strong>${classCounts[c].completed}</strong>/${classCounts[c].total}<div class="mini-bar-wrap"><div class="mini-bar-fill" style="width:${classCounts[c].total?Math.round(classCounts[c].completed/classCounts[c].total*100):0}%"></div></div></div>`).join('')}</div>
+                    <div class="stat-card reveal"><h4>Period Usage</h4>${PERIODS.map(p=>`<div style="margin:2px 0;">P${p}: <strong>${periodUse[p]}</strong><div class="mini-bar-wrap"><div class="mini-bar-fill" style="width:${Math.round(periodUse[p]/maxP*100)}%"></div></div></div>`).join('')}</div>
+                    <div class="stat-card reveal"><h4>Section Coverage</h4>${coverageHTML}</div>
                 `;
                 const periodMapWrap = document.getElementById('periodMapTableWrap');
                 let mapHtml = '<h4>📋 Period-wise Active Science Class Routine</h4><table class="period-map-mini-table"><thead><tr><th>Period</th><th>Assigned Class-Sections</th></tr></thead><tbody>';
@@ -2022,7 +2223,6 @@
                     const dt = parseDateSafe(r.date);
                     const dateDisplay = dt ? formatDateShort(dt) : (r.date || 'Unknown date');
                     return `<div class="search-result-card reveal">
-                        <div class="card-glow"></div>
                         <div class="search-result-top">
                             <span class="period-chip">P${r.period}</span>
                             <strong>${r.isActivity?`Activity: ${r.activityType||'General'}`:`Class ${r.class} — ${r.section}`}</strong>
@@ -2053,13 +2253,7 @@
                 applyDarkMode(cb.checked);
             });
             document.getElementById('btnExportData').onclick = async () => {
-                const data = { progress: await dbGetAll('progress'), schedule: await dbGetAll('schedule'), settings: await dbGetAll('settings') };
-                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-                const a = document.createElement('a');
-                a.href = URL.createObjectURL(blob);
-                a.download = `RPS_Planner_Backup_${dateStr(TODAY)}.json`;
-                a.click();
-                toast('Data exported!');
+                await performBackup();
             };
             document.getElementById('btnImportData').onclick = () => document.getElementById('importFileInput').click();
             document.getElementById('importFileInput').onchange = async function() {
@@ -2076,6 +2270,7 @@
                     for (const p of data.progress) await dbPut('progress', p);
                     for (const s of data.schedule) await dbPut('schedule', s);
                     for (const st of (data.settings || [])) await dbPut('settings', st);
+                    await markDataModified();
                     toast('Data imported! Reloading...');
                     setTimeout(() => location.reload(), 800);
                 } catch (e) {
@@ -2144,6 +2339,7 @@
                 if (e.key === 'Escape') {
                     document.getElementById('editModalOverlay').classList.add('hidden');
                     document.getElementById('confirmModalOverlay').classList.add('hidden');
+                    document.getElementById('backupReminderOverlay').classList.add('hidden');
                     currentEditExistingId = null;
                     currentEditPreviousStatus = 'not-started';
                     closeSidebar();
@@ -2158,6 +2354,7 @@
                 document.getElementById('printOnlyDate').textContent = formatDateNice(TODAY);
                 await renderToday(currentDate);
                 observeReveal();
+                await checkBackupReminder();
 
                 // PWA Service Worker Registration
                 if ('serviceWorker' in navigator) {
