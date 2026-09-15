@@ -441,7 +441,7 @@
             }
         }
 
-        /* ── PRINT STYLES ── */
+        /* ── PRINT STYLES (for native browser print) ── */
         .print-only-header { display: none; }
         .print-period-table-wrap { display: none; }
         .print-summary-box { display: none; }
@@ -560,7 +560,6 @@
             .print-status-dot.dot-skip { background: #d69e2e; }
             .print-status-dot.dot-pend { background: #bbb; }
 
-            /* ── PRINT SUMMARY BOX (Today's Progress) ── */
             .print-summary-box {
                 display: block !important;
                 margin-top: 10px;
@@ -597,7 +596,6 @@
                 font-size: 0.78rem;
             }
 
-            /* ── PRINT ANALYTICS WRAP ── */
             .print-analytics-wrap {
                 display: block !important;
                 margin-top: 14px;
@@ -655,9 +653,7 @@
                 border-bottom: 1px dotted #eee;
             }
             .print-analytics-card .list-row:last-child { border-bottom: none; }
-            .print-analytics-card .list-row strong {
-                color: #1a6b3c;
-            }
+            .print-analytics-card .list-row strong { color: #1a6b3c; }
             .print-coverage-wrap {
                 margin-top: 8px;
                 border: 1px solid #ccc;
@@ -697,10 +693,7 @@
                 display: block;
                 font-size: 0.62rem;
             }
-            .print-coverage-cell .cnt {
-                color: #666;
-                font-size: 0.56rem;
-            }
+            .print-coverage-cell .cnt { color: #666; font-size: 0.56rem; }
             .print-coverage-cell.covered .cnt {
                 color: #2e7d32;
                 font-weight: 700;
@@ -732,12 +725,6 @@
                 margin-top: 30px;
                 padding-top: 4px;
             }
-            .section-heading h2 {
-                font-size: 1rem !important;
-                color: #1a6b3c !important;
-                margin-bottom: 6px !important;
-            }
-            #printHeader { display: none !important; }
             .section-heading { display: none !important; }
         }
 
@@ -820,6 +807,10 @@
         .btn:active {
             transform: translate(2px, 2px);
             box-shadow: none;
+        }
+        .btn[disabled] {
+            opacity: 0.6;
+            cursor: wait;
         }
         .btn-sm { padding: 5px 10px; font-size: 0.7rem; border-radius: 14px; min-height: 36px; }
         .btn-xs { padding: 3px 8px; font-size: 0.65rem; border-radius: 10px; min-height: 32px; }
@@ -1266,6 +1257,278 @@
             .topbar-chip { display: none; }
         }
     </style>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         PDF RENDER MODE (mirrors @media print — activated via media="all"
+         toggle in JS before generating PDF, deactivated afterwards).
+         Keeping this outside @media print is essential because
+         html2canvas (inside html2pdf.js) does not evaluate print media.
+    ═══════════════════════════════════════════════════════════════ -->
+    <style id="pdfRenderStyles" media="not all">
+        body {
+            background: #fff !important;
+            color: #111 !important;
+            font-size: 11px !important;
+            animation: none !important;
+            background-image: none !important;
+            display: block !important;
+            min-height: 0 !important;
+        }
+        .app-shell { display: block !important; flex: none !important; }
+        .main-area { margin-left: 0 !important; min-height: auto !important; display: block !important; flex: none !important; }
+        .content { padding: 0 !important; max-width: 100% !important; width: 100% !important; }
+
+        .sidebar, .topbar, .action-bar, .modal-overlay, .search-input,
+        .sidebar-overlay, .hamburger, .card-actions-row, .card-actions-row .btn,
+        .btn-edit-period, .btn-mark-done, .btn-mark-skip, .btn-share-note,
+        .toast, .suggestion-box, .suggestion-chips, #suggestionBox,
+        .sidebar-footer, .calendar-nav-row, .calendar-grid, .calendar-legend,
+        .section-heading .accent-dot, .date-chip, .period-chip, .status-pill,
+        .activity-badge-inline, .notes-snippet, .period-grid {
+            display: none !important;
+        }
+        .btn { display: none !important; }
+
+        .view { display: none !important; animation: none !important; }
+        #view-today { display: block !important; }
+        .section-heading { display: none !important; }
+
+        .print-only-header {
+            display: block !important;
+            text-align: center;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 3px solid #1a6b3c;
+            position: relative;
+        }
+        .print-only-header .print-logo-line {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1a6b3c;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+        .print-only-header .print-sub-line {
+            font-size: 0.75rem;
+            color: #444;
+            margin: 3px 0;
+            letter-spacing: 0.03em;
+        }
+        .print-only-header .print-decor {
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #1a6b3c, #3da066, #1a6b3c);
+        }
+
+        .print-period-table-wrap { display: block !important; margin-top: 8px; }
+        .print-period-table-wrap h3 {
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 4px;
+            color: #1a6b3c;
+        }
+        .print-period-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.68rem;
+            box-shadow: 0 0 0 1px #ddd;
+        }
+        .print-period-table th, .print-period-table td {
+            border: 1px solid #ccc;
+            padding: 6px 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .print-period-table thead th {
+            background: #1a6b3c !important;
+            color: #fff !important;
+            font-weight: 700;
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            padding: 7px 8px;
+            border-color: #14522b !important;
+        }
+        .print-period-table .col-p { width: 7%; text-align: center; }
+        .print-period-table .col-cls { width: 12%; }
+        .print-period-table .col-sec { width: 9%; text-align: center; }
+        .print-period-table .col-sub { width: 16%; }
+        .print-period-table .col-st { width: 13%; text-align: center; font-weight: 600; }
+        .print-period-table .col-nt { width: 43%; }
+        .print-period-table tbody tr:nth-child(even) { background: #f7faf7; }
+        .print-period-table tbody tr:nth-child(odd) { background: #fff; }
+        .print-period-table .row-completed { background: #e6f4ea !important; }
+        .print-period-table .row-skipped { background: #fffdf0 !important; }
+        .print-status-dot {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            margin-right: 4px;
+            vertical-align: middle;
+        }
+        .print-status-dot.dot-done { background: #2e8b4e; }
+        .print-status-dot.dot-skip { background: #d69e2e; }
+        .print-status-dot.dot-pend { background: #bbb; }
+
+        .print-summary-box {
+            display: block !important;
+            margin-top: 10px;
+            padding: 10px 14px;
+            border: 2px solid #1a6b3c;
+            border-radius: 6px;
+            background: #f9fdf9 !important;
+            font-size: 0.7rem;
+            line-height: 1.7;
+        }
+        .print-summary-box .print-summary-header {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #1a6b3c;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            padding-bottom: 4px;
+            border-bottom: 1px dashed #a5d6a7;
+        }
+        .print-summary-box .summary-row {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+        .print-summary-box .summary-item {
+            white-space: nowrap;
+            font-weight: 500;
+            color: #333;
+        }
+        .print-summary-box .summary-item strong {
+            color: #1a6b3c;
+            font-weight: 800;
+            font-size: 0.78rem;
+        }
+
+        .print-analytics-wrap {
+            display: block !important;
+            margin-top: 14px;
+        }
+        .print-analytics-wrap h3 {
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            border-bottom: 2px solid #1a6b3c;
+            padding-bottom: 4px;
+            color: #1a6b3c;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+        .print-analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        .print-analytics-card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 8px 10px;
+            background: #f9fdf9 !important;
+        }
+        .print-analytics-card.accent {
+            background: #e8f5e9 !important;
+            border-color: #a5d6a7;
+        }
+        .print-analytics-card .card-label {
+            font-size: 0.58rem;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .print-analytics-card .card-value {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #1a6b3c;
+            line-height: 1.1;
+        }
+        .print-analytics-card .card-list {
+            font-size: 0.65rem;
+            line-height: 1.6;
+        }
+        .print-analytics-card .list-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 1px 0;
+            border-bottom: 1px dotted #eee;
+        }
+        .print-analytics-card .list-row:last-child { border-bottom: none; }
+        .print-analytics-card .list-row strong { color: #1a6b3c; }
+        .print-coverage-wrap {
+            margin-top: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 8px 10px;
+            background: #f9fdf9 !important;
+        }
+        .print-coverage-wrap .card-label {
+            font-size: 0.58rem;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .print-coverage-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 4px;
+        }
+        .print-coverage-cell {
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            padding: 3px 4px;
+            font-size: 0.6rem;
+            text-align: center;
+            background: #fff !important;
+            line-height: 1.35;
+        }
+        .print-coverage-cell.covered {
+            background: #e8f5e9 !important;
+            border-color: #a5d6a7;
+        }
+        .print-coverage-cell strong {
+            color: #1a6b3c;
+            display: block;
+            font-size: 0.62rem;
+        }
+        .print-coverage-cell .cnt { color: #666; font-size: 0.56rem; }
+        .print-coverage-cell.covered .cnt {
+            color: #2e7d32;
+            font-weight: 700;
+        }
+
+        .print-footer-line {
+            display: block !important;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.58rem;
+            color: #777;
+            border-top: 1px solid #ddd;
+            padding-top: 5px;
+        }
+        .print-signature-line {
+            display: flex !important;
+            justify-content: space-between;
+            margin-top: 25px;
+            padding: 0 10px;
+            font-size: 0.75rem;
+        }
+        .print-signature-line .sig-block { text-align: center; min-width: 120px; }
+        .print-signature-line .sig-line {
+            border-top: 1px dotted #333;
+            margin-top: 30px;
+            padding-top: 4px;
+        }
+    </style>
 </head>
 <body>
 
@@ -1298,7 +1561,7 @@
                 <button data-view="search"><span class="nav-icon">&#128269;</span> Search</button>
                 <button data-view="settings"><span class="nav-icon">&#9881;</span> Settings</button>
             </nav>
-            <div class="sidebar-footer">RPS Planner v2.2<br>Offline &middot; IndexedDB</div>
+            <div class="sidebar-footer">RPS Planner v2.3<br>Offline &middot; IndexedDB</div>
         </aside>
 
         <div class="main-area" id="mainArea">
@@ -1321,7 +1584,7 @@
                     <div class="action-bar">
                         <button class="btn btn-gold" id="btnSmartSuggest">&#10024; Smart Suggestions</button>
                         <button class="btn btn-primary" id="btnAutoFill">&#9889; Auto-Fill Empty</button>
-                        <button class="btn btn-outline" id="btnPrintView">&#128424; Print</button>
+                        <button class="btn btn-outline" id="btnSharePDF">&#128196; Share PDF</button>
                         <button class="btn btn-outline" id="btnShareWhatsApp">&#128241; Share WhatsApp</button>
                         <input type="text" class="search-input" id="searchClass" placeholder="Filter periods...">
                     </div>
@@ -1489,6 +1752,9 @@
 
     <!-- TOAST -->
     <div class="toast" id="toast"></div>
+
+    <!-- html2pdf.js (CDN) — used for generating the PDF that gets shared to WhatsApp -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <script>
         (() => {
@@ -1981,29 +2247,15 @@
                 let html = '';
                 const printTbody = document.getElementById('printPeriodTbody');
                 let printTableHtml = '';
-                let totalPeriods = 0, completedCount = 0, skippedCount = 0, notStartedCount = 0, activityCount = 0;
+                // Print summary counters — ONLY count filled periods (blank periods excluded from PDF)
+                let printTotalFilled = 0, printCompleted = 0, printSkipped = 0, printPending = 0, printActivities = 0;
+
                 for (const p of PERIODS) {
                     const e = schedule[p];
                     if (search && e && !`${e.class||''} ${e.section||''} ${e.subject||''} ${e.notes||''} ${e.activityType||''}`.toUpperCase().includes(search)) continue;
                     if (search && !e) continue;
-                    totalPeriods++;
-                    const statusForPrint = e ? e.status : 'not-started';
-                    if (statusForPrint === 'completed') completedCount++;
-                    else if (statusForPrint === 'skipped') skippedCount++;
-                    else notStartedCount++;
-                    if (e && e.isActivity) activityCount++;
 
-                    const pStatusLabel = !e ? 'Not Started' : e.status === 'completed' ? 'Completed' : e.status === 'skipped' ? 'Skipped' : 'Not Started';
-                    const pClass = e && !e.isActivity ? e.class : (e && e.isActivity ? 'Activity' : '—');
-                    const pSection = e && !e.isActivity ? e.section : '—';
-                    const pSubject = e && !e.isActivity ? e.subject : (e && e.isActivity ? (e.activityType || 'Activity') : '—');
-                    const pNotes = e ? (e.notes || '—') : '—';
-                    const rowClass = statusForPrint === 'completed' ? 'row-completed' : statusForPrint === 'skipped' ? 'row-skipped' : 'row-not-started';
-                    const statusDot = statusForPrint === 'completed' ? '<span class="print-status-dot dot-done"></span>' : statusForPrint === 'skipped' ? '<span class="print-status-dot dot-skip"></span>' : '<span class="print-status-dot dot-pend"></span>';
-                    printTableHtml += `<tr class="${rowClass}">
-                        <td>${p}</td><td>${pClass}</td><td>${pSection}</td><td>${pSubject}</td>
-                        <td>${statusDot}${pStatusLabel}</td><td>${pNotes}</td>
-                    </tr>`;
+                    // ── Blank period: render on-screen "No class" card, skip from print/PDF ──
                     if (!e) {
                         html += `<div class="period-card reveal" data-period="${p}">
                             <span class="period-chip">Period ${p}</span>
@@ -2012,6 +2264,27 @@
                         </div>`;
                         continue;
                     }
+
+                    // ── Filled period: count for print summary & add print row ──
+                    printTotalFilled++;
+                    if (e.status === 'completed') printCompleted++;
+                    else if (e.status === 'skipped') printSkipped++;
+                    else printPending++;
+                    if (e.isActivity) printActivities++;
+
+                    const pStatusLabel = e.status === 'completed' ? 'Completed' : e.status === 'skipped' ? 'Skipped' : 'Not Started';
+                    const pClass = !e.isActivity ? e.class : 'Activity';
+                    const pSection = !e.isActivity ? e.section : '—';
+                    const pSubject = !e.isActivity ? e.subject : (e.activityType || 'Activity');
+                    const pNotes = e.notes || '—';
+                    const rowClass = e.status === 'completed' ? 'row-completed' : e.status === 'skipped' ? 'row-skipped' : 'row-not-started';
+                    const statusDot = e.status === 'completed' ? '<span class="print-status-dot dot-done"></span>' : e.status === 'skipped' ? '<span class="print-status-dot dot-skip"></span>' : '<span class="print-status-dot dot-pend"></span>';
+                    printTableHtml += `<tr class="${rowClass}">
+                        <td>${p}</td><td>${pClass}</td><td>${pSection}</td><td>${pSubject}</td>
+                        <td>${statusDot}${pStatusLabel}</td><td>${pNotes}</td>
+                    </tr>`;
+
+                    // ── On-screen card ──
                     let cardClass = '', statusBadge = '', statusClass = 'status-not-started';
                     if (e.status === 'completed') { cardClass = 'completed'; statusBadge = 'Completed'; statusClass = 'status-completed'; }
                     else if (e.status === 'skipped') { cardClass = 'skipped'; statusBadge = 'Skipped'; statusClass = 'status-skipped'; }
@@ -2037,19 +2310,22 @@
                         </div>
                     </div>`;
                 }
+
                 grid.innerHTML = html || '<p style="text-align:center;padding:24px;color:var(--gray-400);">No matching periods found.</p>';
                 printTbody.innerHTML = printTableHtml || '<tr><td colspan="6" style="text-align:center;">No schedule data for this date.</td></tr>';
                 document.getElementById('printSummaryBox').innerHTML = `
                     <div class="print-summary-header">Today's Progress Summary</div>
                     <div class="summary-row">
-                        <span class="summary-item">Total Periods: <strong>${totalPeriods}</strong></span>
-                        <span class="summary-item">Completed: <strong>${completedCount}</strong></span>
-                        <span class="summary-item">Skipped: <strong>${skippedCount}</strong></span>
-                        <span class="summary-item">Pending: <strong>${notStartedCount}</strong></span>
-                        <span class="summary-item">Activities: <strong>${activityCount}</strong></span>
+                        <span class="summary-item">Periods Shown: <strong>${printTotalFilled}</strong></span>
+                        <span class="summary-item">Completed: <strong>${printCompleted}</strong></span>
+                        <span class="summary-item">Skipped: <strong>${printSkipped}</strong></span>
+                        <span class="summary-item">Pending: <strong>${printPending}</strong></span>
+                        <span class="summary-item">Activities: <strong>${printActivities}</strong></span>
                     </div>`;
+
                 // Render print analytics (used for PDF output)
                 await renderPrintAnalytics();
+
                 // Attach event listeners
                 grid.querySelectorAll('.btn-edit-period').forEach(b => b.addEventListener('click', () => openEditModal(+b.dataset.period)));
                 grid.querySelectorAll('.btn-mark-done').forEach(b => b.addEventListener('click', async () => { await quickUpdate(+b.dataset.period, 'completed'); renderToday(currentDate); if (currentView === 'calendar') renderCalendar(); }));
@@ -2252,13 +2528,7 @@
 
             document.getElementById('searchClass').addEventListener('input', () => renderToday(currentDate));
 
-            // ── PRINT & SHARE ──
-            document.getElementById('btnPrintView').addEventListener('click', async () => {
-                await renderToday(currentDate);
-                window.print();
-            });
-
-            // ── WHATSAPP SHARE (beautifully formatted) ──
+            // ── WHATSAPP TEXT SHARE (kept as-is) ──
             document.getElementById('btnShareWhatsApp').addEventListener('click', async () => {
                 const sched = await getScheduleForDate(currentDate);
                 const teacherName = document.getElementById('topbarTeacherName').textContent;
@@ -2310,6 +2580,110 @@
                 msg += `📈 *Overall Completed:* ${overallDone}`;
 
                 window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+            });
+
+            // ── SHARE PDF (replaces Print) ──
+            // Generates a PDF that mirrors the print layout (with blank periods skipped,
+            // analytics summary included), then hands it to the OS share sheet so the
+            // user can pick WhatsApp. Falls back to download if Web Share API can't
+            // handle files on this device/browser.
+            async function generatePDFBlob() {
+                if (typeof html2pdf === 'undefined') {
+                    throw new Error('PDF library not loaded (check internet connection)');
+                }
+                // Ensure the print DOM is freshly rendered
+                await renderToday(currentDate);
+
+                // Activate print-style CSS (applies globally so html2canvas sees it)
+                const styleEl = document.getElementById('pdfRenderStyles');
+                styleEl.media = 'all';
+                // Give the browser a moment to apply layout
+                await new Promise(r => setTimeout(r, 180));
+
+                const opt = {
+                    margin: [8, 10, 10, 10], // mm: top right bottom left
+                    filename: `RPS_LessonPlan_${currentDate}.pdf`,
+                    image: { type: 'jpeg', quality: 0.95 },
+                    html2canvas: {
+                        scale: 2,
+                        useCORS: true,
+                        backgroundColor: '#ffffff',
+                        logging: false,
+                        windowWidth: 900
+                    },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                    pagebreak: { mode: ['css', 'legacy'] }
+                };
+
+                let blob;
+                try {
+                    blob = await html2pdf().set(opt).from(document.body).outputPdf('blob');
+                } finally {
+                    // Deactivate print-style CSS
+                    styleEl.media = 'not all';
+                    // Small delay to let normal layout resume
+                    await new Promise(r => setTimeout(r, 50));
+                }
+                return blob;
+            }
+
+            function downloadBlob(blob, filename) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(url), 1500);
+            }
+
+            document.getElementById('btnSharePDF').addEventListener('click', async () => {
+                const btn = document.getElementById('btnSharePDF');
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '&#9203; Generating…';
+                btn.disabled = true;
+
+                try {
+                    const blob = await generatePDFBlob();
+                    const fileName = `RPS_LessonPlan_${currentDate}.pdf`;
+
+                    // Try Web Share API with file
+                    const file = new File([blob], fileName, { type: 'application/pdf' });
+
+                    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                        try {
+                            await navigator.share({
+                                files: [file],
+                                title: 'RPS Lesson Plan',
+                                text: `Practical Lesson Plan for ${formatDateNice(currentDate)}`
+                            });
+                            toast('PDF shared!');
+                        } catch (err) {
+                            if (err && err.name === 'AbortError') {
+                                // User cancelled share — silently ignore
+                            } else {
+                                console.error('Share failed:', err);
+                                downloadBlob(blob, fileName);
+                                toast('PDF downloaded. Attach manually in WhatsApp.');
+                            }
+                        }
+                    } else {
+                        // Fallback: download
+                        downloadBlob(blob, fileName);
+                        toast('PDF saved. Open WhatsApp and attach the file.');
+                    }
+                } catch (err) {
+                    console.error('PDF generation failed:', err);
+                    toast('PDF failed: ' + err.message);
+                    // Last-ditch fallback: native print dialog
+                    setTimeout(() => {
+                        try { window.print(); } catch (e) {}
+                    }, 300);
+                } finally {
+                    btn.innerHTML = originalHTML;
+                    btn.disabled = false;
+                }
             });
 
             // ── CALENDAR ──
