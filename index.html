@@ -16,7 +16,6 @@
     <link rel="icon" href="icon-512.png" sizes="512x512" type="image/png">
 
     <style>
-        /* ── ROOT & RESET ── */
         :root {
             --green-950: #0a2e18; --green-900: #0d3b1e; --green-800: #14522b; --green-700: #1a6b3c;
             --green-600: #228b45; --green-500: #2e8b4e; --green-400: #3da066; --green-300: #6dbf85;
@@ -49,12 +48,10 @@
             --shadow-brutal: 8px 8px 0 rgba(0,0,0,0.25);
             --shadow-brutal-sm: 4px 4px 0 rgba(0,0,0,0.2);
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { font-size: 15px; scroll-behavior: smooth; }
         body {
-            font-family: var(--font-body);
-            background: var(--gray-50); color: var(--gray-900);
+            font-family: var(--font-body); background: var(--gray-50); color: var(--gray-900);
             min-height: 100vh; display: flex; flex-direction: column;
             transition: background var(--transition-slow), color var(--transition-slow);
             -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased;
@@ -70,7 +67,6 @@
         @keyframes bg-scroll2 { 0%{background-position:0 0,0 0,0 0;} 100%{background-position:0 0,80px 80px,0 0;} }
         @keyframes bg-scroll3 { 0%{background-position:0 0,0 0,0 0;} 100%{background-position:0 0,0 0,160px 160px;} }
 
-        /* ── TOPBAR ── */
         .topbar {
             position: sticky; top: 0; z-index: 300; height: var(--topbar-h);
             background: linear-gradient(135deg, #0d3b1e 0%, #1a6b3c 60%, #228b45 100%);
@@ -114,23 +110,10 @@
             display: flex; align-items: center; gap: 5px;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px;
         }
-        .dot-live {
-            width: 7px; height: 7px; background: #4caf50; border-radius: 50%;
-            animation: pulse-dot 2s infinite;
-        }
-        @keyframes pulse-dot {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(76,175,80,0.7); }
-            50% { box-shadow: 0 0 0 10px rgba(76,175,80,0); }
-        }
-        .topbar-date {
-            font-size: 0.68rem; color: rgba(255,255,255,0.78);
-            white-space: nowrap; display: none;
-        }
-        @media (min-width: 600px) {
-            .topbar-chip { display: inline-block; }
-            .topbar-date { display: inline; }
-            .topbar-teacher { max-width: none; }
-        }
+        .dot-live { width: 7px; height: 7px; background: #4caf50; border-radius: 50%; animation: pulse-dot 2s infinite; }
+        @keyframes pulse-dot { 0%,100%{box-shadow:0 0 0 0 rgba(76,175,80,0.7);} 50%{box-shadow:0 0 0 10px rgba(76,175,80,0);} }
+        .topbar-date { font-size: 0.68rem; color: rgba(255,255,255,0.78); white-space: nowrap; display: none; }
+        @media (min-width: 600px) { .topbar-chip { display: inline-block; } .topbar-date { display: inline; } .topbar-teacher { max-width: none; } }
         .hamburger {
             display: flex; all: unset; cursor: pointer;
             width: 38px; height: 38px; border-radius: 50%;
@@ -143,7 +126,6 @@
         .hamburger:hover { background: rgba(255,255,255,0.2); }
         .hamburger:active { transform: scale(0.92); }
 
-        /* ── APP SHELL ── */
         .app-shell { display: flex; flex: 1; position: relative; }
         .sidebar {
             position: fixed; top: var(--topbar-h); left: 0; bottom: 0;
@@ -154,10 +136,7 @@
             transition: transform var(--transition-slow), background var(--transition-slow);
             transform: translateX(0);
         }
-        .sidebar-header {
-            padding: 16px 16px 12px; border-bottom: 2px solid #000;
-            text-align: center; background: var(--green-25);
-        }
+        .sidebar-header { padding: 16px 16px 12px; border-bottom: 2px solid #000; text-align: center; background: var(--green-25); }
         .sidebar-header .session-badge {
             font-size: 0.6rem; font-weight: 700; background: var(--green-700);
             color: #fff; padding: 5px 10px; border-radius: 12px;
@@ -174,10 +153,7 @@
             border-radius: 0 6px 6px 0; margin-right: 6px;
             border-bottom: 1px solid var(--gray-200); min-height: 44px;
         }
-        .sidebar-nav button:hover {
-            background: var(--green-25); color: var(--green-700);
-            border-left-color: var(--green-300); transform: translateX(2px);
-        }
+        .sidebar-nav button:hover { background: var(--green-25); color: var(--green-700); border-left-color: var(--green-300); transform: translateX(2px); }
         .sidebar-nav button.active {
             background: var(--green-50); color: var(--green-800);
             border-left-color: var(--green-500); font-weight: 600;
@@ -201,10 +177,7 @@
             transition: margin var(--transition-slow);
             display: flex; flex-direction: column; touch-action: pan-y;
         }
-        .content {
-            flex: 1; padding: 22px 24px; max-width: 1150px;
-            width: 100%; margin: 0 auto;
-        }
+        .content { flex: 1; padding: 22px 24px; max-width: 1150px; width: 100%; margin: 0 auto; }
         @media (max-width: 900px) {
             .sidebar { transform: translateX(-100%); box-shadow: 8px 0 0 rgba(0,0,0,0.15); }
             .sidebar.open { transform: translateX(0); }
@@ -213,13 +186,9 @@
         }
         @media (min-width: 901px) { .hamburger { display: none; } }
 
-        /* ── VIEWS ── */
         .view { display: none; animation: viewFadeIn 0.28s ease; }
         .view.active { display: block; }
-        @keyframes viewFadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes viewFadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
         .section-heading {
             display: flex; align-items: center; gap: 10px;
             margin-bottom: 16px; flex-wrap: wrap;
@@ -227,27 +196,11 @@
             box-shadow: var(--shadow-brutal-sm); padding: 10px 16px;
             border-radius: var(--radius-sm);
         }
-        .section-heading h2 {
-            font-size: 1.25rem; font-weight: 700; color: var(--gray-900);
-            letter-spacing: -0.01em; margin: 0;
-        }
-        .accent-dot {
-            width: 9px; height: 9px; border-radius: 50%;
-            background: var(--green-500); flex-shrink: 0;
-            box-shadow: 0 0 0 2px var(--green-200);
-        }
-        .date-chip {
-            font-size: 0.74rem; font-weight: 500;
-            background: var(--gray-100); color: var(--gray-600);
-            padding: 5px 12px; border-radius: 16px;
-            border: 1px solid var(--gray-200); letter-spacing: 0.01em;
-        }
+        .section-heading h2 { font-size: 1.25rem; font-weight: 700; color: var(--gray-900); letter-spacing: -0.01em; margin: 0; }
+        .accent-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--green-500); flex-shrink: 0; box-shadow: 0 0 0 2px var(--green-200); }
+        .date-chip { font-size: 0.74rem; font-weight: 500; background: var(--gray-100); color: var(--gray-600); padding: 5px 12px; border-radius: 16px; border: 1px solid var(--gray-200); letter-spacing: 0.01em; }
 
-        /* ── BUTTONS ── */
-        .action-bar {
-            display: flex; gap: 7px; flex-wrap: wrap;
-            margin-bottom: 16px; align-items: center;
-        }
+        .action-bar { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 16px; align-items: center; }
         .btn {
             all: unset; display: inline-flex; align-items: center; gap: 5px;
             padding: 8px 15px; border-radius: 18px; cursor: pointer;
@@ -285,12 +238,8 @@
             outline: none; min-width: 160px; font-family: var(--font-body);
             transition: all var(--transition-fast); box-shadow: var(--shadow-brutal-sm);
         }
-        .search-input:focus {
-            border-color: var(--green-400);
-            box-shadow: 0 0 0 3px rgba(61,160,102,0.08), 4px 4px 0 rgba(0,0,0,0.1);
-        }
+        .search-input:focus { border-color: var(--green-400); box-shadow: 0 0 0 3px rgba(61,160,102,0.08), 4px 4px 0 rgba(0,0,0,0.1); }
 
-        /* ── Suggestion box ── */
         .suggestion-box {
             background: linear-gradient(135deg, var(--green-800) 0%, var(--green-600) 100%);
             border: 2px solid #000; border-radius: var(--radius-lg);
@@ -310,12 +259,7 @@
         }
         .suggestion-chip:hover { background: rgba(255,255,255,0.26); }
 
-        /* ── Period cards ── */
-        .period-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 12px;
-        }
+        .period-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
         @media (max-width: 600px) { .period-grid { grid-template-columns: 1fr; gap: 10px; } }
         .period-card {
             background: var(--white); border: 2px solid #000;
@@ -366,20 +310,12 @@
         .dark-mode .status-completed { background: #1e3a28; color: #81c784; }
         .dark-mode .status-skipped { background: #2e2818; color: #fbbf24; }
         .dark-mode .status-not-started { background: #2a3035; color: #9ca3af; }
-        .notes-snippet {
-            font-size: 0.7rem; color: var(--gray-500); font-style: italic;
-            margin-top: 3px; line-height: 1.3; max-height: 2.6em; overflow: hidden;
-        }
-        .activity-type-tag {
-            display: inline-block; font-size: 0.67rem; font-weight: 600;
-            background: #eff6ff; color: #2563eb; padding: 3px 9px;
-            border-radius: 10px; margin-top: 2px;
-        }
+        .notes-snippet { font-size: 0.7rem; color: var(--gray-500); font-style: italic; margin-top: 3px; line-height: 1.3; max-height: 2.6em; overflow: hidden; }
+        .activity-type-tag { display: inline-block; font-size: 0.67rem; font-weight: 600; background: #eff6ff; color: #2563eb; padding: 3px 9px; border-radius: 10px; margin-top: 2px; }
         .dark-mode .activity-type-tag { background: #1e3a5f; color: #93c5fd; }
         .card-actions-row { display: flex; gap: 5px; margin-top: 10px; flex-wrap: wrap; }
         .card-actions-row .btn { font-size: 0.67rem; padding: 4px 9px; min-height: 32px; }
 
-        /* ── MODALS ── */
         .modal-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.55);
             z-index: 500; display: flex; align-items: center; justify-content: center;
@@ -393,16 +329,9 @@
             max-height: 85vh; overflow-y: auto;
             animation: modalSlideIn 0.25s ease;
         }
-        @keyframes modalSlideIn {
-            from { opacity: 0; transform: translateY(18px) scale(0.97); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
+        @keyframes modalSlideIn { from{opacity:0;transform:translateY(18px) scale(0.97);} to{opacity:1;transform:translateY(0) scale(1);} }
         .modal h3 { margin-bottom: 12px; color: var(--green-800); font-size: 1.05rem; font-weight: 700; }
-        .modal label {
-            display: block; font-weight: 600; font-size: 0.68rem;
-            margin: 8px 0 3px; color: var(--gray-500);
-            text-transform: uppercase; letter-spacing: 0.05em;
-        }
+        .modal label { display: block; font-weight: 600; font-size: 0.68rem; margin: 8px 0 3px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.05em; }
         .modal select, .modal input, .modal textarea {
             width: 100%; padding: 9px 11px; border: 2px solid #000;
             border-radius: var(--radius-sm); font-family: var(--font-body);
@@ -410,10 +339,7 @@
             outline: none; transition: border-color var(--transition-fast);
             box-shadow: 0 2px 0 rgba(0,0,0,0.1);
         }
-        .modal select:focus, .modal textarea:focus {
-            border-color: var(--green-400);
-            box-shadow: 0 0 0 3px rgba(61,160,102,0.06);
-        }
+        .modal select:focus, .modal textarea:focus { border-color: var(--green-400); box-shadow: 0 0 0 3px rgba(61,160,102,0.06); }
         .modal textarea { min-height: 60px; resize: vertical; }
         .modal .btn-row { display: flex; gap: 7px; margin-top: 16px; justify-content: flex-end; }
         .modal .checkbox-row {
@@ -428,7 +354,6 @@
         .modal .checkbox-row input { width: 17px; height: 17px; cursor: pointer; accent-color: var(--green-500); }
         .modal .checkbox-row.checked { border-color: var(--blue-500); background: #eff6ff; border-style: solid; }
 
-        /* ── CALENDAR ── */
         .calendar-nav-row { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
         .month-title { font-weight: 700; font-size: 1rem; min-width: 140px; text-align: center; color: var(--gray-900); }
         .calendar-grid {
@@ -437,11 +362,7 @@
             border-radius: var(--radius-lg); padding: 10px;
             box-shadow: var(--shadow-brutal); border: 2px solid #000;
         }
-        .day-hdr {
-            text-align: center; font-weight: 700; font-size: 0.64rem;
-            color: var(--gray-500); padding: 5px 0;
-            letter-spacing: 0.05em; text-transform: uppercase;
-        }
+        .day-hdr { text-align: center; font-weight: 700; font-size: 0.64rem; color: var(--gray-500); padding: 5px 0; letter-spacing: 0.05em; text-transform: uppercase; }
         .day-cell {
             aspect-ratio: 1; border-radius: var(--radius-sm);
             display: flex; align-items: center; justify-content: center;
@@ -458,19 +379,11 @@
         .dark-mode .day-cell.completed-day { background: #1e3a28; color: #81c784; }
         .dark-mode .day-cell.partial-day { background: #2e2818; color: #fbbf24; }
         .dark-mode .day-cell.empty-day { background: #1f262b; color: #6b7280; }
-        .calendar-legend {
-            display: flex; gap: 14px; flex-wrap: wrap;
-            margin-top: 10px; font-size: 0.66rem; color: var(--gray-500);
-        }
+        .calendar-legend { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 10px; font-size: 0.66rem; color: var(--gray-500); }
         .calendar-legend span { display: flex; align-items: center; gap: 4px; }
         .legend-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; border: 1px solid #000; }
 
-        /* ── ANALYTICS ── */
-        .analytics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 12px;
-        }
+        .analytics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
         .stat-card {
             background: var(--white); border: 2px solid #000;
             border-radius: var(--radius-lg); padding: 16px 18px;
@@ -478,85 +391,39 @@
             position: relative; overflow: hidden;
         }
         .stat-card:hover { box-shadow: 0 12px 0 rgba(0,0,0,0.15); transform: translateY(-2px); }
-        .stat-card h4 {
-            font-size: 0.65rem; text-transform: uppercase;
-            letter-spacing: 0.06em; color: var(--gray-500);
-            margin-bottom: 5px; font-weight: 700;
-        }
+        .stat-card h4 { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-500); margin-bottom: 5px; font-weight: 700; }
         .big-num { font-size: 2rem; font-weight: 800; color: var(--green-700); line-height: 1; letter-spacing: -0.02em; }
         .mini-bar-wrap { background: var(--gray-100); height: 7px; border-radius: 8px; margin-top: 4px; overflow: hidden; }
-        .mini-bar-fill {
-            height: 100%; background: linear-gradient(90deg, var(--green-400), var(--green-500));
-            border-radius: 8px; transition: width 0.5s ease;
-        }
+        .mini-bar-fill { height: 100%; background: linear-gradient(90deg, var(--green-400), var(--green-500)); border-radius: 8px; transition: width 0.5s ease; }
         .coverage-list { list-style: none; font-size: 0.76rem; max-height: 280px; overflow-y: auto; line-height: 1.8; }
         .coverage-list li { padding: 3px 0; display: flex; gap: 4px; flex-wrap: wrap; border-bottom: 1px solid var(--gray-100); }
         .check { color: var(--green-500); font-weight: 700; }
         .cross { color: var(--red-500); font-weight: 700; }
-        .period-map-table-wrap {
-            margin-top: 16px; background: var(--white);
-            border: 2px solid #000; border-radius: var(--radius-lg);
-            padding: 16px 18px; box-shadow: var(--shadow-brutal);
-        }
-        .period-map-table-wrap h4 {
-            font-size: 0.68rem; text-transform: uppercase;
-            letter-spacing: 0.06em; color: var(--gray-500);
-            margin-bottom: 8px; font-weight: 700;
-        }
+        .period-map-table-wrap { margin-top: 16px; background: var(--white); border: 2px solid #000; border-radius: var(--radius-lg); padding: 16px 18px; box-shadow: var(--shadow-brutal); }
+        .period-map-table-wrap h4 { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-500); margin-bottom: 8px; font-weight: 700; }
         .period-map-mini-table { width: 100%; border-collapse: collapse; font-size: 0.72rem; }
-        .period-map-mini-table th, .period-map-mini-table td {
-            border: 1px solid #000; padding: 5px 8px; text-align: center;
-        }
-        .period-map-mini-table th {
-            background: var(--green-50); color: var(--green-800);
-            font-weight: 700; font-size: 0.62rem; text-transform: uppercase;
-        }
+        .period-map-mini-table th, .period-map-mini-table td { border: 1px solid #000; padding: 5px 8px; text-align: center; }
+        .period-map-mini-table th { background: var(--green-50); color: var(--green-800); font-weight: 700; font-size: 0.62rem; text-transform: uppercase; }
         .pending-list { font-size: 0.78rem; line-height: 2; list-style: none; padding: 0; }
         .pending-list li { padding: 4px 0; border-bottom: 1px solid var(--gray-100); color: var(--gray-700); }
 
-        /* ── SETTINGS ── */
-        .settings-card {
-            background: var(--white); border: 2px solid #000;
-            border-radius: var(--radius-lg); padding: 20px 22px;
-            box-shadow: var(--shadow-brutal); max-width: 520px;
-        }
-        .settings-card label {
-            display: block; font-weight: 600; font-size: 0.68rem;
-            color: var(--gray-500); text-transform: uppercase;
-            letter-spacing: 0.05em; margin-bottom: 3px;
-        }
+        .settings-card { background: var(--white); border: 2px solid #000; border-radius: var(--radius-lg); padding: 20px 22px; box-shadow: var(--shadow-brutal); max-width: 520px; }
+        .settings-card label { display: block; font-weight: 600; font-size: 0.68rem; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px; }
         .settings-card input[type="text"] {
             width: 100%; padding: 9px 11px; border: 2px solid #000;
             border-radius: var(--radius-sm); font-family: var(--font-body);
             font-size: 0.85rem; background: var(--white); color: var(--gray-800);
             outline: none; margin-bottom: 10px; box-shadow: 0 2px 0 rgba(0,0,0,0.1);
         }
-        .settings-card input[type="text"]:focus {
-            border-color: var(--green-400);
-            box-shadow: 0 0 0 3px rgba(61,160,102,0.06);
-        }
-        .toggle-row {
-            display: flex; align-items: center; gap: 10px;
-            margin: 8px 0; cursor: pointer; font-weight: 500;
-            font-size: 0.84rem; color: var(--gray-700);
-            user-select: none; min-height: 44px;
-        }
+        .settings-card input[type="text"]:focus { border-color: var(--green-400); box-shadow: 0 0 0 3px rgba(61,160,102,0.06); }
+        .toggle-row { display: flex; align-items: center; gap: 10px; margin: 8px 0; cursor: pointer; font-weight: 500; font-size: 0.84rem; color: var(--gray-700); user-select: none; min-height: 44px; }
         .toggle-switch { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
         .toggle-switch input { opacity: 0; width: 0; height: 0; }
-        .toggle-slider {
-            position: absolute; cursor: pointer; inset: 0;
-            background: var(--gray-300); border-radius: 24px;
-            transition: var(--transition-fast); border: 1px solid #000;
-        }
-        .toggle-slider::before {
-            content: ''; position: absolute; height: 18px; width: 18px;
-            left: 3px; bottom: 3px; background: #fff; border-radius: 50%;
-            transition: var(--transition-fast); box-shadow: 0 1px 0 rgba(0,0,0,0.2);
-        }
+        .toggle-slider { position: absolute; cursor: pointer; inset: 0; background: var(--gray-300); border-radius: 24px; transition: var(--transition-fast); border: 1px solid #000; }
+        .toggle-slider::before { content: ''; position: absolute; height: 18px; width: 18px; left: 3px; bottom: 3px; background: #fff; border-radius: 50%; transition: var(--transition-fast); box-shadow: 0 1px 0 rgba(0,0,0,0.2); }
         .toggle-switch input:checked + .toggle-slider { background: var(--green-500); }
         .toggle-switch input:checked + .toggle-slider::before { transform: translateX(20px); }
 
-        /* ── TOAST ── */
         .toast {
             position: fixed; bottom: 22px; right: 22px; z-index: 999;
             background: var(--green-800); color: #fff;
@@ -570,7 +437,6 @@
         .toast.show { transform: translateY(0); opacity: 1; }
         .dark-mode .toast { background: #1e3a28; border-color: var(--green-300); }
 
-        /* ── SEARCH RESULTS ── */
         .search-result-card {
             background: var(--white); border: 2px solid #000;
             border-radius: var(--radius); padding: 12px 16px;
@@ -580,7 +446,6 @@
         .search-result-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 2px; }
         .search-result-date { font-size: 0.68rem; color: var(--gray-400); margin-top: 2px; }
 
-        /* ── CONFIRM MODAL ── */
         .confirm-modal {
             background: var(--white); border: 3px solid #000;
             border-radius: var(--radius-xl); padding: 20px 22px;
@@ -592,7 +457,6 @@
         .confirm-modal p { font-size: 0.8rem; color: var(--gray-600); margin-bottom: 16px; line-height: 1.5; }
         .confirm-modal .confirm-btn-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
 
-        /* ── SCROLL REVEAL ── */
         .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
 
@@ -615,29 +479,26 @@
             .topbar-chip { display: none; }
         }
 
-        /* ═══════════════════════════════════════════════════════════════
-           PDF CAPTURE AREA
-           Off-screen container with a fixed 700px content width. This
-           fits A4 (210mm) with 10mm margins on each side without any
-           cropping or overflow. All styles are scoped under #pdfCaptureWrap
-           so they don't conflict with the live app.
-           ═══════════════════════════════════════════════════════════════ */
+        /* ═══════════════════════════════════════════════════════════
+           PDF CAPTURE AREA (700px = fits A4 with 10mm margins)
+           Hidden by default; shown behind .pdf-gen-overlay during capture.
+           ═══════════════════════════════════════════════════════════ */
         #pdfCaptureWrap {
-            position: absolute;
-            left: -10000px;
+            position: fixed;
             top: 0;
+            left: 0;
             width: 700px;
-            padding: 0;
-            margin: 0;
             background: #ffffff;
             color: #111;
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             font-size: 11px;
             line-height: 1.45;
-            box-sizing: border-box;
-            z-index: -1;
-            pointer-events: none;
+            z-index: 99996;
+            display: none;
+            padding: 0;
+            margin: 0;
         }
+        #pdfCaptureWrap.active { display: block; }
         #pdfCaptureWrap * { box-sizing: border-box; }
 
         #pdfCaptureWrap .pdf-page {
@@ -645,8 +506,6 @@
             padding: 0;
             background: #ffffff;
         }
-
-        /* Header */
         #pdfCaptureWrap .pdf-header {
             text-align: center;
             margin: 0 0 14px 0;
@@ -655,66 +514,37 @@
             position: relative;
         }
         #pdfCaptureWrap .pdf-header .pdf-logo {
-            font-size: 1.7rem;
-            font-weight: 800;
-            color: #1a6b3c;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            line-height: 1.1;
+            font-size: 1.7rem; font-weight: 800; color: #1a6b3c;
+            letter-spacing: 0.05em; text-transform: uppercase; line-height: 1.1;
         }
         #pdfCaptureWrap .pdf-header .pdf-sub {
-            font-size: 0.72rem;
-            color: #444;
-            margin: 4px 0 0 0;
-            letter-spacing: 0.03em;
+            font-size: 0.72rem; color: #444; margin: 4px 0 0 0; letter-spacing: 0.03em;
         }
         #pdfCaptureWrap .pdf-header .pdf-decor {
-            position: absolute;
-            bottom: -3px;
-            left: 0;
-            right: 0;
-            height: 3px;
+            position: absolute; bottom: -3px; left: 0; right: 0; height: 3px;
             background: linear-gradient(90deg, #1a6b3c, #3da066, #1a6b3c);
         }
-
-        /* Section titles */
         #pdfCaptureWrap .pdf-section-title {
-            font-size: 0.78rem;
-            margin: 12px 0 8px 0;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 5px;
-            color: #1a6b3c;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            font-weight: 700;
+            font-size: 0.78rem; margin: 12px 0 8px 0;
+            border-bottom: 1px solid #ccc; padding-bottom: 5px;
+            color: #1a6b3c; letter-spacing: 0.05em;
+            text-transform: uppercase; font-weight: 700;
         }
-
-        /* Period table */
         #pdfCaptureWrap .pdf-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.7rem;
-            table-layout: fixed;
+            width: 100%; border-collapse: collapse;
+            font-size: 0.7rem; table-layout: fixed;
         }
         #pdfCaptureWrap .pdf-table th,
         #pdfCaptureWrap .pdf-table td {
-            border: 1px solid #ccc;
-            padding: 6px 7px;
-            text-align: left;
-            vertical-align: top;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            word-break: break-word;
-            white-space: normal;
+            border: 1px solid #ccc; padding: 6px 7px;
+            text-align: left; vertical-align: top;
+            word-wrap: break-word; overflow-wrap: break-word;
+            word-break: break-word; white-space: normal;
         }
         #pdfCaptureWrap .pdf-table thead th {
-            background: #1a6b3c;
-            color: #ffffff;
-            font-weight: 700;
-            font-size: 0.64rem;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            padding: 7px 7px;
+            background: #1a6b3c; color: #ffffff; font-weight: 700;
+            font-size: 0.64rem; text-transform: uppercase;
+            letter-spacing: 0.04em; padding: 7px 7px;
             border-color: #14522b;
         }
         #pdfCaptureWrap .pdf-table .col-p { width: 7%; text-align: center; }
@@ -728,169 +558,125 @@
         #pdfCaptureWrap .pdf-table .row-completed { background: #e6f4ea !important; }
         #pdfCaptureWrap .pdf-table .row-skipped { background: #fffdf0 !important; }
         #pdfCaptureWrap .pdf-dot {
-            display: inline-block;
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            margin-right: 4px;
-            vertical-align: middle;
+            display: inline-block; width: 9px; height: 9px;
+            border-radius: 50%; margin-right: 4px; vertical-align: middle;
         }
         #pdfCaptureWrap .pdf-dot.dot-done { background: #2e8b4e; }
         #pdfCaptureWrap .pdf-dot.dot-skip { background: #d69e2e; }
         #pdfCaptureWrap .pdf-dot.dot-pend { background: #bbbbbb; }
-
-        /* Summary box */
         #pdfCaptureWrap .pdf-summary-box {
-            margin-top: 14px;
-            padding: 10px 14px;
-            border: 2px solid #1a6b3c;
-            border-radius: 6px;
-            background: #f9fdf9;
-            font-size: 0.72rem;
-            line-height: 1.7;
+            margin-top: 14px; padding: 10px 14px;
+            border: 2px solid #1a6b3c; border-radius: 6px;
+            background: #f9fdf9; font-size: 0.72rem; line-height: 1.7;
         }
         #pdfCaptureWrap .pdf-summary-box .pdf-summary-header {
-            font-size: 0.68rem;
-            font-weight: 700;
-            color: #1a6b3c;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            margin-bottom: 8px;
-            padding-bottom: 5px;
+            font-size: 0.68rem; font-weight: 700; color: #1a6b3c;
+            text-transform: uppercase; letter-spacing: 0.06em;
+            margin-bottom: 8px; padding-bottom: 5px;
             border-bottom: 1px dashed #a5d6a7;
         }
-        #pdfCaptureWrap .pdf-summary-row {
-            display: flex;
-            gap: 22px;
-            flex-wrap: wrap;
-        }
+        #pdfCaptureWrap .pdf-summary-row { display: flex; gap: 22px; flex-wrap: wrap; }
         #pdfCaptureWrap .pdf-summary-item { white-space: nowrap; font-weight: 500; color: #333; }
         #pdfCaptureWrap .pdf-summary-item strong {
-            color: #1a6b3c;
-            font-weight: 800;
-            font-size: 0.82rem;
-            margin-left: 2px;
+            color: #1a6b3c; font-weight: 800; font-size: 0.82rem; margin-left: 2px;
         }
-
-        /* Analytics */
         #pdfCaptureWrap .pdf-analytics-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
         }
         #pdfCaptureWrap .pdf-analytics-card {
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 9px 11px;
-            background: #f9fdf9;
-            min-width: 0;
+            border: 1px solid #ccc; border-radius: 5px;
+            padding: 9px 11px; background: #f9fdf9; min-width: 0;
         }
         #pdfCaptureWrap .pdf-analytics-card.accent {
-            background: #e8f5e9;
-            border-color: #a5d6a7;
+            background: #e8f5e9; border-color: #a5d6a7;
         }
         #pdfCaptureWrap .pdf-analytics-card .card-label {
-            font-size: 0.58rem;
-            color: #666;
-            text-transform: uppercase;
-            font-weight: 700;
-            margin-bottom: 5px;
-            letter-spacing: 0.05em;
+            font-size: 0.58rem; color: #666; text-transform: uppercase;
+            font-weight: 700; margin-bottom: 5px; letter-spacing: 0.05em;
         }
         #pdfCaptureWrap .pdf-analytics-card .card-value {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: #1a6b3c;
-            line-height: 1.1;
+            font-size: 1.3rem; font-weight: 800; color: #1a6b3c; line-height: 1.1;
         }
         #pdfCaptureWrap .pdf-analytics-card .card-list { font-size: 0.66rem; line-height: 1.7; }
         #pdfCaptureWrap .pdf-analytics-card .list-row {
-            display: flex;
-            justify-content: space-between;
-            gap: 8px;
-            padding: 1px 0;
-            border-bottom: 1px dotted #eee;
+            display: flex; justify-content: space-between; gap: 8px;
+            padding: 1px 0; border-bottom: 1px dotted #eee;
         }
         #pdfCaptureWrap .pdf-analytics-card .list-row:last-child { border-bottom: none; }
         #pdfCaptureWrap .pdf-analytics-card .list-row strong { color: #1a6b3c; }
-
         #pdfCaptureWrap .pdf-coverage-wrap {
-            margin-top: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 9px 11px;
-            background: #f9fdf9;
+            margin-top: 10px; border: 1px solid #ccc;
+            border-radius: 5px; padding: 9px 11px; background: #f9fdf9;
         }
         #pdfCaptureWrap .pdf-coverage-wrap .card-label {
-            font-size: 0.58rem;
-            color: #666;
-            text-transform: uppercase;
-            font-weight: 700;
-            margin-bottom: 7px;
-            letter-spacing: 0.05em;
+            font-size: 0.58rem; color: #666; text-transform: uppercase;
+            font-weight: 700; margin-bottom: 7px; letter-spacing: 0.05em;
         }
         #pdfCaptureWrap .pdf-coverage-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 4px;
+            display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px;
         }
         #pdfCaptureWrap .pdf-coverage-cell {
-            border: 1px solid #ddd;
-            border-radius: 3px;
-            padding: 4px 3px;
-            font-size: 0.6rem;
-            text-align: center;
-            background: #ffffff;
-            line-height: 1.35;
-            min-width: 0;
+            border: 1px solid #ddd; border-radius: 3px;
+            padding: 4px 3px; font-size: 0.6rem; text-align: center;
+            background: #ffffff; line-height: 1.35; min-width: 0;
         }
         #pdfCaptureWrap .pdf-coverage-cell.covered {
-            background: #e8f5e9;
-            border-color: #a5d6a7;
+            background: #e8f5e9; border-color: #a5d6a7;
         }
         #pdfCaptureWrap .pdf-coverage-cell strong {
-            color: #1a6b3c;
-            display: block;
-            font-size: 0.62rem;
+            color: #1a6b3c; display: block; font-size: 0.62rem;
         }
         #pdfCaptureWrap .pdf-coverage-cell .cnt { color: #666; font-size: 0.56rem; }
         #pdfCaptureWrap .pdf-coverage-cell.covered .cnt { color: #2e7d32; font-weight: 700; }
-
-        /* Signature + footer */
         #pdfCaptureWrap .pdf-signature-line {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 32px;
-            padding: 0 10px;
-            font-size: 0.75rem;
+            display: flex; justify-content: space-between;
+            margin-top: 32px; padding: 0 10px; font-size: 0.75rem;
         }
         #pdfCaptureWrap .pdf-signature-line .sig-block { text-align: center; min-width: 130px; }
         #pdfCaptureWrap .pdf-signature-line .sig-line {
-            border-top: 1px dotted #333;
-            margin-top: 30px;
-            padding-top: 4px;
+            border-top: 1px dotted #333; margin-top: 30px; padding-top: 4px;
         }
         #pdfCaptureWrap .pdf-footer-line {
-            text-align: center;
-            margin-top: 12px;
-            font-size: 0.58rem;
-            color: #777;
-            border-top: 1px solid #ddd;
-            padding-top: 6px;
+            text-align: center; margin-top: 12px;
+            font-size: 0.58rem; color: #777;
+            border-top: 1px solid #ddd; padding-top: 6px;
             letter-spacing: 0.04em;
         }
 
-        /* ═══════════════════════════════════════════════════════════════
-           BEAUTIFUL SUMMARY CARD (Dashboard-style, shareable to WhatsApp)
-           ═══════════════════════════════════════════════════════════════ */
+        /* Overlay that hides the wrap during capture */
+        .pdf-gen-overlay {
+            position: fixed; inset: 0;
+            background: linear-gradient(135deg, rgba(13,59,30,0.97), rgba(20,82,43,0.97));
+            z-index: 99997;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 18px; color: #fff;
+            backdrop-filter: blur(6px);
+        }
+        .pdf-gen-overlay.hidden { display: none; }
+        .pdf-gen-spinner {
+            width: 52px; height: 52px;
+            border: 4px solid rgba(255,255,255,0.22);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .pdf-gen-text {
+            font-size: 1.05rem; font-weight: 700; letter-spacing: 0.02em;
+        }
+        .pdf-gen-sub {
+            font-size: 0.75rem; opacity: 0.78; font-weight: 500;
+        }
+
+        /* ═══════════════════════════════════════════════════════════
+           SUMMARY CARD (Dashboard-style)
+           ═══════════════════════════════════════════════════════════ */
         #summaryModalOverlay {
-            position: fixed;
-            inset: 0;
+            position: fixed; inset: 0;
             background: rgba(0, 0, 0, 0.78);
             z-index: 600;
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
+            display: flex; align-items: flex-start; justify-content: center;
             padding: 20px 14px;
             backdrop-filter: blur(6px);
             -webkit-backdrop-filter: blur(6px);
@@ -904,7 +690,7 @@
             max-width: 560px;
             width: 100%;
             overflow: hidden;
-            box-shadow: 0 28px 70px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 28px 70px rgba(0,0,0,0.5), 0 0 0 2px rgba(0,0,0,0.4);
             animation: modalSlideIn 0.3s ease;
             margin: auto 0;
         }
@@ -917,7 +703,6 @@
             overflow: hidden;
         }
 
-        /* Card Header */
         .sum-card-header {
             background: linear-gradient(135deg, #0d3b1e 0%, #14522b 40%, #1a6b3c 75%, #228b45 100%);
             color: #fff;
@@ -927,419 +712,313 @@
         }
         .sum-card-header::before {
             content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 240px;
-            height: 240px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.14), transparent 70%);
+            position: absolute; top: -50%; right: -20%;
+            width: 240px; height: 240px;
+            background: radial-gradient(circle, rgba(255,255,255,0.14), transparent 70%);
             border-radius: 50%;
         }
         .sum-card-header::after {
             content: '';
-            position: absolute;
-            bottom: -60%;
-            left: -10%;
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, rgba(109, 191, 133, 0.22), transparent 70%);
+            position: absolute; bottom: -60%; left: -10%;
+            width: 200px; height: 200px;
+            background: radial-gradient(circle, rgba(109,191,133,0.22), transparent 70%);
             border-radius: 50%;
         }
         .sum-brand-row {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            position: relative;
-            z-index: 1;
+            display: flex; align-items: center; gap: 14px;
+            position: relative; z-index: 1;
         }
         .sum-logo {
-            width: 52px;
-            height: 52px;
-            border-radius: 14px;
-            background: rgba(255, 255, 255, 0.16);
-            border: 1.5px solid rgba(255, 255, 255, 0.35);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            backdrop-filter: blur(6px);
-            flex-shrink: 0;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+            width: 52px; height: 52px; border-radius: 14px;
+            background: rgba(255,255,255,0.16);
+            border: 1.5px solid rgba(255,255,255,0.35);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.25rem; font-weight: 800; letter-spacing: -0.5px;
+            backdrop-filter: blur(6px); flex-shrink: 0;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.2);
         }
         .sum-school-name {
-            font-size: 1.35rem;
-            font-weight: 800;
-            letter-spacing: 0.02em;
-            line-height: 1.1;
+            font-size: 1.35rem; font-weight: 800;
+            letter-spacing: 0.02em; line-height: 1.1;
         }
         .sum-school-sub {
-            font-size: 0.66rem;
-            opacity: 0.78;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
+            font-size: 0.66rem; opacity: 0.78;
+            letter-spacing: 0.16em; text-transform: uppercase;
             margin-top: 4px;
         }
         .sum-meta-row {
-            display: flex;
-            gap: 18px;
-            margin-top: 18px;
+            display: flex; gap: 18px; margin-top: 18px;
             padding-top: 14px;
-            border-top: 1px solid rgba(255, 255, 255, 0.18);
-            position: relative;
-            z-index: 1;
-            flex-wrap: wrap;
+            border-top: 1px solid rgba(255,255,255,0.18);
+            position: relative; z-index: 1; flex-wrap: wrap;
         }
         .sum-meta-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.74rem;
-            font-weight: 500;
+            display: flex; align-items: center; gap: 6px;
+            font-size: 0.74rem; font-weight: 500;
         }
         .sum-meta-item .lbl { opacity: 0.65; font-weight: 400; }
 
-        /* Body */
         .sum-body {
             padding: 22px 24px 24px;
             background: linear-gradient(180deg, #ffffff 0%, #f9fdf9 100%);
         }
 
         .sum-section-title {
-            font-size: 0.62rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.14em;
-            color: #6b7280;
-            margin: 0 0 10px 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-size: 0.62rem; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 0.14em;
+            color: #6b7280; margin: 18px 0 10px 0;
+            display: flex; align-items: center; gap: 10px;
         }
+        .sum-section-title:first-child { margin-top: 0; }
         .sum-section-title::after {
-            content: '';
-            flex: 1;
-            height: 1px;
+            content: ''; flex: 1; height: 1px;
             background: linear-gradient(90deg, #e5e7eb, transparent);
         }
-        .sum-section-title + .sum-section-title,
-        .sum-hero + .sum-section-title,
-        .sum-progress-block + .sum-section-title,
-        .sum-snapshot + .sum-section-title,
-        .sum-subjects + .sum-section-title,
-        .sum-coverage-grid + .sum-section-title,
-        .sum-classes + .sum-section-title { margin-top: 18px; }
 
-        /* Hero stat cards */
         .sum-hero {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 14px;
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 12px; margin-bottom: 14px;
         }
         .sum-hero-card {
-            border-radius: 16px;
-            padding: 16px 16px 14px;
-            position: relative;
-            overflow: hidden;
+            border-radius: 16px; padding: 16px 16px 14px;
+            position: relative; overflow: hidden;
         }
         .sum-hero-card.today {
             background: linear-gradient(135deg, #228b45 0%, #1a6b3c 100%);
             color: #fff;
-            box-shadow: 0 8px 22px rgba(34, 139, 69, 0.28);
+            box-shadow: 0 8px 22px rgba(34,139,69,0.28);
         }
         .sum-hero-card.overall {
             background: linear-gradient(135deg, #e8b84b 0%, #b45309 100%);
             color: #fff;
-            box-shadow: 0 8px 22px rgba(214, 158, 46, 0.28);
+            box-shadow: 0 8px 22px rgba(214,158,46,0.28);
         }
         .sum-hero-card .h-label {
-            font-size: 0.6rem;
-            text-transform: uppercase;
-            letter-spacing: 0.13em;
-            font-weight: 700;
-            opacity: 0.88;
-            margin-bottom: 8px;
+            font-size: 0.6rem; text-transform: uppercase;
+            letter-spacing: 0.13em; font-weight: 700;
+            opacity: 0.88; margin-bottom: 8px;
         }
         .sum-hero-card .h-value {
-            font-size: 2.4rem;
-            font-weight: 800;
-            line-height: 1;
-            letter-spacing: -0.03em;
+            font-size: 2.4rem; font-weight: 800;
+            line-height: 1; letter-spacing: -0.03em;
         }
         .sum-hero-card .h-sub {
-            font-size: 0.68rem;
-            opacity: 0.88;
-            margin-top: 8px;
-            font-weight: 500;
+            font-size: 0.68rem; opacity: 0.88;
+            margin-top: 8px; font-weight: 500;
         }
         .sum-hero-card .h-deco {
-            position: absolute;
-            top: -40px;
-            right: -40px;
-            width: 130px;
-            height: 130px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
+            position: absolute; top: -40px; right: -40px;
+            width: 130px; height: 130px;
+            background: rgba(255,255,255,0.1); border-radius: 50%;
         }
         .sum-hero-card .h-deco2 {
-            position: absolute;
-            bottom: -50px;
-            left: -30px;
-            width: 100px;
-            height: 100px;
-            background: rgba(255, 255, 255, 0.06);
-            border-radius: 50%;
+            position: absolute; bottom: -50px; left: -30px;
+            width: 100px; height: 100px;
+            background: rgba(255,255,255,0.06); border-radius: 50%;
         }
 
-        /* Progress bar */
         .sum-progress-block {
-            background: #fff;
-            border: 1px solid #e5e7eb;
-            border-radius: 14px;
-            padding: 14px 16px;
+            background: #fff; border: 1px solid #e5e7eb;
+            border-radius: 14px; padding: 14px 16px;
             margin-bottom: 14px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
         }
         .sum-progress-label {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 10px;
+            display: flex; justify-content: space-between;
+            align-items: baseline; margin-bottom: 10px;
         }
         .sum-progress-label .l {
-            font-size: 0.66rem;
-            font-weight: 800;
-            color: #374151;
-            text-transform: uppercase;
+            font-size: 0.66rem; font-weight: 800;
+            color: #374151; text-transform: uppercase;
             letter-spacing: 0.08em;
         }
         .sum-progress-label .v {
-            font-size: 0.92rem;
-            font-weight: 800;
-            color: #1a6b3c;
+            font-size: 0.92rem; font-weight: 800; color: #1a6b3c;
         }
         .sum-progress-track {
-            height: 10px;
-            background: #f3f4f6;
-            border-radius: 10px;
-            overflow: hidden;
+            height: 10px; background: #f3f4f6;
+            border-radius: 10px; overflow: hidden;
             position: relative;
         }
         .sum-progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #6dbf85, #1a6b3c);
-            border-radius: 10px;
-            position: relative;
+            border-radius: 10px; position: relative;
         }
         .sum-progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0; right: 0; bottom: 0;
-            width: 36px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45));
+            content: ''; position: absolute;
+            top: 0; right: 0; bottom: 0; width: 36px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.45));
             border-radius: 10px;
         }
 
-        /* Today's snapshot */
-        .sum-snapshot {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
+        /* Today's classes list (replaces old 4-tile snapshot) */
+        .sum-today-list {
+            display: flex; flex-direction: column; gap: 7px;
             margin-bottom: 14px;
         }
-        .sum-snap-item {
+        .sum-today-row {
+            display: flex; align-items: center; gap: 11px;
+            padding: 9px 12px;
             background: #fff;
             border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 11px 6px 9px;
-            text-align: center;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+            border-left: 4px solid #10b981;
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
         }
-        .sum-snap-item .icon {
-            font-size: 1.05rem;
-            margin-bottom: 4px;
-            display: block;
-            line-height: 1;
+        .sum-today-row.skipped {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
         }
-        .sum-snap-item .num {
-            font-size: 1.35rem;
-            font-weight: 800;
-            color: #1a6b3c;
-            line-height: 1;
+        .sum-today-row.activity {
+            border-left-color: #3b82f6;
+            background: #eff6ff;
         }
-        .sum-snap-item .lbl {
-            font-size: 0.54rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: #6b7280;
-            margin-top: 5px;
-            font-weight: 700;
+        .sum-today-row.pending {
+            border-left-color: #d1d5db;
+            background: #f9fafb;
         }
-        .sum-snap-item.completed { border-color: #a5d6a7; background: #f2faf4; }
-        .sum-snap-item.completed .num { color: #1a6b3c; }
-        .sum-snap-item.skipped { border-color: #f0c96d; background: #fffdf0; }
-        .sum-snap-item.skipped .num { color: #b45309; }
-        .sum-snap-item.pending { border-color: #e5e7eb; background: #f9fafb; }
-        .sum-snap-item.pending .num { color: #6b7280; }
-        .sum-snap-item.activities { border-color: #93c5fd; background: #eff6ff; }
-        .sum-snap-item.activities .num { color: #2563eb; }
+        .sum-today-row .p-badge {
+            background: #1a6b3c; color: #fff;
+            padding: 3px 8px; border-radius: 6px;
+            font-size: 0.62rem; font-weight: 800;
+            letter-spacing: 0.05em; flex-shrink: 0;
+            min-width: 30px; text-align: center;
+        }
+        .sum-today-row.skipped .p-badge { background: #b45309; }
+        .sum-today-row.activity .p-badge { background: #2563eb; }
+        .sum-today-row.pending .p-badge { background: #6b7280; }
+        .sum-today-row .info {
+            flex: 1; min-width: 0;
+            display: flex; flex-direction: column; gap: 1px;
+        }
+        .sum-today-row .cls {
+            font-size: 0.82rem; font-weight: 800; color: #1f2937;
+            letter-spacing: 0.02em; line-height: 1.15;
+        }
+        .sum-today-row .subj {
+            font-size: 0.62rem; color: #6b7280;
+            text-transform: uppercase; letter-spacing: 0.06em;
+            font-weight: 700; line-height: 1.15;
+        }
+        .sum-today-row .stat {
+            font-size: 1rem; flex-shrink: 0; line-height: 1;
+        }
+        .sum-today-empty {
+            padding: 22px 16px; text-align: center;
+            background: #f9fafb; border: 1px dashed #d1d5db;
+            border-radius: 12px; color: #9ca3af;
+            font-size: 0.74rem; font-weight: 600;
+            margin-bottom: 14px;
+        }
 
-        /* Subject breakdown */
-        .sum-subjects {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 14px;
-        }
+        .sum-subjects { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
         .sum-subj-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: #fff;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 10px 12px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+            display: flex; align-items: center; gap: 12px;
+            background: #fff; border: 1px solid #e5e7eb;
+            border-radius: 12px; padding: 10px 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
         }
         .sum-subj-icon {
-            width: 34px;
-            height: 34px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.05rem;
-            flex-shrink: 0;
+            width: 34px; height: 34px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.05rem; flex-shrink: 0;
         }
         .sum-subj-icon.physics { background: linear-gradient(135deg, #dbeafe, #bfdbfe); }
         .sum-subj-icon.chemistry { background: linear-gradient(135deg, #dcfce7, #bbf7d0); }
         .sum-subj-icon.biology { background: linear-gradient(135deg, #fef3c7, #fde68a); }
         .sum-subj-info { flex: 1; min-width: 0; }
-        .sum-subj-name {
-            font-size: 0.74rem;
-            font-weight: 700;
-            color: #374151;
-            margin-bottom: 5px;
-        }
-        .sum-subj-bar {
-            height: 5px;
-            background: #f3f4f6;
-            border-radius: 4px;
-            overflow: hidden;
-        }
+        .sum-subj-name { font-size: 0.74rem; font-weight: 700; color: #374151; margin-bottom: 5px; }
+        .sum-subj-bar { height: 5px; background: #f3f4f6; border-radius: 4px; overflow: hidden; }
         .sum-subj-bar-fill { height: 100%; border-radius: 4px; }
         .sum-subj-bar-fill.physics { background: linear-gradient(90deg, #60a5fa, #2563eb); }
         .sum-subj-bar-fill.chemistry { background: linear-gradient(90deg, #6dbf85, #228b45); }
         .sum-subj-bar-fill.biology { background: linear-gradient(90deg, #f0c96d, #d69e2e); }
         .sum-subj-count {
-            font-size: 1.05rem;
-            font-weight: 800;
-            color: #1a6b3c;
-            min-width: 34px;
-            text-align: right;
-            letter-spacing: -0.02em;
+            font-size: 1.05rem; font-weight: 800; color: #1a6b3c;
+            min-width: 34px; text-align: right; letter-spacing: -0.02em;
         }
 
-        /* Section coverage */
         .sum-coverage-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 5px;
-            margin-bottom: 14px;
+            display: grid; grid-template-columns: repeat(6, 1fr);
+            gap: 5px; margin-bottom: 14px;
         }
         .sum-cov-cell {
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 6px 4px 5px;
-            text-align: center;
-            font-size: 0.6rem;
-            line-height: 1.3;
+            background: #f9fafb; border: 1px solid #e5e7eb;
+            border-radius: 8px; padding: 6px 4px 5px;
+            text-align: center; font-size: 0.6rem; line-height: 1.3;
+            transition: all 0.2s ease;
         }
         .sum-cov-cell.covered {
             background: linear-gradient(180deg, #f2faf4, #e8f5e9);
             border-color: #a5d6a7;
         }
+        /* Blue highlight for today-affected sections */
+        .sum-cov-cell.today-affected {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59,130,246,0.3);
+            background: linear-gradient(180deg, #eff6ff, #dbeafe);
+        }
         .sum-cov-cell .cls {
-            font-weight: 800;
-            color: #6b7280;
-            font-size: 0.62rem;
-            display: block;
+            font-weight: 800; color: #6b7280;
+            font-size: 0.62rem; display: block;
             letter-spacing: 0.02em;
         }
         .sum-cov-cell.covered .cls { color: #1a6b3c; }
+        .sum-cov-cell.today-affected .cls { color: #1e40af; }
         .sum-cov-cell .cnt {
-            font-size: 0.54rem;
-            color: #9ca3af;
-            margin-top: 2px;
-            display: block;
-            font-weight: 700;
+            font-size: 0.54rem; color: #9ca3af;
+            margin-top: 2px; display: block; font-weight: 700;
         }
         .sum-cov-cell.covered .cnt { color: #2e7d32; }
+        .sum-cov-cell.today-affected .cnt { color: #1e40af; }
 
-        /* Class breakdown */
         .sum-classes {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
-            margin-bottom: 4px;
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 6px; margin-bottom: 4px;
         }
         .sum-cls-pill {
-            background: #fff;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            padding: 9px 4px 7px;
-            text-align: center;
+            background: #fff; border: 1px solid #e5e7eb;
+            border-radius: 10px; padding: 9px 4px 7px;
+            text-align: center; transition: all 0.2s ease;
+        }
+        .sum-cls-pill.today-affected {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59,130,246,0.3);
+            background: linear-gradient(180deg, #fff, #eff6ff);
         }
         .sum-cls-pill .name {
-            font-size: 0.6rem;
-            font-weight: 800;
-            color: #6b7280;
-            text-transform: uppercase;
+            font-size: 0.6rem; font-weight: 800;
+            color: #6b7280; text-transform: uppercase;
             letter-spacing: 0.06em;
         }
+        .sum-cls-pill.today-affected .name { color: #1e40af; }
         .sum-cls-pill .count {
-            font-size: 0.95rem;
-            font-weight: 800;
-            color: #1a6b3c;
-            margin-top: 3px;
+            font-size: 0.95rem; font-weight: 800;
+            color: #1a6b3c; margin-top: 3px;
             letter-spacing: -0.02em;
         }
+        .sum-cls-pill.today-affected .count { color: #1e40af; }
 
-        /* Card footer */
         .sum-footer {
             padding: 13px 24px;
-            background: #f9fafb;
-            border-top: 1px solid #e5e7eb;
-            text-align: center;
-            font-size: 0.6rem;
-            color: #9ca3af;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
+            background: #f9fafb; border-top: 1px solid #e5e7eb;
+            text-align: center; font-size: 0.6rem; color: #9ca3af;
+            letter-spacing: 0.06em; text-transform: uppercase;
             font-weight: 600;
         }
 
-        /* Modal action bar */
         .summary-modal-actions {
-            padding: 12px 16px;
-            display: flex;
-            gap: 8px;
-            background: #f9fafb;
-            border-top: 1px solid #e5e7eb;
-            justify-content: flex-end;
-            flex-wrap: wrap;
+            padding: 12px 16px; display: flex; gap: 8px;
+            background: #f9fafb; border-top: 1px solid #e5e7eb;
+            justify-content: flex-end; flex-wrap: wrap;
             border-radius: 0 0 24px 24px;
         }
-        .summary-modal-actions .btn {
-            box-shadow: 0 3px 0 rgba(0, 0, 0, 0.15);
-        }
+        .summary-modal-actions .btn { box-shadow: 0 3px 0 rgba(0,0,0,0.15); }
     </style>
 </head>
 <body>
 
-    <!-- ── TOPBAR ── -->
     <header class="topbar">
         <button class="hamburger" id="hamburgerBtn" aria-label="Menu">&#9776;</button>
         <div class="topbar-logo">RPS</div>
@@ -1354,7 +1033,6 @@
         </div>
     </header>
 
-    <!-- ── APP SHELL ── -->
     <div class="app-shell">
         <div class="sidebar-overlay" id="sidebarOverlay"></div>
         <aside class="sidebar" id="sidebar">
@@ -1368,13 +1046,12 @@
                 <button data-view="search"><span class="nav-icon">&#128269;</span> Search</button>
                 <button data-view="settings"><span class="nav-icon">&#9881;</span> Settings</button>
             </nav>
-            <div class="sidebar-footer">RPS Planner v2.5<br>Offline &middot; IndexedDB</div>
+            <div class="sidebar-footer">RPS Planner v2.6<br>Offline &middot; IndexedDB</div>
         </aside>
 
         <div class="main-area" id="mainArea">
             <div class="content">
 
-                <!-- TODAY VIEW -->
                 <div class="view active" id="view-today">
                     <div class="section-heading">
                         <span class="accent-dot"></span><h2>Today's Schedule</h2>
@@ -1397,7 +1074,6 @@
                     <div class="period-grid" id="periodGrid"></div>
                 </div>
 
-                <!-- CALENDAR VIEW -->
                 <div class="view" id="view-calendar">
                     <div class="section-heading"><span class="accent-dot"></span><h2>Monthly Calendar</h2></div>
                     <div class="calendar-nav-row">
@@ -1415,7 +1091,6 @@
                     </div>
                 </div>
 
-                <!-- ANALYTICS VIEW -->
                 <div class="view" id="view-analytics">
                     <div class="section-heading"><span class="accent-dot"></span><h2>Analytics Dashboard</h2></div>
                     <div class="analytics-grid" id="analyticsGrid"></div>
@@ -1426,7 +1101,6 @@
                     </div>
                 </div>
 
-                <!-- SEARCH VIEW -->
                 <div class="view" id="view-search">
                     <div class="section-heading"><span class="accent-dot"></span><h2>Search Records</h2></div>
                     <div style="margin-bottom:12px;">
@@ -1435,7 +1109,6 @@
                     <div id="searchResults" style="display:flex;flex-direction:column;gap:8px;"></div>
                 </div>
 
-                <!-- SETTINGS VIEW -->
                 <div class="view" id="view-settings">
                     <div class="section-heading"><span class="accent-dot"></span><h2>Settings</h2></div>
                     <div class="settings-card">
@@ -1459,7 +1132,6 @@
         </div>
     </div>
 
-    <!-- EDIT MODAL -->
     <div class="modal-overlay hidden" id="editModalOverlay">
         <div class="modal">
             <h3>&#9999; Edit Period</h3>
@@ -1493,7 +1165,6 @@
         </div>
     </div>
 
-    <!-- CONFIRM MODAL -->
     <div class="modal-overlay hidden" id="confirmModalOverlay">
         <div class="confirm-modal">
             <h4>&#9888; Reshuffle Schedule?</h4>
@@ -1505,7 +1176,6 @@
         </div>
     </div>
 
-    <!-- BACKUP REMINDER MODAL -->
     <div class="modal-overlay hidden" id="backupReminderOverlay">
         <div class="confirm-modal">
             <h4>&#128190; Backup Reminder</h4>
@@ -1518,7 +1188,6 @@
         </div>
     </div>
 
-    <!-- ═══════════ BEAUTIFUL SUMMARY CARD MODAL ═══════════ -->
     <div id="summaryModalOverlay" class="hidden">
         <div class="summary-modal-shell">
             <div id="summaryCardContent"></div>
@@ -1530,18 +1199,24 @@
         </div>
     </div>
 
-    <!-- TOAST -->
     <div class="toast" id="toast"></div>
 
-    <!-- Off-screen PDF capture area (populated by JS) -->
+    <!-- Off-screen PDF capture wrap -->
     <div id="pdfCaptureWrap" aria-hidden="true"></div>
 
-    <!-- html2pdf.js (CDN) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- Full-screen overlay that hides the capture wrap during PDF generation -->
+    <div class="pdf-gen-overlay hidden" id="pdfGenOverlay">
+        <div class="pdf-gen-spinner"></div>
+        <div class="pdf-gen-text" id="pdfGenText">Generating PDF…</div>
+        <div class="pdf-gen-sub">Please wait, this may take a moment</div>
+    </div>
+
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <script>
         (() => {
-            // ── CONSTANTS ──
             const DB_NAME = 'RPS_Planner_DB';
             const DB_VERSION = 4;
             const CLASSES = ['VI','VII','VIII','IX','X','XI','XII'];
@@ -1584,7 +1259,6 @@
                 calYear = TODAY.getFullYear(),
                 db, darkMode = false;
 
-            // ── DB HELPERS ──
             function openDB() {
                 return new Promise((res, rej) => {
                     const req = indexedDB.open(DB_NAME, DB_VERSION);
@@ -1615,7 +1289,6 @@
                 else await dbPut('settings', { key: 'lastModified', value: now });
             }
 
-            // ── LIVE CLOCK ──
             function updateClock() {
                 const now = new Date();
                 let h = now.getHours();
@@ -1627,7 +1300,6 @@
             }
             updateClock(); setInterval(updateClock, 1000);
 
-            // ── SWIPE NAV ──
             const viewOrder = ['today','calendar','analytics','search','settings'];
             let touchStartX = 0, touchEndX = 0;
             const mainArea = document.getElementById('mainArea');
@@ -1642,7 +1314,6 @@
                 }
             }
 
-            // ── SCROLL REVEAL ──
             const revealObserver = new IntersectionObserver(entries => {
                 entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
             }, { threshold: 0.1 });
@@ -1650,7 +1321,6 @@
                 document.querySelectorAll('.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
             }
 
-            // ── INIT ──
             async function initProgress() {
                 if ((await dbGetAll('progress')).length === 0) {
                     for (const c of CLASSES) for (const s of SUBJECTS)
@@ -1673,7 +1343,6 @@
                 document.getElementById('toggleDarkMode').checked = v;
             }
 
-            // ── BACKUP ──
             async function checkBackupReminder() {
                 const lm = await dbGet('settings','lastModified');
                 const lb = await dbGet('settings','lastBackup');
@@ -1699,7 +1368,6 @@
             document.getElementById('btnBackupLater').addEventListener('click', () => document.getElementById('backupReminderOverlay').classList.add('hidden'));
             document.getElementById('backupReminderOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) e.target.classList.add('hidden'); });
 
-            // ── SCHEDULE HELPERS ──
             async function getScheduleForDate(date) {
                 const all = await dbGetAll('schedule');
                 const map = {}; PERIODS.forEach(p => map[p] = null);
@@ -1824,7 +1492,9 @@
                 });
             }
 
-            // ── TODAY RENDER ──
+            // Store today's filled periods for reuse
+            let _todaySnapshot = null;
+
             async function renderToday(date) {
                 currentDate = date;
                 document.getElementById('todayDateLabel').textContent = formatDateNice(date);
@@ -1834,8 +1504,9 @@
                 await renderSuggestions();
 
                 let html = '';
-                let printTotal = 0, printCompleted = 0, printSkipped = 0, printPending = 0, printActivities = 0;
+                let pTotal = 0, pCompleted = 0, pSkipped = 0, pPending = 0, pActivities = 0;
                 let printRowsHtml = '';
+                const todayPeriods = []; // {num, class, section, subject, status, isActivity, activityType}
 
                 for (const p of PERIODS) {
                     const e = schedule[p];
@@ -1851,11 +1522,19 @@
                         continue;
                     }
 
-                    printTotal++;
-                    if (e.status === 'completed') printCompleted++;
-                    else if (e.status === 'skipped') printSkipped++;
-                    else printPending++;
-                    if (e.isActivity) printActivities++;
+                    pTotal++;
+                    if (e.status === 'completed') pCompleted++;
+                    else if (e.status === 'skipped') pSkipped++;
+                    else pPending++;
+                    if (e.isActivity) pActivities++;
+
+                    todayPeriods.push({
+                        num: p, class: e.class || '', section: e.section || '',
+                        subject: e.subject || (e.activityType || 'Activity'),
+                        status: e.status || 'not-started',
+                        isActivity: !!e.isActivity,
+                        activityType: e.activityType || ''
+                    });
 
                     const sLabel = e.status === 'completed' ? 'Completed' : e.status === 'skipped' ? 'Skipped' : 'Not Started';
                     const sDot = e.status === 'completed' ? '<span class="pdf-dot dot-done"></span>' :
@@ -1896,8 +1575,11 @@
 
                 grid.innerHTML = html || '<p style="text-align:center;padding:24px;color:var(--gray-400);">No matching periods found.</p>';
 
-                // Store for later use by PDF/summary
-                window._printSnapshot = { total: printTotal, completed: printCompleted, skipped: printSkipped, pending: printPending, activities: printActivities, rowsHtml: printRowsHtml };
+                _todaySnapshot = {
+                    total: pTotal, completed: pCompleted, skipped: pSkipped,
+                    pending: pPending, activities: pActivities,
+                    rowsHtml: printRowsHtml, periods: todayPeriods
+                };
 
                 grid.querySelectorAll('.btn-edit-period').forEach(b => b.addEventListener('click', () => openEditModal(+b.dataset.period)));
                 grid.querySelectorAll('.btn-mark-done').forEach(b => b.addEventListener('click', async () => { await quickUpdate(+b.dataset.period, 'completed'); renderToday(currentDate); if (currentView === 'calendar') renderCalendar(); }));
@@ -1939,7 +1621,6 @@
                 window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
             }
 
-            // ── EDIT MODAL ──
             let currentEditExistingId = null;
             let currentEditPreviousStatus = 'not-started';
             function populateActivityTypeDropdown(v) {
@@ -1950,13 +1631,8 @@
                 const sc = await getScheduleForDate(currentDate);
                 const e = sc[period];
                 document.getElementById('editPeriodIndex').value = period;
-                if (e) {
-                    currentEditExistingId = e.id || null;
-                    currentEditPreviousStatus = e.status || 'not-started';
-                } else {
-                    currentEditExistingId = null;
-                    currentEditPreviousStatus = 'not-started';
-                }
+                if (e) { currentEditExistingId = e.id || null; currentEditPreviousStatus = e.status || 'not-started'; }
+                else { currentEditExistingId = null; currentEditPreviousStatus = 'not-started'; }
                 const ia = e ? (e.isActivity || false) : false;
                 document.getElementById('editIsActivity').checked = ia;
                 toggleActivityFields(ia);
@@ -2022,9 +1698,7 @@
                     if (currentView === 'calendar') renderCalendar();
                     if (currentView === 'analytics') renderAnalytics();
                     toast('Period saved!');
-                } catch (err) {
-                    console.error(err); toast('Save failed!');
-                }
+                } catch (err) { console.error(err); toast('Save failed!'); }
             });
             document.getElementById('editModalOverlay').addEventListener('click', e => {
                 if (e.target === e.currentTarget) {
@@ -2033,7 +1707,6 @@
                 }
             });
 
-            // ── SMART SUGGEST & AUTO-FILL ──
             document.getElementById('btnSmartSuggest').addEventListener('click', async () => {
                 const filled = await hasAnyFilledPeriods();
                 if (filled) {
@@ -2077,7 +1750,6 @@
             });
             document.getElementById('searchClass').addEventListener('input', () => renderToday(currentDate));
 
-            // ── WHATSAPP TEXT SHARE ──
             document.getElementById('btnShareWhatsApp').addEventListener('click', async () => {
                 const sc = await getScheduleForDate(currentDate);
                 const tn = document.getElementById('topbarTeacherName').textContent;
@@ -2107,9 +1779,11 @@
                 window.open(`https://wa.me/?text=${encodeURIComponent(m)}`, '_blank');
             });
 
-            // ── BUILD PDF CAPTURE HTML ──
+            // ═══════════════════════════════════════════════════════
+            //  PDF GENERATION (fixed: uses on-screen capture)
+            // ═══════════════════════════════════════════════════════
             async function buildPdfCaptureHTML() {
-                const snap = window._printSnapshot || { total:0, completed:0, skipped:0, pending:0, activities:0, rowsHtml:'' };
+                const snap = _todaySnapshot || { total:0, completed:0, skipped:0, pending:0, activities:0, rowsHtml:'' };
                 const all = await dbGetAll('schedule');
                 const completed = all.filter(s => s.status === 'completed' && !s.isActivity && SUBJECTS.includes(s.subject));
                 const totalCompleted = completed.length;
@@ -2182,43 +1856,75 @@
                 `;
             }
 
-            // ── GENERATE PDF BLOB ──
+            function setPdfOverlay(show, text) {
+                const ov = document.getElementById('pdfGenOverlay');
+                if (text) document.getElementById('pdfGenText').textContent = text;
+                ov.classList.toggle('hidden', !show);
+            }
+
             async function generatePDFBlob() {
-                if (typeof html2pdf === 'undefined') throw new Error('PDF library not loaded');
+                if (typeof html2canvas === 'undefined') throw new Error('html2canvas not loaded. Check internet.');
+                if (!window.jspdf || !window.jspdf.jsPDF) throw new Error('jsPDF not loaded. Check internet.');
+
                 await renderToday(currentDate);
                 await new Promise(r => setTimeout(r, 100));
 
                 const wrap = document.getElementById('pdfCaptureWrap');
                 wrap.innerHTML = await buildPdfCaptureHTML();
 
-                // Let layout settle
-                await new Promise(r => setTimeout(r, 220));
+                // Show overlay + activate wrap (wrap is behind overlay)
+                setPdfOverlay(true, 'Generating PDF…');
+                wrap.classList.add('active');
 
-                const opt = {
-                    margin: [10, 10, 12, 10], // top, right, bottom, left (mm)
-                    filename: `RPS_LessonPlan_${currentDate}.pdf`,
-                    image: { type: 'jpeg', quality: 0.98 },
-                    html2canvas: {
+                // Let the browser paint the wrap fully
+                await new Promise(r => setTimeout(r, 350));
+
+                let blob;
+                try {
+                    const canvas = await html2canvas(wrap, {
                         scale: 2,
                         useCORS: true,
                         backgroundColor: '#ffffff',
                         logging: false,
-                        width: 700,
-                        windowWidth: 700,
+                        width: wrap.offsetWidth,
+                        height: wrap.offsetHeight,
+                        windowWidth: wrap.offsetWidth,
+                        windowHeight: wrap.offsetHeight,
                         scrollX: 0,
-                        scrollY: 0,
-                        x: 0,
-                        y: 0
-                    },
-                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true },
-                    pagebreak: { mode: ['css', 'legacy'], avoid: ['tr', '.pdf-analytics-card', '.pdf-summary-box', '.pdf-coverage-wrap', '.pdf-signature-line'] }
-                };
+                        scrollY: 0
+                    });
 
-                let blob;
-                try {
-                    blob = await html2pdf().set(opt).from(wrap).outputPdf('blob');
+                    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait', compress: true });
+
+                    const pageWidth = 210;
+                    const pageHeight = 297;
+                    const marginL = 10, marginR = 10, marginT = 10, marginB = 10;
+                    const contentWidth = pageWidth - marginL - marginR;
+                    const contentHeight = pageHeight - marginT - marginB;
+
+                    const imgWidth = contentWidth;
+                    const imgHeight = (canvas.height / canvas.width) * contentWidth;
+
+                    let heightLeft = imgHeight;
+                    let pageNum = 1;
+                    pdf.addImage(imgData, 'JPEG', marginL, marginT, imgWidth, imgHeight);
+                    heightLeft -= contentHeight;
+
+                    while (heightLeft > 0) {
+                        pageNum++;
+                        pdf.addPage();
+                        const offsetY = marginT - (pageNum - 1) * contentHeight;
+                        pdf.addImage(imgData, 'JPEG', marginL, offsetY, imgWidth, imgHeight);
+                        heightLeft -= contentHeight;
+                    }
+
+                    blob = pdf.output('blob');
                 } finally {
+                    wrap.classList.remove('active');
                     wrap.innerHTML = '';
+                    setPdfOverlay(false);
                 }
                 return blob;
             }
@@ -2236,7 +1942,7 @@
             document.getElementById('btnSharePDF').addEventListener('click', async () => {
                 const btn = document.getElementById('btnSharePDF');
                 const orig = btn.innerHTML;
-                btn.innerHTML = '&#9203; Generating…'; btn.disabled = true;
+                btn.innerHTML = '&#9203; Working…'; btn.disabled = true;
                 try {
                     const blob = await generatePDFBlob();
                     const fileName = `RPS_LessonPlan_${currentDate}.pdf`;
@@ -2255,13 +1961,14 @@
                     }
                 } catch (err) {
                     console.error(err); toast('PDF failed: ' + err.message);
-                    setTimeout(() => { try { window.print(); } catch(e){} }, 300);
                 } finally {
                     btn.innerHTML = orig; btn.disabled = false;
                 }
             });
 
-            // ── BEAUTIFUL SUMMARY CARD ──
+            // ═══════════════════════════════════════════════════════
+            //  SUMMARY CARD
+            // ═══════════════════════════════════════════════════════
             async function buildSummaryCardHTML() {
                 const sc = await getScheduleForDate(currentDate);
                 const all = await dbGetAll('schedule');
@@ -2276,13 +1983,56 @@
                 const secTotals = await getSectionTotalCompletions();
 
                 const todayDone = PERIODS.filter(p => sc[p] && sc[p].status === 'completed').length;
-                const todaySkipped = PERIODS.filter(p => sc[p] && sc[p].status === 'skipped').length;
-                const todayPending = PERIODS.filter(p => sc[p] && sc[p].status === 'not-started' && !sc[p].isActivity).length;
-                const todayActivities = PERIODS.filter(p => sc[p] && sc[p].isActivity).length;
                 const todayTotal = PERIODS.filter(p => sc[p]).length;
-
                 const tn = document.getElementById('topbarTeacherName').textContent;
                 const yearlyPct = Math.min(100, Math.round(totalCompleted / 270 * 100));
+
+                // Set of today-affected sections and classes
+                const affectedSections = new Set();
+                const affectedClasses = new Set();
+                PERIODS.forEach(p => {
+                    const e = sc[p];
+                    if (e && !e.isActivity && e.class && e.section) {
+                        affectedSections.add(`${e.class}_${e.section}`);
+                        affectedClasses.add(e.class);
+                    }
+                });
+
+                // Build today's class list (skip null periods)
+                const todayList = [];
+                PERIODS.forEach(p => {
+                    const e = sc[p];
+                    if (!e) return;
+                    let cls = '', subj = '', status = e.status || 'not-started', isAct = !!e.isActivity;
+                    if (isAct) {
+                        cls = 'Activity';
+                        subj = e.activityType || 'General';
+                    } else {
+                        cls = `${e.class}-${e.section}`;
+                        subj = e.subject || '';
+                    }
+                    todayList.push({ num: p, cls, subj, status, isAct });
+                });
+
+                let todayRowsHtml = '';
+                if (!todayList.length) {
+                    todayRowsHtml = `<div class="sum-today-empty">No classes scheduled for today</div>`;
+                } else {
+                    todayRowsHtml = todayList.map(item => {
+                        let stateClass = 'done', statIcon = '✅';
+                        if (item.status === 'skipped') { stateClass = 'skipped'; statIcon = '⏭️'; }
+                        else if (item.status === 'not-started') { stateClass = 'pending'; statIcon = '⏳'; }
+                        if (item.isAct) stateClass = 'activity';
+                        return `<div class="sum-today-row ${stateClass}">
+                            <span class="p-badge">P${item.num}</span>
+                            <div class="info">
+                                <span class="cls">${item.cls}</span>
+                                <span class="subj">${item.subj}</span>
+                            </div>
+                            <span class="stat">${statIcon}</span>
+                        </div>`;
+                    }).join('');
+                }
 
                 const subjEmoji = s => s === 'Physics' ? '⚛️' : s === 'Chemistry' ? '🧪' : '🧬';
                 const subjClass = s => s.toLowerCase();
@@ -2303,11 +2053,13 @@
                 for (const c of CLASSES) for (const sec of (SECTIONS_MAP[c] || [])) {
                     const k = `${c}_${sec}`;
                     const done = secTotals[k] || 0;
-                    cov += `<div class="sum-cov-cell ${done>0?'covered':''}"><span class="cls">${c}-${sec}</span><span class="cnt">${done>0?'✔ '+done:'✘'}</span></div>`;
+                    const isToday = affectedSections.has(k);
+                    const classes = `sum-cov-cell ${done>0?'covered':''} ${isToday?'today-affected':''}`;
+                    cov += `<div class="${classes}"><span class="cls">${c}-${sec}</span><span class="cnt">${done>0?'✔ '+done:'✘'}</span></div>`;
                 }
 
                 const classPills = CLASSES.map(c =>
-                    `<div class="sum-cls-pill"><div class="name">${c}</div><div class="count">${classCounts[c].completed}</div></div>`
+                    `<div class="sum-cls-pill ${affectedClasses.has(c)?'today-affected':''}"><div class="name">${c}</div><div class="count">${classCounts[c].completed}</div></div>`
                 ).join('');
 
                 return `
@@ -2353,21 +2105,16 @@
                                 </div>
                             </div>
 
-                            <div class="sum-section-title">📅 Today's Snapshot</div>
-                            <div class="sum-snapshot">
-                                <div class="sum-snap-item completed"><span class="icon">✅</span><div class="num">${todayDone}</div><div class="lbl">Done</div></div>
-                                <div class="sum-snap-item skipped"><span class="icon">⏭️</span><div class="num">${todaySkipped}</div><div class="lbl">Skipped</div></div>
-                                <div class="sum-snap-item pending"><span class="icon">⏳</span><div class="num">${todayPending}</div><div class="lbl">Pending</div></div>
-                                <div class="sum-snap-item activities"><span class="icon">📌</span><div class="num">${todayActivities}</div><div class="lbl">Activity</div></div>
-                            </div>
+                            <div class="sum-section-title">📅 Today's Classes</div>
+                            <div class="sum-today-list">${todayRowsHtml}</div>
 
                             <div class="sum-section-title">📚 Subject Distribution</div>
                             <div class="sum-subjects">${subjRows}</div>
 
-                            <div class="sum-section-title">🎯 Section Coverage</div>
+                            <div class="sum-section-title">🎯 Section Coverage <span style="color:#3b82f6;font-weight:700;text-transform:none;letter-spacing:0;">• blue = today</span></div>
                             <div class="sum-coverage-grid">${cov}</div>
 
-                            <div class="sum-section-title">🏫 Class Breakdown</div>
+                            <div class="sum-section-title">🏫 Class Breakdown <span style="color:#3b82f6;font-weight:700;text-transform:none;letter-spacing:0;">• blue = today</span></div>
                             <div class="sum-classes">${classPills}</div>
                         </div>
                         <div class="sum-footer">
@@ -2395,28 +2142,27 @@
                 if (e.target === e.currentTarget) closeSummaryModal();
             });
 
-            // Generate image from summary card
             async function generateSummaryImageBlob() {
-                if (typeof html2canvas === 'undefined' && typeof html2pdf === 'undefined') {
-                    throw new Error('Canvas library not loaded');
+                if (typeof html2canvas === 'undefined') {
+                    throw new Error('Image library not loaded. Check internet.');
                 }
                 const card = document.getElementById('summaryCardContent').querySelector('.summary-card');
                 if (!card) throw new Error('Summary card not rendered');
-
-                // Use html2pdf's bundled html2canvas
-                const html2canvasFn = window.html2canvas || (window.html2pdf && window.html2pdf().constructor && null);
-                // fallback: use html2pdf to output as image
-                const w = card.offsetWidth || 520;
+                await new Promise(r => setTimeout(r, 200));
                 const canvas = await html2canvas(card, {
                     scale: 2.5,
                     backgroundColor: '#ffffff',
                     useCORS: true,
                     logging: false,
-                    width: w,
-                    windowWidth: w
+                    width: card.offsetWidth,
+                    height: card.offsetHeight,
+                    windowWidth: card.offsetWidth,
+                    windowHeight: card.offsetHeight,
+                    scrollX: 0,
+                    scrollY: 0
                 });
-                return new Promise((res, rej) => {
-                    canvas.toBlob(blob => blob ? res(blob) : rej(new Error('toBlob failed')), 'image/png', 0.95);
+                return await new Promise((resolve, reject) => {
+                    canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('Failed to create image')), 'image/png', 0.95);
                 });
             }
 
@@ -2438,7 +2184,7 @@
                         }
                     } else {
                         downloadBlob(blob, fileName);
-                        toast('Summary saved. Open WhatsApp and attach the file.');
+                        toast('Summary saved. Open WhatsApp and attach.');
                     }
                 } catch (err) {
                     console.error(err); toast('Failed: ' + err.message);
@@ -2462,7 +2208,6 @@
                 }
             });
 
-            // ── CALENDAR ──
             async function renderCalendar() {
                 document.getElementById('calMonthLabel').textContent = new Date(calYear, calMonth).toLocaleString('default', { month:'long', year:'numeric' });
                 const grid = document.getElementById('calendarGrid');
@@ -2510,7 +2255,6 @@
             document.getElementById('calNext').onclick = () => { calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; } renderCalendar(); };
             document.getElementById('calGoToday').onclick = () => { calMonth = TODAY.getMonth(); calYear = TODAY.getFullYear(); currentDate = dateStr(TODAY); renderCalendar(); renderToday(currentDate); switchView('today'); };
 
-            // ── ANALYTICS ──
             async function renderAnalytics() {
                 const all = await dbGetAll('schedule');
                 const completed = all.filter(s => s.status === 'completed' && !s.isActivity && SUBJECTS.includes(s.subject));
@@ -2571,7 +2315,6 @@
                 observeReveal();
             }
 
-            // ── SEARCH ──
             document.getElementById('globalSearchInput').addEventListener('input', async function() {
                 const q = this.value.trim().toLowerCase();
                 const c = document.getElementById('searchResults');
@@ -2596,7 +2339,6 @@
                 observeReveal();
             });
 
-            // ── SETTINGS ──
             document.getElementById('btnSaveSettings').onclick = async () => {
                 const name = document.getElementById('settingTeacherName').value.trim() || 'Mr. Mithilesh';
                 const dm = document.getElementById('toggleDarkMode').checked;
@@ -2642,7 +2384,6 @@
                 setTimeout(() => location.reload(), 800);
             };
 
-            // ── VIEW SWITCHING ──
             function switchView(view) {
                 currentView = view;
                 document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
@@ -2665,7 +2406,6 @@
             window.addEventListener('resize', () => { if (window.innerWidth > 900) { sidebar.classList.remove('open'); overlay.classList.remove('active'); } });
             function closeSidebar() { sidebar.classList.remove('open'); overlay.classList.remove('active'); }
 
-            // ── FORMATTERS ──
             function formatDateNice(d) {
                 const dt = parseDateSafe(d); if (!dt) return d || 'Unknown date';
                 const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
@@ -2694,7 +2434,6 @@
                 }
             });
 
-            // ── INIT ──
             (async () => {
                 await openDB();
                 await initProgress();
