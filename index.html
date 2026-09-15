@@ -291,19 +291,11 @@
             transition: var(--transition-fast);
             border: 1px solid rgba(255, 255, 255, 0.18);
         }
-        .hamburger:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-        .hamburger:active {
-            transform: scale(0.92);
-        }
+        .hamburger:hover { background: rgba(255, 255, 255, 0.2); }
+        .hamburger:active { transform: scale(0.92); }
 
         /* ── APP SHELL ── */
-        .app-shell {
-            display: flex;
-            flex: 1;
-            position: relative;
-        }
+        .app-shell { display: flex; flex: 1; position: relative; }
         .sidebar {
             position: fixed;
             top: var(--topbar-h);
@@ -320,9 +312,7 @@
             transition: transform var(--transition-slow), background var(--transition-slow);
             transform: translateX(0);
         }
-        .sidebar.closed {
-            transform: translateX(-100%);
-        }
+        .sidebar.closed { transform: translateX(-100%); }
         .sidebar-header {
             padding: 16px 16px 12px;
             border-bottom: 2px solid #000;
@@ -378,12 +368,7 @@
             font-weight: 600;
             box-shadow: inset 0 0 0 1px var(--green-300);
         }
-        .nav-icon {
-            width: 22px;
-            text-align: center;
-            font-size: 1rem;
-            flex-shrink: 0;
-        }
+        .nav-icon { width: 22px; text-align: center; font-size: 1rem; flex-shrink: 0; }
         .sidebar-footer {
             padding: 10px 14px;
             border-top: 2px solid #000;
@@ -403,9 +388,7 @@
             backdrop-filter: blur(2px);
             -webkit-backdrop-filter: blur(2px);
         }
-        .sidebar-overlay.active {
-            display: block;
-        }
+        .sidebar-overlay.active { display: block; }
         .main-area {
             margin-left: var(--sidebar-w);
             flex: 1;
@@ -423,22 +406,11 @@
             margin: 0 auto;
         }
         @media (max-width: 900px) {
-            .sidebar {
-                transform: translateX(-100%);
-                box-shadow: 8px 0 0 rgba(0,0,0,0.15);
-            }
-            .sidebar.open {
-                transform: translateX(0);
-            }
-            .main-area {
-                margin-left: 0 !important;
-            }
-            .hamburger {
-                display: flex;
-            }
-            .content {
-                padding: 12px 10px;
-            }
+            .sidebar { transform: translateX(-100%); box-shadow: 8px 0 0 rgba(0,0,0,0.15); }
+            .sidebar.open { transform: translateX(0); }
+            .main-area { margin-left: 0 !important; }
+            .hamburger { display: flex; }
+            .content { padding: 12px 10px; }
         }
 
         /* ── PRINT STYLES (for native browser print) ── */
@@ -503,10 +475,7 @@
                 background: linear-gradient(90deg, #1a6b3c, #3da066, #1a6b3c);
                 border-radius: 0;
             }
-            .print-period-table-wrap {
-                display: block !important;
-                margin-top: 8px;
-            }
+            .print-period-table-wrap { display: block !important; margin-top: 8px; }
             .print-period-table-wrap h3 {
                 font-size: 0.85rem;
                 margin-bottom: 6px;
@@ -520,12 +489,16 @@
                 border-collapse: collapse;
                 font-size: 0.68rem;
                 box-shadow: 0 0 0 1px #ddd;
+                table-layout: fixed;
             }
             .print-period-table th, .print-period-table td {
                 border: 1px solid #ccc;
                 padding: 6px 8px;
                 text-align: left;
                 vertical-align: top;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                word-break: break-word;
             }
             .print-period-table thead th {
                 background: #1a6b3c;
@@ -559,7 +532,6 @@
             .print-status-dot.dot-done { background: #2e8b4e; }
             .print-status-dot.dot-skip { background: #d69e2e; }
             .print-status-dot.dot-pend { background: #bbb; }
-
             .print-summary-box {
                 display: block !important;
                 margin-top: 10px;
@@ -580,27 +552,14 @@
                 padding-bottom: 4px;
                 border-bottom: 1px dashed #a5d6a7;
             }
-            .print-summary-box .summary-row {
-                display: flex;
-                gap: 18px;
-                flex-wrap: wrap;
-            }
-            .print-summary-box .summary-item {
-                white-space: nowrap;
-                font-weight: 500;
-                color: #333;
-            }
+            .print-summary-box .summary-row { display: flex; gap: 18px; flex-wrap: wrap; }
+            .print-summary-box .summary-item { white-space: nowrap; font-weight: 500; color: #333; }
             .print-summary-box .summary-item strong {
                 color: #1a6b3c;
                 font-weight: 800;
                 font-size: 0.78rem;
             }
-
-            .print-analytics-wrap {
-                display: block !important;
-                margin-top: 14px;
-                page-break-inside: avoid;
-            }
+            .print-analytics-wrap { display: block !important; margin-top: 14px; page-break-inside: avoid; }
             .print-analytics-wrap h3 {
                 font-size: 0.85rem;
                 margin-bottom: 8px;
@@ -623,10 +582,7 @@
                 background: #f9fdf9;
                 break-inside: avoid;
             }
-            .print-analytics-card.accent {
-                background: #e8f5e9;
-                border-color: #a5d6a7;
-            }
+            .print-analytics-card.accent { background: #e8f5e9; border-color: #a5d6a7; }
             .print-analytics-card .card-label {
                 font-size: 0.58rem;
                 color: #666;
@@ -641,10 +597,7 @@
                 color: #1a6b3c;
                 line-height: 1.1;
             }
-            .print-analytics-card .card-list {
-                font-size: 0.65rem;
-                line-height: 1.6;
-            }
+            .print-analytics-card .card-list { font-size: 0.65rem; line-height: 1.6; }
             .print-analytics-card .list-row {
                 display: flex;
                 justify-content: space-between;
@@ -684,21 +637,10 @@
                 background: #fff;
                 line-height: 1.35;
             }
-            .print-coverage-cell.covered {
-                background: #e8f5e9;
-                border-color: #a5d6a7;
-            }
-            .print-coverage-cell strong {
-                color: #1a6b3c;
-                display: block;
-                font-size: 0.62rem;
-            }
+            .print-coverage-cell.covered { background: #e8f5e9; border-color: #a5d6a7; }
+            .print-coverage-cell strong { color: #1a6b3c; display: block; font-size: 0.62rem; }
             .print-coverage-cell .cnt { color: #666; font-size: 0.56rem; }
-            .print-coverage-cell.covered .cnt {
-                color: #2e7d32;
-                font-weight: 700;
-            }
-
+            .print-coverage-cell.covered .cnt { color: #2e7d32; font-weight: 700; }
             .print-footer-line {
                 display: block !important;
                 text-align: center;
@@ -716,10 +658,7 @@
                 padding: 0 10px;
                 font-size: 0.75rem;
             }
-            .print-signature-line .sig-block {
-                text-align: center;
-                min-width: 120px;
-            }
+            .print-signature-line .sig-block { text-align: center; min-width: 120px; }
             .print-signature-line .sig-line {
                 border-top: 1px dotted #333;
                 margin-top: 30px;
@@ -804,14 +743,8 @@
             box-shadow: var(--shadow-brutal-sm);
             min-height: 40px;
         }
-        .btn:active {
-            transform: translate(2px, 2px);
-            box-shadow: none;
-        }
-        .btn[disabled] {
-            opacity: 0.6;
-            cursor: wait;
-        }
+        .btn:active { transform: translate(2px, 2px); box-shadow: none; }
+        .btn[disabled] { opacity: 0.6; cursor: wait; }
         .btn-sm { padding: 5px 10px; font-size: 0.7rem; border-radius: 14px; min-height: 36px; }
         .btn-xs { padding: 3px 8px; font-size: 0.65rem; border-radius: 10px; min-height: 32px; }
         .btn-primary { background: var(--green-500); color: #fff; }
@@ -862,15 +795,8 @@
             color: #fff;
             box-shadow: var(--shadow-brutal);
         }
-        .dark-mode .suggestion-box {
-            background: linear-gradient(135deg, #0d2818 0%, #1a3d24 100%);
-        }
-        .suggestion-title {
-            font-weight: 700;
-            font-size: 0.85rem;
-            margin-bottom: 8px;
-            opacity: 0.95;
-        }
+        .dark-mode .suggestion-box { background: linear-gradient(135deg, #0d2818 0%, #1a3d24 100%); }
+        .suggestion-title { font-weight: 700; font-size: 0.85rem; margin-bottom: 8px; opacity: 0.95; }
         .suggestion-chips { display: flex; flex-wrap: wrap; gap: 7px; }
         .suggestion-chip {
             background: rgba(255, 255, 255, 0.14);
@@ -1217,15 +1143,8 @@
         .confirm-modal h4 { font-size: 1rem; margin-bottom: 6px; color: var(--green-800); }
         .confirm-modal p { font-size: 0.8rem; color: var(--gray-600); margin-bottom: 16px; line-height: 1.5; }
         .confirm-modal .confirm-btn-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
-
-        #backupReminderOverlay .confirm-modal p {
-            font-size: 0.85rem;
-            line-height: 1.6;
-        }
-        #backupReminderOverlay .confirm-btn-row .btn {
-            min-height: 40px;
-            padding: 8px 16px;
-        }
+        #backupReminderOverlay .confirm-modal p { font-size: 0.85rem; line-height: 1.6; }
+        #backupReminderOverlay .confirm-btn-row .btn { min-height: 40px; padding: 8px 16px; }
 
         /* Scroll reveal */
         .reveal {
@@ -1233,10 +1152,7 @@
             transform: translateY(20px);
             transition: opacity 0.5s ease, transform 0.5s ease;
         }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
 
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
@@ -1259,57 +1175,85 @@
     </style>
 
     <!-- ═══════════════════════════════════════════════════════════════
-         PDF RENDER MODE (mirrors @media print — activated via media="all"
-         toggle in JS before generating PDF, deactivated afterwards).
-         Keeping this outside @media print is essential because
-         html2canvas (inside html2pdf.js) does not evaluate print media.
+         PDF RENDER MODE
+         Activated by toggling this <style>'s media attribute to "all"
+         during PDF generation, then back to "not all" afterwards.
+         Uses a fixed 780px content width so nothing gets cropped
+         when the canvas is fitted onto an A4 page (210mm wide).
     ═══════════════════════════════════════════════════════════════ -->
     <style id="pdfRenderStyles" media="not all">
-        body {
-            background: #fff !important;
+        /* ── Global reset for PDF capture ── */
+        html, body {
+            width: 780px !important;
+            min-width: 780px !important;
+            max-width: 780px !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            background: #ffffff !important;
             color: #111 !important;
             font-size: 11px !important;
+            line-height: 1.45 !important;
             animation: none !important;
             background-image: none !important;
             display: block !important;
             min-height: 0 !important;
+            overflow: visible !important;
+            box-sizing: border-box !important;
         }
-        .app-shell { display: block !important; flex: none !important; }
-        .main-area { margin-left: 0 !important; min-height: auto !important; display: block !important; flex: none !important; }
-        .content { padding: 0 !important; max-width: 100% !important; width: 100% !important; }
+        body * { box-sizing: border-box !important; }
 
+        .app-shell { display: block !important; flex: none !important; width: 780px !important; }
+        .main-area {
+            margin: 0 !important;
+            padding: 0 !important;
+            min-height: 0 !important;
+            display: block !important;
+            flex: none !important;
+            width: 780px !important;
+        }
+        .content {
+            padding: 0 !important;
+            margin: 0 !important;
+            max-width: 780px !important;
+            width: 780px !important;
+        }
+
+        /* Hide all interactive / non-print chrome */
         .sidebar, .topbar, .action-bar, .modal-overlay, .search-input,
         .sidebar-overlay, .hamburger, .card-actions-row, .card-actions-row .btn,
         .btn-edit-period, .btn-mark-done, .btn-mark-skip, .btn-share-note,
         .toast, .suggestion-box, .suggestion-chips, #suggestionBox,
         .sidebar-footer, .calendar-nav-row, .calendar-grid, .calendar-legend,
-        .section-heading .accent-dot, .date-chip, .period-chip, .status-pill,
-        .activity-badge-inline, .notes-snippet, .period-grid {
+        .section-heading, .section-heading .accent-dot, .date-chip,
+        .period-chip, .status-pill, .activity-badge-inline, .notes-snippet,
+        .period-grid, .btn {
             display: none !important;
         }
-        .btn { display: none !important; }
 
+        /* Only Today view is shown in the PDF */
         .view { display: none !important; animation: none !important; }
         #view-today { display: block !important; }
-        .section-heading { display: none !important; }
 
+        /* ── Print header ── */
         .print-only-header {
             display: block !important;
             text-align: center;
-            margin-bottom: 12px;
-            padding-bottom: 6px;
+            margin: 0 0 14px 0;
+            padding-bottom: 8px;
             border-bottom: 3px solid #1a6b3c;
             position: relative;
+            width: 100%;
         }
         .print-only-header .print-logo-line {
-            font-size: 1.8rem;
+            font-size: 1.7rem;
             font-weight: 800;
             color: #1a6b3c;
-            letter-spacing: 0.04em;
+            letter-spacing: 0.05em;
             text-transform: uppercase;
+            line-height: 1.1;
         }
         .print-only-header .print-sub-line {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: #444;
             margin: 3px 0;
             letter-spacing: 0.03em;
@@ -1323,43 +1267,60 @@
             background: linear-gradient(90deg, #1a6b3c, #3da066, #1a6b3c);
         }
 
-        .print-period-table-wrap { display: block !important; margin-top: 8px; }
+        /* ── Period table ── */
+        .print-period-table-wrap {
+            display: block !important;
+            margin-top: 10px;
+            width: 100%;
+        }
         .print-period-table-wrap h3 {
-            font-size: 0.85rem;
-            margin-bottom: 6px;
+            font-size: 0.82rem;
+            margin: 0 0 8px 0;
             border-bottom: 1px solid #ccc;
-            padding-bottom: 4px;
+            padding-bottom: 5px;
             color: #1a6b3c;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            font-weight: 700;
         }
         .print-period-table {
-            width: 100%;
+            width: 100% !important;
+            max-width: 100% !important;
             border-collapse: collapse;
-            font-size: 0.68rem;
+            font-size: 0.7rem;
             box-shadow: 0 0 0 1px #ddd;
+            table-layout: fixed !important;
         }
-        .print-period-table th, .print-period-table td {
+        .print-period-table th,
+        .print-period-table td {
             border: 1px solid #ccc;
             padding: 6px 8px;
             text-align: left;
             vertical-align: top;
+            word-wrap: break-word !important;
+            overflow-wrap: break-word !important;
+            word-break: break-word !important;
+            white-space: normal !important;
+            hyphens: auto;
         }
         .print-period-table thead th {
             background: #1a6b3c !important;
-            color: #fff !important;
+            color: #ffffff !important;
             font-weight: 700;
-            font-size: 0.62rem;
+            font-size: 0.64rem;
             text-transform: uppercase;
+            letter-spacing: 0.04em;
             padding: 7px 8px;
             border-color: #14522b !important;
         }
         .print-period-table .col-p { width: 7%; text-align: center; }
-        .print-period-table .col-cls { width: 12%; }
+        .print-period-table .col-cls { width: 11%; }
         .print-period-table .col-sec { width: 9%; text-align: center; }
-        .print-period-table .col-sub { width: 16%; }
+        .print-period-table .col-sub { width: 15%; }
         .print-period-table .col-st { width: 13%; text-align: center; font-weight: 600; }
-        .print-period-table .col-nt { width: 43%; }
+        .print-period-table .col-nt { width: 45%; }
         .print-period-table tbody tr:nth-child(even) { background: #f7faf7; }
-        .print-period-table tbody tr:nth-child(odd) { background: #fff; }
+        .print-period-table tbody tr:nth-child(odd) { background: #ffffff; }
         .print-period-table .row-completed { background: #e6f4ea !important; }
         .print-period-table .row-skipped { background: #fffdf0 !important; }
         .print-status-dot {
@@ -1372,31 +1333,35 @@
         }
         .print-status-dot.dot-done { background: #2e8b4e; }
         .print-status-dot.dot-skip { background: #d69e2e; }
-        .print-status-dot.dot-pend { background: #bbb; }
+        .print-status-dot.dot-pend { background: #bbbbbb; }
 
+        /* ── Today summary box ── */
         .print-summary-box {
             display: block !important;
-            margin-top: 10px;
+            margin-top: 14px;
             padding: 10px 14px;
             border: 2px solid #1a6b3c;
             border-radius: 6px;
             background: #f9fdf9 !important;
-            font-size: 0.7rem;
+            font-size: 0.72rem;
             line-height: 1.7;
+            width: 100%;
         }
         .print-summary-box .print-summary-header {
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             font-weight: 700;
             color: #1a6b3c;
             text-transform: uppercase;
-            margin-bottom: 6px;
-            padding-bottom: 4px;
+            letter-spacing: 0.06em;
+            margin-bottom: 8px;
+            padding-bottom: 5px;
             border-bottom: 1px dashed #a5d6a7;
         }
         .print-summary-box .summary-row {
             display: flex;
-            gap: 18px;
+            gap: 22px;
             flex-wrap: wrap;
+            justify-content: flex-start;
         }
         .print-summary-box .summary-item {
             white-space: nowrap;
@@ -1406,32 +1371,38 @@
         .print-summary-box .summary-item strong {
             color: #1a6b3c;
             font-weight: 800;
-            font-size: 0.78rem;
+            font-size: 0.82rem;
+            margin-left: 2px;
         }
 
+        /* ── Analytics summary ── */
         .print-analytics-wrap {
             display: block !important;
-            margin-top: 14px;
+            margin-top: 18px;
+            width: 100%;
         }
         .print-analytics-wrap h3 {
-            font-size: 0.85rem;
-            margin-bottom: 8px;
+            font-size: 0.82rem;
+            margin: 0 0 10px 0;
             border-bottom: 2px solid #1a6b3c;
-            padding-bottom: 4px;
+            padding-bottom: 5px;
             color: #1a6b3c;
             text-transform: uppercase;
             font-weight: 700;
+            letter-spacing: 0.04em;
         }
         .print-analytics-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 8px;
+            width: 100%;
         }
         .print-analytics-card {
             border: 1px solid #ccc;
             border-radius: 5px;
-            padding: 8px 10px;
+            padding: 9px 11px;
             background: #f9fdf9 !important;
+            min-width: 0;
         }
         .print-analytics-card.accent {
             background: #e8f5e9 !important;
@@ -1442,17 +1413,18 @@
             color: #666;
             text-transform: uppercase;
             font-weight: 700;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
+            letter-spacing: 0.05em;
         }
         .print-analytics-card .card-value {
-            font-size: 1.35rem;
+            font-size: 1.3rem;
             font-weight: 800;
             color: #1a6b3c;
             line-height: 1.1;
         }
         .print-analytics-card .card-list {
-            font-size: 0.65rem;
-            line-height: 1.6;
+            font-size: 0.66rem;
+            line-height: 1.7;
         }
         .print-analytics-card .list-row {
             display: flex;
@@ -1463,19 +1435,22 @@
         }
         .print-analytics-card .list-row:last-child { border-bottom: none; }
         .print-analytics-card .list-row strong { color: #1a6b3c; }
+
         .print-coverage-wrap {
-            margin-top: 8px;
+            margin-top: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            padding: 8px 10px;
+            padding: 9px 11px;
             background: #f9fdf9 !important;
+            width: 100%;
         }
         .print-coverage-wrap .card-label {
             font-size: 0.58rem;
             color: #666;
             text-transform: uppercase;
             font-weight: 700;
-            margin-bottom: 6px;
+            margin-bottom: 7px;
+            letter-spacing: 0.05em;
         }
         .print-coverage-grid {
             display: grid;
@@ -1485,11 +1460,12 @@
         .print-coverage-cell {
             border: 1px solid #ddd;
             border-radius: 3px;
-            padding: 3px 4px;
+            padding: 4px 3px;
             font-size: 0.6rem;
             text-align: center;
             background: #fff !important;
             line-height: 1.35;
+            min-width: 0;
         }
         .print-coverage-cell.covered {
             background: #e8f5e9 !important;
@@ -1501,32 +1477,33 @@
             font-size: 0.62rem;
         }
         .print-coverage-cell .cnt { color: #666; font-size: 0.56rem; }
-        .print-coverage-cell.covered .cnt {
-            color: #2e7d32;
-            font-weight: 700;
-        }
+        .print-coverage-cell.covered .cnt { color: #2e7d32; font-weight: 700; }
 
-        .print-footer-line {
-            display: block !important;
-            text-align: center;
-            margin-top: 10px;
-            font-size: 0.58rem;
-            color: #777;
-            border-top: 1px solid #ddd;
-            padding-top: 5px;
-        }
+        /* ── Signatures + footer ── */
         .print-signature-line {
             display: flex !important;
             justify-content: space-between;
-            margin-top: 25px;
+            margin-top: 32px;
             padding: 0 10px;
             font-size: 0.75rem;
+            width: 100%;
         }
-        .print-signature-line .sig-block { text-align: center; min-width: 120px; }
+        .print-signature-line .sig-block { text-align: center; min-width: 130px; }
         .print-signature-line .sig-line {
             border-top: 1px dotted #333;
             margin-top: 30px;
             padding-top: 4px;
+        }
+        .print-footer-line {
+            display: block !important;
+            text-align: center;
+            margin-top: 12px;
+            font-size: 0.58rem;
+            color: #777;
+            border-top: 1px solid #ddd;
+            padding-top: 6px;
+            letter-spacing: 0.04em;
+            width: 100%;
         }
     </style>
 </head>
@@ -1561,7 +1538,7 @@
                 <button data-view="search"><span class="nav-icon">&#128269;</span> Search</button>
                 <button data-view="settings"><span class="nav-icon">&#9881;</span> Settings</button>
             </nav>
-            <div class="sidebar-footer">RPS Planner v2.3<br>Offline &middot; IndexedDB</div>
+            <div class="sidebar-footer">RPS Planner v2.4<br>Offline &middot; IndexedDB</div>
         </aside>
 
         <div class="main-area" id="mainArea">
@@ -1753,7 +1730,7 @@
     <!-- TOAST -->
     <div class="toast" id="toast"></div>
 
-    <!-- html2pdf.js (CDN) — used for generating the PDF that gets shared to WhatsApp -->
+    <!-- html2pdf.js (CDN) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <script>
@@ -2247,7 +2224,6 @@
                 let html = '';
                 const printTbody = document.getElementById('printPeriodTbody');
                 let printTableHtml = '';
-                // Print summary counters — ONLY count filled periods (blank periods excluded from PDF)
                 let printTotalFilled = 0, printCompleted = 0, printSkipped = 0, printPending = 0, printActivities = 0;
 
                 for (const p of PERIODS) {
@@ -2255,7 +2231,7 @@
                     if (search && e && !`${e.class||''} ${e.section||''} ${e.subject||''} ${e.notes||''} ${e.activityType||''}`.toUpperCase().includes(search)) continue;
                     if (search && !e) continue;
 
-                    // ── Blank period: render on-screen "No class" card, skip from print/PDF ──
+                    // Blank period: show on-screen only, skip from print/PDF
                     if (!e) {
                         html += `<div class="period-card reveal" data-period="${p}">
                             <span class="period-chip">Period ${p}</span>
@@ -2265,7 +2241,7 @@
                         continue;
                     }
 
-                    // ── Filled period: count for print summary & add print row ──
+                    // Filled period: count + print row
                     printTotalFilled++;
                     if (e.status === 'completed') printCompleted++;
                     else if (e.status === 'skipped') printSkipped++;
@@ -2284,7 +2260,7 @@
                         <td>${statusDot}${pStatusLabel}</td><td>${pNotes}</td>
                     </tr>`;
 
-                    // ── On-screen card ──
+                    // On-screen card
                     let cardClass = '', statusBadge = '', statusClass = 'status-not-started';
                     if (e.status === 'completed') { cardClass = 'completed'; statusBadge = 'Completed'; statusClass = 'status-completed'; }
                     else if (e.status === 'skipped') { cardClass = 'skipped'; statusBadge = 'Skipped'; statusClass = 'status-skipped'; }
@@ -2323,10 +2299,8 @@
                         <span class="summary-item">Activities: <strong>${printActivities}</strong></span>
                     </div>`;
 
-                // Render print analytics (used for PDF output)
                 await renderPrintAnalytics();
 
-                // Attach event listeners
                 grid.querySelectorAll('.btn-edit-period').forEach(b => b.addEventListener('click', () => openEditModal(+b.dataset.period)));
                 grid.querySelectorAll('.btn-mark-done').forEach(b => b.addEventListener('click', async () => { await quickUpdate(+b.dataset.period, 'completed'); renderToday(currentDate); if (currentView === 'calendar') renderCalendar(); }));
                 grid.querySelectorAll('.btn-mark-skip').forEach(b => b.addEventListener('click', async () => { await quickUpdate(+b.dataset.period, 'skipped'); renderToday(currentDate); if (currentView === 'calendar') renderCalendar(); }));
@@ -2528,7 +2502,7 @@
 
             document.getElementById('searchClass').addEventListener('input', () => renderToday(currentDate));
 
-            // ── WHATSAPP TEXT SHARE (kept as-is) ──
+            // ── WHATSAPP TEXT SHARE ──
             document.getElementById('btnShareWhatsApp').addEventListener('click', async () => {
                 const sched = await getScheduleForDate(currentDate);
                 const teacherName = document.getElementById('topbarTeacherName').textContent;
@@ -2582,47 +2556,72 @@
                 window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
             });
 
-            // ── SHARE PDF (replaces Print) ──
-            // Generates a PDF that mirrors the print layout (with blank periods skipped,
-            // analytics summary included), then hands it to the OS share sheet so the
-            // user can pick WhatsApp. Falls back to download if Web Share API can't
-            // handle files on this device/browser.
+            // ── SHARE PDF ──
+            // Renders a 780px-wide print layout (fits A4 without cropping),
+            // generates a PDF blob, then hands it to the OS share sheet.
+            // Fallback: download the PDF so user can attach manually.
             async function generatePDFBlob() {
                 if (typeof html2pdf === 'undefined') {
                     throw new Error('PDF library not loaded (check internet connection)');
                 }
-                // Ensure the print DOM is freshly rendered
+
+                // Ensure fresh print DOM
                 await renderToday(currentDate);
 
-                // Activate print-style CSS (applies globally so html2canvas sees it)
                 const styleEl = document.getElementById('pdfRenderStyles');
+
+                // Save scroll position so we can restore afterwards
+                const prevScrollY = window.scrollY;
+
+                // Activate PDF mode (fixed 780px width, print layout visible)
                 styleEl.media = 'all';
-                // Give the browser a moment to apply layout
-                await new Promise(r => setTimeout(r, 180));
+                document.documentElement.style.width = '780px';
+                document.documentElement.style.overflow = 'visible';
+                document.body.style.width = '780px';
+                document.body.style.overflow = 'visible';
+                window.scrollTo(0, 0);
+
+                // Let layout settle
+                await new Promise(r => setTimeout(r, 250));
 
                 const opt = {
-                    margin: [8, 10, 10, 10], // mm: top right bottom left
+                    // Margins in mm — symmetric-ish for a balanced A4 page
+                    margin: [10, 10, 12, 10],
                     filename: `RPS_LessonPlan_${currentDate}.pdf`,
-                    image: { type: 'jpeg', quality: 0.95 },
+                    image: { type: 'jpeg', quality: 0.96 },
                     html2canvas: {
-                        scale: 2,
+                        scale: 2,                // 2x for sharp text
                         useCORS: true,
                         backgroundColor: '#ffffff',
                         logging: false,
-                        windowWidth: 900
+                        width: 780,               // capture exactly 780px
+                        windowWidth: 780,         // force viewport to 780px
+                        scrollX: 0,
+                        scrollY: 0,
+                        x: 0,
+                        y: 0
                     },
-                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                    pagebreak: { mode: ['css', 'legacy'] }
+                    jsPDF: {
+                        unit: 'mm',
+                        format: 'a4',             // 210 x 297 mm
+                        orientation: 'portrait',
+                        compress: true
+                    },
+                    pagebreak: { mode: ['css', 'legacy'], avoid: ['.print-analytics-card', '.print-summary-box', '.print-coverage-wrap', 'tr'] }
                 };
 
                 let blob;
                 try {
                     blob = await html2pdf().set(opt).from(document.body).outputPdf('blob');
                 } finally {
-                    // Deactivate print-style CSS
+                    // Deactivate PDF mode and restore layout
                     styleEl.media = 'not all';
-                    // Small delay to let normal layout resume
-                    await new Promise(r => setTimeout(r, 50));
+                    document.documentElement.style.width = '';
+                    document.documentElement.style.overflow = '';
+                    document.body.style.width = '';
+                    document.body.style.overflow = '';
+                    window.scrollTo(0, prevScrollY);
+                    await new Promise(r => setTimeout(r, 60));
                 }
                 return blob;
             }
@@ -2647,8 +2646,6 @@
                 try {
                     const blob = await generatePDFBlob();
                     const fileName = `RPS_LessonPlan_${currentDate}.pdf`;
-
-                    // Try Web Share API with file
                     const file = new File([blob], fileName, { type: 'application/pdf' });
 
                     if (navigator.canShare && navigator.canShare({ files: [file] })) {
@@ -2661,7 +2658,7 @@
                             toast('PDF shared!');
                         } catch (err) {
                             if (err && err.name === 'AbortError') {
-                                // User cancelled share — silently ignore
+                                // User cancelled — silently ignore
                             } else {
                                 console.error('Share failed:', err);
                                 downloadBlob(blob, fileName);
@@ -2669,17 +2666,13 @@
                             }
                         }
                     } else {
-                        // Fallback: download
                         downloadBlob(blob, fileName);
                         toast('PDF saved. Open WhatsApp and attach the file.');
                     }
                 } catch (err) {
                     console.error('PDF generation failed:', err);
                     toast('PDF failed: ' + err.message);
-                    // Last-ditch fallback: native print dialog
-                    setTimeout(() => {
-                        try { window.print(); } catch (e) {}
-                    }, 300);
+                    setTimeout(() => { try { window.print(); } catch (e) {} }, 300);
                 } finally {
                     btn.innerHTML = originalHTML;
                     btn.disabled = false;
@@ -2971,7 +2964,6 @@
                 observeReveal();
                 await checkBackupReminder();
 
-                // PWA Service Worker Registration
                 if ('serviceWorker' in navigator) {
                     window.addEventListener('load', () => {
                         navigator.serviceWorker.register('sw.js')
