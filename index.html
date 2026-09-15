@@ -238,7 +238,7 @@
             white-space: nowrap;
             border: 1px solid rgba(255, 255, 255, 0.16);
             box-shadow: 0 2px 0 rgba(0,0,0,0.15);
-            display: none; /* hidden on mobile by default */
+            display: none;
         }
         .topbar-teacher {
             font-size: 0.72rem;
@@ -363,7 +363,7 @@
             border-radius: 0 6px 6px 0;
             margin-right: 6px;
             border-bottom: 1px solid var(--gray-200);
-            min-height: 44px; /* larger touch target */
+            min-height: 44px;
         }
         .sidebar-nav button:hover {
             background: var(--green-25);
@@ -413,7 +413,7 @@
             transition: margin var(--transition-slow);
             display: flex;
             flex-direction: column;
-            touch-action: pan-y; /* allow vertical scroll, horizontal swipe captured by JS */
+            touch-action: pan-y;
         }
         .content {
             flex: 1;
@@ -447,6 +447,7 @@
         .print-summary-box { display: none; }
         .print-footer-line { display: none; }
         .print-signature-line { display: none; }
+        .print-analytics-wrap { display: none; }
 
         @media print {
             @page { margin: 10mm 12mm; size: A4 portrait; }
@@ -470,8 +471,8 @@
             }
             .main-area { margin-left: 0 !important; min-height: auto !important; }
             .content { padding: 0 !important; max-width: 100% !important; width: 100% !important; }
-            .view { display: block !important; animation: none !important; }
-            .view.active { display: block !important; }
+            .view { display: none !important; animation: none !important; }
+            #view-today { display: block !important; }
             .print-only-header {
                 display: block !important;
                 text-align: center;
@@ -558,26 +559,153 @@
             .print-status-dot.dot-done { background: #2e8b4e; }
             .print-status-dot.dot-skip { background: #d69e2e; }
             .print-status-dot.dot-pend { background: #bbb; }
+
+            /* ── PRINT SUMMARY BOX (Today's Progress) ── */
             .print-summary-box {
                 display: block !important;
-                margin-top: 8px;
-                padding: 8px 14px;
+                margin-top: 10px;
+                padding: 10px 14px;
                 border: 2px solid #1a6b3c;
                 border-radius: 6px;
                 background: #f9fdf9;
                 font-size: 0.7rem;
                 line-height: 1.7;
             }
-            .print-summary-box strong { font-weight: 700; color: #1a6b3c; }
+            .print-summary-box .print-summary-header {
+                font-size: 0.7rem;
+                font-weight: 700;
+                color: #1a6b3c;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                margin-bottom: 6px;
+                padding-bottom: 4px;
+                border-bottom: 1px dashed #a5d6a7;
+            }
             .print-summary-box .summary-row {
                 display: flex;
-                gap: 16px;
+                gap: 18px;
                 flex-wrap: wrap;
             }
             .print-summary-box .summary-item {
                 white-space: nowrap;
                 font-weight: 500;
+                color: #333;
             }
+            .print-summary-box .summary-item strong {
+                color: #1a6b3c;
+                font-weight: 800;
+                font-size: 0.78rem;
+            }
+
+            /* ── PRINT ANALYTICS WRAP ── */
+            .print-analytics-wrap {
+                display: block !important;
+                margin-top: 14px;
+                page-break-inside: avoid;
+            }
+            .print-analytics-wrap h3 {
+                font-size: 0.85rem;
+                margin-bottom: 8px;
+                border-bottom: 2px solid #1a6b3c;
+                padding-bottom: 4px;
+                letter-spacing: 0.04em;
+                color: #1a6b3c;
+                text-transform: uppercase;
+                font-weight: 700;
+            }
+            .print-analytics-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+            .print-analytics-card {
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                padding: 8px 10px;
+                background: #f9fdf9;
+                break-inside: avoid;
+            }
+            .print-analytics-card.accent {
+                background: #e8f5e9;
+                border-color: #a5d6a7;
+            }
+            .print-analytics-card .card-label {
+                font-size: 0.58rem;
+                color: #666;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                font-weight: 700;
+                margin-bottom: 4px;
+            }
+            .print-analytics-card .card-value {
+                font-size: 1.35rem;
+                font-weight: 800;
+                color: #1a6b3c;
+                line-height: 1.1;
+            }
+            .print-analytics-card .card-list {
+                font-size: 0.65rem;
+                line-height: 1.6;
+            }
+            .print-analytics-card .list-row {
+                display: flex;
+                justify-content: space-between;
+                gap: 8px;
+                padding: 1px 0;
+                border-bottom: 1px dotted #eee;
+            }
+            .print-analytics-card .list-row:last-child { border-bottom: none; }
+            .print-analytics-card .list-row strong {
+                color: #1a6b3c;
+            }
+            .print-coverage-wrap {
+                margin-top: 8px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                padding: 8px 10px;
+                background: #f9fdf9;
+                break-inside: avoid;
+            }
+            .print-coverage-wrap .card-label {
+                font-size: 0.58rem;
+                color: #666;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                font-weight: 700;
+                margin-bottom: 6px;
+            }
+            .print-coverage-grid {
+                display: grid;
+                grid-template-columns: repeat(6, 1fr);
+                gap: 4px;
+            }
+            .print-coverage-cell {
+                border: 1px solid #ddd;
+                border-radius: 3px;
+                padding: 3px 4px;
+                font-size: 0.6rem;
+                text-align: center;
+                background: #fff;
+                line-height: 1.35;
+            }
+            .print-coverage-cell.covered {
+                background: #e8f5e9;
+                border-color: #a5d6a7;
+            }
+            .print-coverage-cell strong {
+                color: #1a6b3c;
+                display: block;
+                font-size: 0.62rem;
+            }
+            .print-coverage-cell .cnt {
+                color: #666;
+                font-size: 0.56rem;
+            }
+            .print-coverage-cell.covered .cnt {
+                color: #2e7d32;
+                font-weight: 700;
+            }
+
             .print-footer-line {
                 display: block !important;
                 text-align: center;
@@ -687,7 +815,7 @@
             background: var(--white);
             color: var(--gray-800);
             box-shadow: var(--shadow-brutal-sm);
-            min-height: 40px; /* larger touch target */
+            min-height: 40px;
         }
         .btn:active {
             transform: translate(2px, 2px);
@@ -1099,7 +1227,6 @@
         .confirm-modal p { font-size: 0.8rem; color: var(--gray-600); margin-bottom: 16px; line-height: 1.5; }
         .confirm-modal .confirm-btn-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
 
-        /* Backup reminder modal (specific) */
         #backupReminderOverlay .confirm-modal p {
             font-size: 0.85rem;
             line-height: 1.6;
@@ -1206,7 +1333,7 @@
                     </div>
                     <div class="period-grid" id="periodGrid"></div>
 
-                    <!-- PRINT-ONLY PERIOD TABLE -->
+                    <!-- PRINT-ONLY PERIOD TABLE + ANALYTICS -->
                     <div class="print-period-table-wrap" id="printPeriodTableWrap">
                         <h3>Period-wise Distribution</h3>
                         <table class="print-period-table" id="printPeriodTable">
@@ -1223,6 +1350,14 @@
                             <tbody id="printPeriodTbody"></tbody>
                         </table>
                         <div class="print-summary-box" id="printSummaryBox"></div>
+
+                        <!-- PRINT-ONLY ANALYTICS SUMMARY -->
+                        <div class="print-analytics-wrap" id="printAnalyticsWrap">
+                            <h3>Analytics Summary</h3>
+                            <div class="print-analytics-grid" id="printAnalyticsGrid"></div>
+                            <div class="print-coverage-wrap" id="printCoverageWrap"></div>
+                        </div>
+
                         <div class="print-signature-line">
                             <div class="sig-block">Teacher's Signature<div class="sig-line"></div></div>
                             <div class="sig-block">Principal's Signature<div class="sig-line"></div></div>
@@ -1528,10 +1663,8 @@
                 if (Math.abs(diff) > threshold) {
                     const currentIdx = viewOrder.indexOf(currentView);
                     if (diff > 0) {
-                        // swipe left -> next
                         if (currentIdx < viewOrder.length - 1) switchView(viewOrder[currentIdx + 1]);
                     } else {
-                        // swipe right -> previous
                         if (currentIdx > 0) switchView(viewOrder[currentIdx - 1]);
                     }
                 }
@@ -1579,7 +1712,7 @@
             async function checkBackupReminder() {
                 const lastModified = await dbGet('settings', 'lastModified');
                 const lastBackup = await dbGet('settings', 'lastBackup');
-                if (!lastModified) return; // no data yet
+                if (!lastModified) return;
                 const modTime = lastModified.value;
                 const backupTime = lastBackup ? lastBackup.value : 0;
                 const now = Date.now();
@@ -1595,7 +1728,6 @@
                 a.href = URL.createObjectURL(blob);
                 a.download = `RPS_Planner_Backup_${dateStr(TODAY)}.json`;
                 a.click();
-                // Update last backup timestamp
                 await dbPut('settings', { key: 'lastBackup', value: Date.now() });
                 toast('Backup saved!');
                 document.getElementById('backupReminderOverlay').classList.add('hidden');
@@ -1764,6 +1896,80 @@
                 });
             }
 
+            // ── PRINT ANALYTICS RENDERER ──
+            async function renderPrintAnalytics() {
+                const allSched = await dbGetAll('schedule');
+                const completed = allSched.filter(s => s.status === 'completed' && !s.isActivity && SUBJECTS.includes(s.subject));
+                const totalCompleted = completed.length;
+
+                const classCounts = {};
+                CLASSES.forEach(c => { classCounts[c] = { total: 0, completed: 0 }; });
+                allSched.forEach(s => {
+                    if (classCounts[s.class]) { classCounts[s.class].total++; if (s.status === 'completed') classCounts[s.class].completed++; }
+                });
+
+                const subjCounts = {};
+                SUBJECTS.forEach(s => subjCounts[s] = 0);
+                completed.forEach(s => subjCounts[s.subject]++);
+
+                const periodUse = {};
+                PERIODS.forEach(p => periodUse[p] = 0);
+                allSched.forEach(s => { if (periodUse[s.period] !== undefined) periodUse[s.period]++; });
+
+                const distinct = {};
+                completed.forEach(s => { const k = `${s.class}-${s.section}`; distinct[k] = (distinct[k] || 0) + 1; });
+                let sections10 = 0;
+                CLASSES.forEach(c => SECTIONS_MAP[c].forEach(sec => { if ((distinct[`${c}-${sec}`] || 0) >= 10) sections10++; }));
+
+                const sectionTotals = await getSectionTotalCompletions();
+
+                const grid = document.getElementById('printAnalyticsGrid');
+                if (!grid) return;
+                grid.innerHTML = `
+                    <div class="print-analytics-card accent">
+                        <div class="card-label">Total Completed</div>
+                        <div class="card-value">${totalCompleted}</div>
+                    </div>
+                    <div class="print-analytics-card">
+                        <div class="card-label">Yearly Target</div>
+                        <div class="card-value">${totalCompleted} <span style="font-size:0.85rem;color:#666;">/ 270</span></div>
+                    </div>
+                    <div class="print-analytics-card">
+                        <div class="card-label">Sections with 10+</div>
+                        <div class="card-value">${sections10} <span style="font-size:0.85rem;color:#666;">/ 27</span></div>
+                    </div>
+                    <div class="print-analytics-card">
+                        <div class="card-label">By Subject</div>
+                        <div class="card-list">${SUBJECTS.map(s => `<div class="list-row"><span>${s}</span><strong>${subjCounts[s]||0}</strong></div>`).join('')}</div>
+                    </div>
+                    <div class="print-analytics-card">
+                        <div class="card-label">By Class</div>
+                        <div class="card-list">${CLASSES.map(c => `<div class="list-row"><span>${c}</span><strong>${classCounts[c].completed}/${classCounts[c].total}</strong></div>`).join('')}</div>
+                    </div>
+                    <div class="print-analytics-card">
+                        <div class="card-label">Period Usage</div>
+                        <div class="card-list">${PERIODS.map(p => `<div class="list-row"><span>P${p}</span><strong>${periodUse[p]}</strong></div>`).join('')}</div>
+                    </div>
+                `;
+
+                const covWrap = document.getElementById('printCoverageWrap');
+                if (!covWrap) return;
+                let covHtml = '<div class="card-label">Section Coverage</div><div class="print-coverage-grid">';
+                for (const cls of CLASSES) {
+                    (SECTIONS_MAP[cls] || []).forEach(sec => {
+                        const key = `${cls}_${sec}`;
+                        const done = sectionTotals[key] || 0;
+                        const covered = done > 0;
+                        covHtml += `<div class="print-coverage-cell ${covered ? 'covered' : ''}">
+                            <strong>${cls}-${sec}</strong>
+                            <span class="cnt">${covered ? '✔ ' + done : '✘ 0'}</span>
+                        </div>`;
+                    });
+                }
+                covHtml += '</div>';
+                covWrap.innerHTML = covHtml;
+            }
+
             async function renderToday(date) {
                 currentDate = date;
                 document.getElementById('todayDateLabel').textContent = formatDateNice(date);
@@ -1834,14 +2040,16 @@
                 grid.innerHTML = html || '<p style="text-align:center;padding:24px;color:var(--gray-400);">No matching periods found.</p>';
                 printTbody.innerHTML = printTableHtml || '<tr><td colspan="6" style="text-align:center;">No schedule data for this date.</td></tr>';
                 document.getElementById('printSummaryBox').innerHTML = `
-                    <strong>Summary</strong>
+                    <div class="print-summary-header">Today's Progress Summary</div>
                     <div class="summary-row">
-                        <span>Total Periods: <strong>${totalPeriods}</strong></span>
-                        <span>Completed: <strong>${completedCount}</strong></span>
-                        <span>Skipped: <strong>${skippedCount}</strong></span>
-                        <span>Pending: <strong>${notStartedCount}</strong></span>
-                        <span>Activities: <strong>${activityCount}</strong></span>
+                        <span class="summary-item">Total Periods: <strong>${totalPeriods}</strong></span>
+                        <span class="summary-item">Completed: <strong>${completedCount}</strong></span>
+                        <span class="summary-item">Skipped: <strong>${skippedCount}</strong></span>
+                        <span class="summary-item">Pending: <strong>${notStartedCount}</strong></span>
+                        <span class="summary-item">Activities: <strong>${activityCount}</strong></span>
                     </div>`;
+                // Render print analytics (used for PDF output)
+                await renderPrintAnalytics();
                 // Attach event listeners
                 grid.querySelectorAll('.btn-edit-period').forEach(b => b.addEventListener('click', () => openEditModal(+b.dataset.period)));
                 grid.querySelectorAll('.btn-mark-done').forEach(b => b.addEventListener('click', async () => { await quickUpdate(+b.dataset.period, 'completed'); renderToday(currentDate); if (currentView === 'calendar') renderCalendar(); }));
@@ -1874,7 +2082,13 @@
                 const sched = await getScheduleForDate(currentDate);
                 const e = sched[period];
                 if (!e || !e.isActivity || !e.notes) return;
-                const msg = `*Activity Report*\nSchool: R.P.S. School, Bihar Sharif\nTeacher: ${document.getElementById('topbarTeacherName').textContent}\nDate: ${formatDateNice(currentDate)}\nPeriod: ${period}\nType: ${e.activityType||'Activity'}\nNotes: ${e.notes}`;
+                const msg = `🏫 *R.P.S. SCHOOL, BIHAR SHARIF*\n` +
+                    `📌 *Activity Report*\n\n` +
+                    `👤 *Teacher:* ${document.getElementById('topbarTeacherName').textContent}\n` +
+                    `🗓️ *Date:* ${formatDateNice(currentDate)}\n` +
+                    `📘 *Period:* ${period}\n` +
+                    `🏷️ *Type:* ${e.activityType || 'Activity'}\n\n` +
+                    `📝 _${e.notes}_`;
                 window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
             }
 
@@ -2043,31 +2257,58 @@
                 await renderToday(currentDate);
                 window.print();
             });
+
+            // ── WHATSAPP SHARE (beautifully formatted) ──
             document.getElementById('btnShareWhatsApp').addEventListener('click', async () => {
                 const sched = await getScheduleForDate(currentDate);
                 const teacherName = document.getElementById('topbarTeacherName').textContent;
-                let msg = `*R.P.S. School, Bihar Sharif (Nalanda)*\n`;
-                msg += `Session 2026-2027 | Practical Lesson Plan\n`;
-                msg += `Teacher: ${teacherName}\n`;
-                msg += `Date: ${formatDateNice(currentDate)}\n`;
-                msg += `${'='.repeat(35)}\n\n`;
+
+                const subjectEmoji = (subj) => {
+                    if (subj === 'Physics') return '⚛️';
+                    if (subj === 'Chemistry') return '🧪';
+                    if (subj === 'Biology') return '🧬';
+                    return '📌';
+                };
+
+                let msg = `🏫 *R.P.S. SCHOOL, BIHAR SHARIF*\n`;
+                msg += `📚 Practical Lesson Plan • Session 2026–2027\n\n`;
+                msg += `👤 *Teacher:* ${teacherName}\n`;
+                msg += `🗓️ *Date:* ${formatDateNice(currentDate)}\n\n`;
+                msg += `━━━━━━━━━━━━━━━━\n\n`;
+
                 let hasData = false;
                 for (const p of PERIODS) {
                     const e = sched[p];
                     if (!e) continue;
                     hasData = true;
-                    const label = e.isActivity ? `[${e.activityType||'Activity'}]` : `Class ${e.class}-${e.section} | ${e.subject}`;
-                    const statusIcon = e.status === 'completed' ? '[Done]' : e.status === 'skipped' ? '[Skipped]' : '[Pending]';
-                    const noteLine = e.notes ? ` | Note: ${e.notes}` : '';
-                    msg += `Period ${p}: ${label} ${statusIcon}${noteLine}\n`;
+                    msg += `📘 *PERIOD ${p}*\n`;
+
+                    let statusSuffix = '';
+                    if (e.status === 'skipped') statusSuffix = '  ⏭️ *Skipped*';
+                    else if (e.status === 'not-started' || !e.status) statusSuffix = '  ⏳ *Pending*';
+
+                    if (e.isActivity) {
+                        msg += `📌 *Activity:* ${e.activityType || 'General'}${statusSuffix}\n`;
+                    } else {
+                        const em = subjectEmoji(e.subject);
+                        msg += `${em} *Class ${e.class}-${e.section}* • ${e.subject}${statusSuffix}\n`;
+                    }
+                    if (e.notes) msg += `📝 _${e.notes}_\n`;
+                    msg += `\n`;
                 }
-                if (!hasData) msg += `(No schedule data for this date)\n`;
-                msg += `\n${'='.repeat(35)}\n`;
-                const total = PERIODS.filter(p => sched[p]).length;
-                const done = PERIODS.filter(p => sched[p] && sched[p].status === 'completed').length;
-                const skipped = PERIODS.filter(p => sched[p] && sched[p].status === 'skipped').length;
-                const pending = total - done - skipped;
-                msg += `Summary: ${total} periods | Done: ${done} | Skipped: ${skipped} | Pending: ${pending}\n`;
+
+                if (!hasData) msg += `_(No schedule data for this date)_\n\n`;
+
+                msg += `━━━━━━━━━━━━━━━━\n\n`;
+
+                const todayDone = PERIODS.filter(p => sched[p] && sched[p].status === 'completed').length;
+                const allSched = await dbGetAll('schedule');
+                const overallDone = allSched.filter(s => s.status === 'completed' && !s.isActivity && s.class && s.section && SUBJECTS.includes(s.subject)).length;
+
+                msg += `📊 *SUMMARY*\n`;
+                msg += `✅ *Completed Today:* ${todayDone}\n`;
+                msg += `📈 *Overall Completed:* ${overallDone}`;
+
                 window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
             });
 
